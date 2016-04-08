@@ -18,12 +18,16 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import org.apache.pdfbox.rendering.PDFRenderer
 import org.apache.pdfbox.rendering.ImageType
+import slick.lifted.TableQuery
+import slick.driver.MySQLDriver
 
 object Main {
   def main(args: Array[String]) = {
     println("Converting pdf...")
     convertPdfToImages("./working/", "test2")
     println("done.")
+    //val lieds: TableQuery[Tables.Lied] = TableQuery[Tables.Lied]
+    
   }
 
   def convertPdfToImages(inputDir: String, filename: String) = {
