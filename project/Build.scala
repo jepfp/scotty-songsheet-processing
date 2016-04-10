@@ -26,14 +26,14 @@ object dbReverseEngineerer extends Build {
 
   // code generation task
   lazy val slick = TaskKey[Seq[File]]("gen-tables")
-  lazy val slickCodeGenTask = (sourceManaged, dependencyClasspath in Compile, runner in Compile, streams) map { (dir, cp, r, s) =>
-    val outputDir = (dir / "slick").getPath // place generated files in sbt's managed sources folder
+  lazy val slickCodeGenTask = (scalaSource in Compile, dependencyClasspath in Compile, runner in Compile, streams) map { (dir, cp, r, s) =>
+    val outputDir = (dir).getPath
     val url = "jdbc:mysql://localhost:3306/dockerdefault?user=root&password=sumsang100"
     val jdbcDriver = "com.mysql.jdbc.Driver"
     val slickDriver = "slick.driver.MySQLDriver"
-    val pkg = "demo"
+    val pkg = "ch.scotty.generatedschema"
     toError(r.run("slick.codegen.SourceCodeGenerator", cp.files, Array(slickDriver, jdbcDriver, url, outputDir, pkg), s.log))
-    val fname = outputDir + "/demo/Tables.scala"
+    val fname = outputDir + "/ch/scotty/generatedschema/Tables.scala"
     Seq(file(fname))
   }
 }
