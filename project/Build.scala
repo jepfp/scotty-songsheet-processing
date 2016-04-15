@@ -19,8 +19,9 @@ object dbReverseEngineerer extends Build {
         "com.typesafe.slick" %% "slick-codegen" % slickVersion,
         "org.slf4j" % "slf4j-nop" % "1.7.12"
       ),
-      slick <<= slickCodeGenTask, // register manual sbt command
-      sourceGenerators in Compile <+= slickCodeGenTask // register automatic code generation on every compile, remove for only manual use
+      slick <<= slickCodeGenTask // register manual sbt command
+      // the following line is commented out because we want to run the generation manually by executing the task "gen-tables"
+      //sourceGenerators in Compile <+= slickCodeGenTask // register automatic code generation on every compile, remove for only manual use
     )
   ) 
 
