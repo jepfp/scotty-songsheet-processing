@@ -22,6 +22,8 @@ import ch.scotty.job.Job
 import ch.scotty.job.JobParser
 import ch.scotty.converter.LiedSourcePdfFileFinder
 import ch.scotty.converter.LiedWithData
+import ch.scotty.converter.SongnumberFinder
+import ch.scotty.converter.Songnumber
 
 import net.java.truecommons.io.Loan._
 
@@ -34,32 +36,19 @@ object Main {
       //    convertPdfToImages("./working/", "test2")
 
       jobs.par.foreach { aJob =>
+//      jobs.foreach { aJob =>
         val liedIdToFetch = aJob.liedId
         println(s"Going to read ${liedIdToFetch}...")
         val liedData = LiedSourcePdfFileFinder.findFile(liedIdToFetch)
-        convertPdfBlobToImage(liedData)
+        val songnumbers = SongnumberFinder.findSongnumbers(liedIdToFetch);
+        convertPdfBlobToImage(liedData, songnumbers)
       }
     }
     println(s"Finished: ${sw}")
     Db.db.close()
-
-    //readLieder()
   }
 
-  private def convertPdfToImagesFromInputDir(inputDir: String, filename: String) = {
-    val file = new File(inputDir, filename + ".pdf")
-    val doc = PDDocument.load(new FileInputStream(file));
-    val renderer = new PDFRenderer(doc)
-    val listOfImage = for (i <- 0 until doc.getNumberOfPages()) yield {
-      println("Exporting page " + i)
-      val bim = renderer.renderImageWithDPI(i, 90, ImageType.RGB)
-      val path = Paths.get(inputDir, filename + "_" + i + ".gif").toString()
-      ImageIOUtil.writeImage(bim, path, 0);
-    }
-    println("Finished")
-  }
-
-  private def convertPdfBlobToImage(liedWithData: LiedWithData) = {
+  private def convertPdfBlobToImage(liedWithData: LiedWithData, songnumbers: Seq[Songnumber]) = {
     try {
       val binaryStream = liedWithData.data.getBinaryStream
       loan(PDDocument.load(binaryStream)).to { doc =>
@@ -68,8 +57,7 @@ object Main {
         val listOfImage = for (i <- 0 until doc.getNumberOfPages()) yield {
           println(s"Exporting '${liedWithData.titel}' page " + (i + 1))
           val bim = renderer.renderImageWithDPI(i, 90, ImageType.RGB)
-          val titelWithOnlyAllowedCharacters = liedWithData.titel.replaceAll("[^a-zA-Z0-9äöüÄÖÜ .]", "_")
-          val filename = liedWithData.liedId + "-" + titelWithOnlyAllowedCharacters + "-" + i + ".png"
+          val filename = buildFilename(liedWithData, songnumbers, i);
           val path = Paths.get("data", filename).toString()
           ImageIOUtil.writeImage(bim, path, 0);
         }
@@ -80,6 +68,14 @@ object Main {
 
       }
     }
+  }
+
+  private def buildFilename(liedWithData: LiedWithData, songnumbers: Seq[Songnumber], sheetnumber: Integer): String = {
+    val titelWithOnlyAllowedCharacters = liedWithData.titel.replaceAll("[^a-zA-Z0-9äöüÄÖÜ .]", "")
+    val songnumberString = songnumbers.map { x => x.mnemonic + x.liednr }.mkString("_")
+    
+    val filename = liedWithData.liedId + "-" + sheetnumber + "-" + songnumberString + "-" + titelWithOnlyAllowedCharacters + "-" + ".png"
+    filename
   }
 
   private def readLieder() = {

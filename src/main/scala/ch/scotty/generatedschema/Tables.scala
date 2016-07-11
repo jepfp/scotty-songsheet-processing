@@ -302,22 +302,22 @@ trait Tables {
    *  @param beschreibung Database column Beschreibung SqlType(TEXT), Default(None)
    *  @param mnemonic Database column mnemonic SqlType(VARCHAR), Length(5,true)
    *  @param locked Database column locked SqlType(BIT), Default(false) */
-  case class LiederbuchRow(id: Long, buchname: Option[String] = None, beschreibung: Option[String] = None, mnemonic: String, locked: Boolean = false)
+  case class LiederbuchRow(id: Long, buchname: String, beschreibung: Option[String] = None, mnemonic: String, locked: Boolean = false)
   /** GetResult implicit for fetching LiederbuchRow objects using plain SQL queries */
   implicit def GetResultLiederbuchRow(implicit e0: GR[Long], e1: GR[Option[String]], e2: GR[String], e3: GR[Boolean]): GR[LiederbuchRow] = GR{
     prs => import prs._
-    LiederbuchRow.tupled((<<[Long], <<?[String], <<?[String], <<[String], <<[Boolean]))
+    LiederbuchRow.tupled((<<[Long], <<[String], <<?[String], <<[String], <<[Boolean]))
   }
   /** Table description of table liederbuch. Objects of this class serve as prototypes for rows in queries. */
   class Liederbuch(_tableTag: Tag) extends Table[LiederbuchRow](_tableTag, "liederbuch") {
     def * = (id, buchname, beschreibung, mnemonic, locked) <> (LiederbuchRow.tupled, LiederbuchRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (Rep.Some(id), buchname, beschreibung, Rep.Some(mnemonic), Rep.Some(locked)).shaped.<>({r=>import r._; _1.map(_=> LiederbuchRow.tupled((_1.get, _2, _3, _4.get, _5.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (Rep.Some(id), Rep.Some(buchname), beschreibung, Rep.Some(mnemonic), Rep.Some(locked)).shaped.<>({r=>import r._; _1.map(_=> LiederbuchRow.tupled((_1.get, _2.get, _3, _4.get, _5.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
     /** Database column id SqlType(BIGINT), AutoInc, PrimaryKey */
     val id: Rep[Long] = column[Long]("id", O.AutoInc, O.PrimaryKey)
     /** Database column Buchname SqlType(TEXT), Default(None) */
-    val buchname: Rep[Option[String]] = column[Option[String]]("Buchname", O.Default(None))
+    val buchname: Rep[String] = column[String]("Buchname")
     /** Database column Beschreibung SqlType(TEXT), Default(None) */
     val beschreibung: Rep[Option[String]] = column[Option[String]]("Beschreibung", O.Default(None))
     /** Database column mnemonic SqlType(VARCHAR), Length(5,true) */

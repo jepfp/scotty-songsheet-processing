@@ -20,6 +20,8 @@ object LiedSourcePdfFileFinder {
       fm <- f.filemetadataFk if fm.filetype === filetype
       l <- fm.liedFk if l.id === liedId
     } yield (l.id, l.titel, f.data)
+    
+//    println("Going to execute query: " + joinQuery.result.statements)
 
     val dbReadFuture = Db.db.run(joinQuery.result)
     val result: Seq[LiedWithData] = Await.result(dbReadFuture, Duration.Inf).map(x => LiedWithData.tupled(x))
