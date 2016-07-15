@@ -7,24 +7,20 @@ import java.nio.file.Paths
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
-
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.rendering.ImageType
 import org.apache.pdfbox.rendering.PDFRenderer
 import org.apache.pdfbox.tools.imageio.ImageIOUtil
-
 import ch.scotty.generatedschema.Tables
 import slick.driver.MySQLDriver.api._
 import slick.lifted.Query
 import slick.lifted.Rep
 import slick.lifted.TableQuery
-import ch.scotty.job.Job
-import ch.scotty.job.JobParser
 import ch.scotty.converter.LiedSourcePdfFileFinder
 import ch.scotty.converter.LiedWithData
 import ch.scotty.converter.SongnumberFinder
 import ch.scotty.converter.Songnumber
-
+import ch.scotty.job.json.{Job, JobParser}
 import net.java.truecommons.io.Loan._
 
 object Main {
@@ -37,7 +33,7 @@ object Main {
 
       jobs.par.foreach { aJob =>
 //      jobs.foreach { aJob =>
-        val liedIdToFetch = aJob.liedId
+        val liedIdToFetch = aJob.configuration.songId
         println(s"Going to read ${liedIdToFetch}...")
         val liedData = LiedSourcePdfFileFinder.findFile(liedIdToFetch)
         val songnumbers = SongnumberFinder.findSongnumbers(liedIdToFetch);
