@@ -20,7 +20,7 @@ import ch.scotty.converter.LiedSourcePdfFileFinder
 import ch.scotty.converter.LiedWithData
 import ch.scotty.converter.SongnumberFinder
 import ch.scotty.converter.Songnumber
-import ch.scotty.job.json.{Job, JobParser}
+import ch.scotty.job.json.{JobParser, JsonJob, SingleSongToImageConverterJobConfiguration, SingleSongToImageConverterJobParser}
 import net.java.truecommons.io.Loan._
 
 object Main {
@@ -106,10 +106,10 @@ object Main {
     } finally db.close
   }
 
-  def readJobs(): Seq[Job] = {
+  def readJobs(): Seq[JsonJob[SingleSongToImageConverterJobConfiguration]] = {
     val source = scala.io.Source.fromFile("jobs.json")
     val content = try source.mkString finally source.close()
-    val parser = new JobParser()
+    val parser = new SingleSongToImageConverterJobParser()
     parser.parseJobJson(content)
   }
 }

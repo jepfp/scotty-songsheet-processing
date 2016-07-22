@@ -3,7 +3,7 @@ package ch.scotty.job.json
 import ch.scotty.UnitSpec
 import java.util.UUID
 
-class JobParserTest extends UnitSpec {
+class JsonJobParserTest extends UnitSpec {
   val fooUid1 = "b46ff506-468f-4096-9f9d-7c17297145ae"
   val fooUid2 = "a46ff506-468f-4096-9f9d-7c17297145ae"
 
@@ -61,7 +61,7 @@ class JobParserTest extends UnitSpec {
 
   "The JobParser" should "return a Set with one job case object for a valid json" in {
     // arrange
-    val testee = new JobParser()
+    val testee = new SingleSongToImageConverterJobParser()
     // act
     val jobs = testee.parseJobJson(jsonWithOneValidJob)
     // assert
@@ -72,7 +72,7 @@ class JobParserTest extends UnitSpec {
 
   it should "return a Set with two job case objects for a valid json" in {
     // arrange
-    val testee = new JobParser()
+    val testee = new SingleSongToImageConverterJobParser()
     // act
     val jobs = testee.parseJobJson(jsonWithTwoValidJobs)
     // assert
@@ -83,21 +83,21 @@ class JobParserTest extends UnitSpec {
 
   it should "throw an exception if jobId is missing" in {
     // arrange
-    val testee = new JobParser()
+    val testee = new SingleSongToImageConverterJobParser()
     // act
     intercept[JobParsingException](testee.parseJobJson(jsonWithMissingJobId))
   }
 
   it should "throw an exception if jobId is not a valid UUID" in {
     // arrange
-    val testee = new JobParser()
+    val testee = new SingleSongToImageConverterJobParser()
     // act
     intercept[JobParsingException](testee.parseJobJson(jsonWithInvalidJobId))
   }
 
   it should "throw an exception if liedId is missing" in {
     // arrange
-    val testee = new JobParser()
+    val testee = new SingleSongToImageConverterJobParser()
     // act
     intercept[JobParsingException](testee.parseJobJson(jsonWithMissingLiedId))
   }

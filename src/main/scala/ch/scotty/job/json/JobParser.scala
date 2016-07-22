@@ -6,34 +6,30 @@ import play.api.libs.functional.syntax._
 import play.api.libs.json.Reads._
 import play.api.libs.json._
 
-class JobParser {
-  implicit val configurationReads: Reads[SingleSongToImageConverterJobConfiguration] = (__ \ "songId").read[Long].map(SingleSongToImageConverterJobConfiguration.apply _)
+abstract class JobParser[T] {
+  protected implicit def configurationReads: Reads[T]
 
-  implicit val configurationWrites: Writes[SingleSongToImageConverterJobConfiguration] = new Writes[SingleSongToImageConverterJobConfiguration] {
-    def writes(song: SingleSongToImageConverterJobConfiguration) = Json.obj(
-      "songId" -> song.songId
-    )
-  }
+  protected implicit def configurationWrites: Writes[T]
 
-  implicit val jobReads: Reads[Job] = (
+  implicit val jobReads: Reads[JsonJob[T]] = (
     (JsPath \ "jobId").read[UUID] and
       (JsPath \ "jobName").read[String] and
-      (JsPath \ "configuration").read[SingleSongToImageConverterJobConfiguration]) (Job.apply _)
+      (JsPath \ "configuration").read[T]) (JsonJob.apply[T] _)
 
-  implicit val jobWrites = new Writes[Job] {
-    def writes(job: Job) = Json.obj(
+  implicit val jobWrites = new Writes[JsonJob[T]] {
+    def writes(job: JsonJob[T]) = Json.obj(
       "jobId" -> job.jobId,
       "jobName" -> job.jobName,
       "configuration" -> job.configuration)
   }
 
-  def parseJobJson(json: String): Seq[Job] = {
+  def parseJobJson(json: String): Seq[JsonJob[T]] = {
     val parsedJson: JsValue = Json.parse(json)
-    parsedJson.validate[Seq[Job]] match {
-      case s: JsSuccess[Seq[Job]] => {
-        val jobs: Seq[Job] = s.get
+    parsedJson.validate[Seq[JsonJob[T]]] match {
+      case s: JsSuccess[Seq[JsonJob[T]]] => {
+        val jobs: Seq[JsonJob[T]] = s.get
         if (jobs.length < 1) {
-          throw new JobParsingException("Error while parsing jobs: No jobs found.")
+          throw new JobParsingException("No jobs found.")
         }
         jobs
       }
