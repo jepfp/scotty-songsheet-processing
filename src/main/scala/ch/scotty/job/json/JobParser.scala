@@ -6,32 +6,45 @@ import play.api.libs.functional.syntax._
 import play.api.libs.json.Reads._
 import play.api.libs.json._
 
-abstract class JobParser[T] {
-  protected implicit def configurationReads: Reads[T]
+object JobParser {
 
-  protected implicit def configurationWrites: Writes[T]
-
-  implicit val jobReads: Reads[JsonJob[T]] = (
+  implicit val singleSongToImageConverterJobConfigurationReads: Reads[SingleSongToImageConverterJobConfiguration] = (
     (JsPath \ "jobId").read[UUID] and
-      (JsPath \ "jobName").read[String] and
-      (JsPath \ "configuration").read[T]) (JsonJob.apply[T] _)
+      (JsPath \ "songId").read[Long]) (SingleSongToImageConverterJobConfiguration.apply _)
 
-  implicit val jobWrites = new Writes[JsonJob[T]] {
-    def writes(job: JsonJob[T]) = Json.obj(
-      "jobId" -> job.jobId,
-      "jobName" -> job.jobName,
-      "configuration" -> job.configuration)
+  implicit val singleSongToImageConverterJobConfigurationWrites = new Writes[SingleSongToImageConverterJobConfiguration] {
+    def writes(singleSongToImageConverterJobConfiguration: SingleSongToImageConverterJobConfiguration) = Json.obj(
+      "jobId" -> singleSongToImageConverterJobConfiguration.jobId,
+      "songId" -> singleSongToImageConverterJobConfiguration.songId)
   }
 
-  def parseJobJson(json: String): Seq[JsonJob[T]] = {
+  implicit val allSongToImageConverterJobConfigurationReads: Reads[AllSongToImageConverterJobConfiguration] =
+    (JsPath \ "jobId").read[UUID].map(AllSongToImageConverterJobConfiguration.apply _)
+
+  implicit val allSongToImageConverterJobConfigurationWrites = new Writes[AllSongToImageConverterJobConfiguration] {
+    def writes(allSongToImageConverterJobConfiguration: AllSongToImageConverterJobConfiguration) = Json.obj(
+      "jobId" -> allSongToImageConverterJobConfiguration.jobId)
+  }
+
+  implicit val jobDefinitionsReads: Reads[JobDefinitions] = (
+    (JsPath \ "singleSongToImageConverterJob").readNullable[Seq[SingleSongToImageConverterJobConfiguration]] and
+      (JsPath \ "allSongToImageConverterJob").readNullable[Seq[AllSongToImageConverterJobConfiguration]]) (JobDefinitions.apply _)
+
+  implicit val jobDefinitionsWrites = new Writes[JobDefinitions] {
+    def writes(jobDefinitions: JobDefinitions) = Json.obj(
+      "singleSongToImageConverterJob" -> jobDefinitions.singleSongToImageConverterJob,
+      "allSongToImageConverterJob" -> jobDefinitions.allSongToImageConverterJob)
+  }
+
+  def parseJobJson(json: String): JobDefinitions = {
     val parsedJson: JsValue = Json.parse(json)
-    parsedJson.validate[Seq[JsonJob[T]]] match {
-      case s: JsSuccess[Seq[JsonJob[T]]] => {
-        val jobs: Seq[JsonJob[T]] = s.get
-        if (jobs.length < 1) {
-          throw new JobParsingException("No jobs found.")
+    parsedJson.validate[JobDefinitions] match {
+      case s: JsSuccess[JobDefinitions] => {
+        val jobDefinitions: JobDefinitions = s.get
+        if (jobDefinitions.allSongToImageConverterJob.isEmpty && jobDefinitions.singleSongToImageConverterJob.isEmpty) {
+          throw new JobParsingException("No job definitions found.")
         }
-        jobs
+        jobDefinitions
       }
       case e: JsError => {
         throw new JobParsingException("Error while parsing jobs: " + JsError.toJson(e).toString())

@@ -20,20 +20,21 @@ import ch.scotty.converter.LiedSourcePdfFileFinder
 import ch.scotty.converter.LiedWithData
 import ch.scotty.converter.SongnumberFinder
 import ch.scotty.converter.Songnumber
-import ch.scotty.job.json.{JobParser, JsonJob, SingleSongToImageConverterJobConfiguration, SingleSongToImageConverterJobParser}
+import ch.scotty.job.json.{JobDefinitions, JobParser, SingleSongToImageConverterJobConfiguration}
 import net.java.truecommons.io.Loan._
 
 object Main {
   def main(args: Array[String]) = {
-    val jobs = readJobs()
-    println(s"Read ${jobs.length} jobs.")
+    val jobDefinitions: JobDefinitions = JobParser.parseJobJson(readJsonFile)
+    println(s"Read job definitions.")
     println("Converting PDFs...")
     val sw = Stopwatch.time("Converting all PDFs") {
       //    convertPdfToImages("./working/", "test2")
 
+      val jobs : Seq[SingleSongToImageConverterJobConfiguration] = jobDefinitions.singleSongToImageConverterJob.get
       jobs.par.foreach { aJob =>
-//      jobs.foreach { aJob =>
-        val liedIdToFetch = aJob.configuration.songId
+        //      jobs.foreach { aJob =>
+        val liedIdToFetch = aJob.songId
         println(s"Going to read ${liedIdToFetch}...")
         val liedData = LiedSourcePdfFileFinder.findFile(liedIdToFetch)
         val songnumbers = SongnumberFinder.findSongnumbers(liedIdToFetch);
@@ -69,9 +70,14 @@ object Main {
   private def buildFilename(liedWithData: LiedWithData, songnumbers: Seq[Songnumber], sheetnumber: Integer): String = {
     val titelWithOnlyAllowedCharacters = liedWithData.titel.replaceAll("[^a-zA-Z0-9äöüÄÖÜ .]", "")
     val songnumberString = songnumbers.map { x => x.mnemonic + x.liednr }.mkString("_")
-    
+
     val filename = liedWithData.liedId + "-" + sheetnumber + "-" + songnumberString + "-" + titelWithOnlyAllowedCharacters + "-" + ".png"
     filename
+  }
+
+  def readJsonFile(): String = {
+    val source = scala.io.Source.fromFile("jobs.json")
+    try source.mkString finally source.close()
   }
 
   private def readLieder() = {
@@ -98,18 +104,13 @@ object Main {
           }
         }),
         lieds.filter(_.id === 1L).result.map(result => result.foreach(aRow => println("Lied mit ID 1: " + aRow.titel))),
-        lieds.filter(_.id === 1L).map { case (titel) => titel }.result.map { println },
+        lieds.filter(_.id === 1L).map { case (titel) => titel }.result.map {
+          println
+        },
         lieds.map(_.titel).result.map(println),
         joinQuery2.result.map(println),
         joinQuery.result.map(println) //
-        )), Duration.Inf)
+      )), Duration.Inf)
     } finally db.close
-  }
-
-  def readJobs(): Seq[JsonJob[SingleSongToImageConverterJobConfiguration]] = {
-    val source = scala.io.Source.fromFile("jobs.json")
-    val content = try source.mkString finally source.close()
-    val parser = new SingleSongToImageConverterJobParser()
-    parser.parseJobJson(content)
   }
 }

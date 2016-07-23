@@ -1,6 +1,6 @@
 package ch.scotty.job
 
-import ch.scotty.job.json.{JsonJob, JobParser}
+import ch.scotty.job.json.JobParser
 
 object JobRunner {
 
