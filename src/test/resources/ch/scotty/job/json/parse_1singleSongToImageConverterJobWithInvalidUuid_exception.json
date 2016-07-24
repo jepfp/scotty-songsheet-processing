@@ -1,0 +1,8 @@
+{
+	"singleSongToImageConverterJob" : [
+		{
+			"jobId" : "i am invalid",
+			"songId" : 1
+		}
+	]
+}

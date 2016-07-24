@@ -1,0 +1,12 @@
+{
+	"singleSongToImageConverterJob" : [
+		{
+			"jobId" : "b46ff506-468f-4096-9f9d-7c17297145ae",
+			"songId" : 1
+		},
+		{
+			"jobId" : "a46ff506-468f-4096-9f9d-7c17297145ae",
+			"songId" : 2
+		}
+	]
+}

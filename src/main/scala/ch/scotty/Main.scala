@@ -29,7 +29,6 @@ object Main {
     println(s"Read job definitions.")
     println("Converting PDFs...")
     val sw = Stopwatch.time("Converting all PDFs") {
-      //    convertPdfToImages("./working/", "test2")
 
       val jobs : Seq[SingleSongToImageConverterJobConfiguration] = jobDefinitions.singleSongToImageConverterJob.get
       jobs.par.foreach { aJob =>
