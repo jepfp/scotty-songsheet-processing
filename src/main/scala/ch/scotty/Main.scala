@@ -20,14 +20,18 @@ import ch.scotty.converter.LiedSourcePdfFileFinder
 import ch.scotty.converter.LiedWithData
 import ch.scotty.converter.SongnumberFinder
 import ch.scotty.converter.Songnumber
+import ch.scotty.job.JobRunner
 import ch.scotty.job.json.{JobDefinitions, JobParser, SingleSongToImageConverterJobConfiguration}
 import net.java.truecommons.io.Loan._
 
 object Main {
+  val jobsPath : String = "jobs.json"
+
   def main(args: Array[String]) = {
+    println(s"Reading job definitions...")
     val jobDefinitions: JobDefinitions = JobParser.parseJobJson(readJsonFile)
-    println(s"Read job definitions.")
-    println("Converting PDFs...")
+    println("Running jobs...")
+    JobRunner.runAllJobs(jobDefinitions)
     val sw = Stopwatch.time("Converting all PDFs") {
 
       val jobs : Seq[SingleSongToImageConverterJobConfiguration] = jobDefinitions.singleSongToImageConverterJob.get
@@ -75,7 +79,7 @@ object Main {
   }
 
   def readJsonFile(): String = {
-    val source = scala.io.Source.fromFile("jobs.json")
+    val source = scala.io.Source.fromFile(jobsPath)
     try source.mkString finally source.close()
   }
 
