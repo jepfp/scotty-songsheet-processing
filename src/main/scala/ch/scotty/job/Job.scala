@@ -7,7 +7,7 @@ trait Job[J] {
     val c = getJobConfigurations(jobDefinitions)
     println
     println(s"Finding job configurations for ${getClass.getSimpleName.replace("$", "")}...")
-    if (c.isDefined) {
+    if (c.isDefined && c.get.size > 0) {
       val jobConfigurations = c.get
       println("Found " + jobConfigurations.size + " job configuration(s).")
       jobConfigurations.foreach(run(_))

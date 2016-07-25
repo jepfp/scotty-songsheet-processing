@@ -2,7 +2,7 @@ name := "scotty-songsheet-processing"
 
 version := "1.0"
 
-scalaVersion := "2.11.6"
+scalaVersion := "2.11.8"
 
 EclipseKeys.withSource := true
 
@@ -13,5 +13,6 @@ libraryDependencies ++= Seq(
 	"mysql" % "mysql-connector-java" % "5.1.24",
 	"com.typesafe.play" %% "play-json" % "2.5.2",
 	"net.java.truecommons" % "truecommons-io" % "2.5.0",
-	"org.scalatest" % "scalatest_2.11" % "2.2.6" % "test"
+	"org.scalatest" % "scalatest_2.11" % "2.2.6" % "test",
+  "org.scalamock" %% "scalamock-scalatest-support" % "3.2.2" % "test"
 )
