@@ -29,7 +29,7 @@ object LiedSourcePdfFileFinder {
     result.head
   }
 
-  def throwExceptionIfMoreThanOneResult(result: Seq[LiedWithData], liedId: Long) = {
+  private def throwExceptionIfMoreThanOneResult(result: Seq[LiedWithData], liedId: Long) = {
     if (result.length > 1) {
       throw new ConverterException(s"More than one PDF source file found for liedId = ${liedId}")
     }
