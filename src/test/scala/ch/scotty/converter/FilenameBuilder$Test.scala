@@ -13,7 +13,7 @@ class FilenameBuilder$Test extends UnitSpec {
     // arrange
     val expectedString = "4-0-AL1000-Abc-.png"
     // act
-    val actualString = FilenameBuilder.build(LiedWithData(4, "Abc", null), Seq(songnumberAl1000), 0)
+    val actualString = FilenameBuilder.build(liedAbc, Seq(songnumberAl1000), 0)
     // assert
     assertResult(expectedString)(actualString)
   }
@@ -22,7 +22,7 @@ class FilenameBuilder$Test extends UnitSpec {
     // arrange
     val expectedString = "4-1-AL1000-Abc-.png"
     // act
-    val actualString = FilenameBuilder.build(LiedWithData(4, "Abc", null), Seq(songnumberAl1000), 1)
+    val actualString = FilenameBuilder.build(liedAbc, Seq(songnumberAl1000), 1)
     // assert
     assertResult(expectedString)(actualString)
   }
@@ -31,7 +31,25 @@ class FilenameBuilder$Test extends UnitSpec {
     // arrange
     val expectedString = "4-1-AL1000_ZG1-Abc-.png"
     // act
-    val actualString = FilenameBuilder.build(LiedWithData(4, "Abc", null), Seq(songnumberAl1000, Songnumber(4, 3, "ZG", "Adoray Zug", "1")), 1)
+    val actualString = FilenameBuilder.build(liedAbc, Seq(songnumberAl1000, Songnumber(4, 3, "ZG", "Adoray Zug", "1")), 1)
+    // assert
+    assertResult(expectedString)(actualString)
+  }
+
+  it should "not remove the characters .azAZ09äöüÄÖÜ in a title" in {
+    // arrange
+    val expectedString = "4-1-AL1000-.azAZ09äöüÄÖÜ-.png"
+    // act
+    val actualString = FilenameBuilder.build(LiedWithData(4, ".azAZ09äöüÄÖÜ", null), Seq(songnumberAl1000), 1)
+    // assert
+    assertResult(expectedString)(actualString)
+  }
+
+  it should "remove e. g. the characters _-$/%& in a title" in {
+    // arrange
+    val expectedString = "4-1-AL1000--.png"
+    // act
+    val actualString = FilenameBuilder.build(LiedWithData(4, "_-$/%&", null), Seq(songnumberAl1000), 1)
     // assert
     assertResult(expectedString)(actualString)
   }
