@@ -15,7 +15,7 @@ object Main {
 
   def main(args: Array[String]) = {
     println(s"Reading job definitions...")
-    val jobDefinitions: JobDefinitions = JobParser.parseJobJson(readJsonFile)
+    val jobDefinitions: JobDefinitions = JobParser.parseJobJson(readJsonFile())
     println("Running jobs...")
     JobRunner.runAllJobs(jobDefinitions)
     Db.db.close()

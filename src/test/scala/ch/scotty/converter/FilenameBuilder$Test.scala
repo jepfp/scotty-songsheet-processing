@@ -9,7 +9,7 @@ class FilenameBuilder$Test extends UnitSpec {
   val songnumberAl1000: Songnumber = Songnumber(4, 2, "AL", "Adoray Liederordner", "1000")
   val liedAbc = LiedWithData(4, "Abc", null)
 
-  "build" should s"return '4-0-AL1000-Abc-.png' for ${liedAbc} and ${songnumberAl1000}" in {
+  "build" should s"return '4-0-AL1000-Abc-.png' for $liedAbc and $songnumberAl1000" in {
     // arrange
     val expectedString = "4-0-AL1000-Abc-.png"
     // act

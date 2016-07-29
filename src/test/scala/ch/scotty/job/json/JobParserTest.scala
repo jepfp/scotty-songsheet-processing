@@ -54,7 +54,7 @@ class JobParserTest extends UnitSpec {
     val fileContent = readJsonFile("parse_1singleSongToImageConverterJobWithoutSongId_exception.json")
     // act
     intercept[JobParsingException](JobParser.parseJobJson(fileContent)) should have message
-      ("Error while parsing jobs: {\"obj.singleSongToImageConverterJob[0].songId\":[{\"msg\":[\"error.path.missing\"],\"args\":[]}]}")
+      "Error while parsing jobs: {\"obj.singleSongToImageConverterJob[0].songId\":[{\"msg\":[\"error.path.missing\"],\"args\":[]}]}"
   }
 
   it should "throw an exception if there are no job definitions" in {
@@ -62,6 +62,6 @@ class JobParserTest extends UnitSpec {
     val fileContent = readJsonFile("parse_noJobDefinitions_exception.json")
     // act
     intercept[JobParsingException](JobParser.parseJobJson(fileContent)) should have message
-      ("No job definitions found.")
+      "No job definitions found."
   }
 }

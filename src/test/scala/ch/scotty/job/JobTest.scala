@@ -10,10 +10,7 @@ class JobTest extends UnitSpec {
   private val aJobConfig = ConcreteJobConfiguration(UUID.fromString("b46ff506-468f-4096-9f9d-7c17297145ae"), "foofoo")
   private val fooJobDef = JobDefinitions(None, None) // not relevant for this tests!
 
-  private def createConfigSeqOf(configs: ConcreteJobConfiguration*): Option[Seq[ConcreteJobConfiguration]] = {
-    val wrappedConfigs = Option(configs)
-    return wrappedConfigs
-  }
+  private def createConfigSeqOf(configs: ConcreteJobConfiguration*): Option[Seq[ConcreteJobConfiguration]] = Option(configs)
 
   "runIfJobsDefined" should "execute run if there is one given jobConfiguration" in {
     // arrange
@@ -81,6 +78,6 @@ class JobTest extends UnitSpec {
     assertResult(2)(runCallCounter)
   }
 
-  private case class ConcreteJobConfiguration(val jobId: UUID, val importantTestString: String) extends JobConfiguration
+  private case class ConcreteJobConfiguration(jobId: UUID, importantTestString: String) extends JobConfiguration
 
 }

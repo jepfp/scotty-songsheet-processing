@@ -10,7 +10,7 @@ object JobRunner {
       SingleSongToImageConverterJob.runIfJobsDefined(jobDefinitions)
     }
     println
-    println(s"All jobs have been executed. Duration: ${sw}")
+    println(s"All jobs have been executed. Duration: $sw")
   }
 
 }

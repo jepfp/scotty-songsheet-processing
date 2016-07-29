@@ -11,7 +11,7 @@ object SingleSongToImageConverterJob extends Job[SingleSongToImageConverterJobCo
 
     val songId = jobConfiguration.songId
     val liedData = LiedSourcePdfFileFinder.findFile(songId)
-    val songnumbers = SongnumberFinder.findSongnumbers(songId);
+    val songnumbers = SongnumberFinder.findSongnumbers(songId)
     LiedPdfToImageConverter.convertPdfBlobToImage(liedData, songnumbers)
   }
 }

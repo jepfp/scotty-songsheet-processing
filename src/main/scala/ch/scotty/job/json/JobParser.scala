@@ -39,16 +39,14 @@ object JobParser {
   def parseJobJson(json: String): JobDefinitions = {
     val parsedJson: JsValue = Json.parse(json)
     parsedJson.validate[JobDefinitions] match {
-      case s: JsSuccess[JobDefinitions] => {
+      case s: JsSuccess[JobDefinitions] =>
         val jobDefinitions: JobDefinitions = s.get
         if (jobDefinitions.allSongToImageConverterJob.isEmpty && jobDefinitions.singleSongToImageConverterJob.isEmpty) {
           throw new JobParsingException("No job definitions found.")
         }
         jobDefinitions
-      }
-      case e: JsError => {
+      case e: JsError =>
         throw new JobParsingException("Error while parsing jobs: " + JsError.toJson(e).toString())
-      }
     }
 
   }
