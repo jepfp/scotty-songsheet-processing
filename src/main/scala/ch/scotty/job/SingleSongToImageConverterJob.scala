@@ -1,8 +1,9 @@
 package ch.scotty.job
+import ch.scotty.Db
 import ch.scotty.converter.{SongnumberFinder, _}
 import ch.scotty.job.json.{JobDefinitions, SingleSongToImageConverterJobConfiguration}
 
-class SingleSongToImageConverterJob extends Job[SingleSongToImageConverterJobConfiguration]{
+class SingleSongToImageConverterJob(implicit val db : Db) extends Job[SingleSongToImageConverterJobConfiguration]{
   protected lazy val liedSourcePdfFileFinder = new LiedSourcePdfFileFinder()
   protected lazy val songnumberFinder = new SongnumberFinder()
   protected lazy val liedPdfToImageConverter = new LiedPdfToImageConverter()

@@ -13,12 +13,15 @@ import scala.concurrent.duration.Duration
 object Main {
   val jobsPath : String = "jobs.json"
 
+  implicit val db = new DefaultDb()
+
   def main(args: Array[String]) = {
     println(s"Reading job definitions...")
     val jobDefinitions: JobDefinitions = JobParser.parseJobJson(readJsonFile())
     println("Running jobs...")
-    JobRunner.runAllJobs(jobDefinitions)
-    Db.db.close()
+    val jobRunner = new JobRunner()
+    jobRunner.runAllJobs(jobDefinitions)
+    db.db.close()
   }
 
   def readJsonFile(): String = {
@@ -27,7 +30,6 @@ object Main {
   }
 
   private def readLieder() = {
-    val db = Db.db
 
     //val lieds: TableQuery[Tables.Lied] = TableQuery[Tables.Lied]
     val users: TableQuery[Tables.User] = TableQuery[Tables.User]
@@ -41,7 +43,7 @@ object Main {
     try {
       val joinQuery = lieds.join(users).on(_.lastedituserId === _.id)
 
-      Await.result(db.run(DBIO.seq(
+      Await.result(db.db.run(DBIO.seq(
         lieds.result.map(r => {
           for (aRecord <- r) {
             println
@@ -57,6 +59,6 @@ object Main {
         joinQuery2.result.map(println),
         joinQuery.result.map(println) //
       )), Duration.Inf)
-    } finally db.close
+    } finally db.db.close
   }
 }

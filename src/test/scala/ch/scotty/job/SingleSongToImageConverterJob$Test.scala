@@ -2,11 +2,13 @@ package ch.scotty.job
 
 import java.util.UUID
 
-import ch.scotty.UnitSpec
+import ch.scotty.{Db, UnitSpec}
 import ch.scotty.converter._
 import ch.scotty.job.json.SingleSongToImageConverterJobConfiguration
 
 class SingleSongToImageConverterJob$Test extends UnitSpec {
+
+  implicit val dbStub = stub[Db]
 
   val liedSourcePdfFileFinderStub = stub[LiedSourcePdfFileFinder]
   val songnumberFinderStub = stub[SongnumberFinder]

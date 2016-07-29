@@ -9,7 +9,7 @@ import ch.scotty.generatedschema.Tables
 import slick.driver.MySQLDriver.api._
 import scala.concurrent.Future
 
-class LiedSourcePdfFileFinder {
+class LiedSourcePdfFileFinder(implicit db : Db) {
   val filetype = "sourcepdf"
 
   def findFile(liedId: Long): LiedWithData = {
@@ -23,7 +23,7 @@ class LiedSourcePdfFileFinder {
     
 //    println("Going to execute query: " + joinQuery.result.statements)
 
-    val dbReadFuture = Db.db.run(joinQuery.result)
+    val dbReadFuture = db.db.run(joinQuery.result)
     val result: Seq[LiedWithData] = Await.result(dbReadFuture, Duration.Inf).map(x => LiedWithData.tupled(x))
     throwExceptionIfMoreThanOneResult(result, liedId)
     result.head

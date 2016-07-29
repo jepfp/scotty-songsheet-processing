@@ -2,7 +2,7 @@ package ch.scotty.job
 
 import java.util.UUID
 
-import ch.scotty.UnitSpec
+import ch.scotty.{Db, UnitSpec}
 import ch.scotty.job.json.{JobConfiguration, JobDefinitions}
 
 class JobTest extends UnitSpec {
@@ -16,6 +16,8 @@ class JobTest extends UnitSpec {
     // arrange
     var hasRunBeenCalledCorrectly = false
     object concreteJob extends Job[ConcreteJobConfiguration] {
+      val db = stub[Db]
+
       override def getJobConfigurations(jobDefinitions: JobDefinitions): Option[Seq[ConcreteJobConfiguration]] = createConfigSeqOf(aJobConfig)
 
       override def run(jobConfiguration: ConcreteJobConfiguration): Unit = {
@@ -34,6 +36,8 @@ class JobTest extends UnitSpec {
     // arrange
     var hasRunBeenCalled = false
     object concreteJob extends Job[ConcreteJobConfiguration] {
+      val db = stub[Db]
+
       override def getJobConfigurations(jobDefinitions: JobDefinitions): Option[Seq[ConcreteJobConfiguration]] = createConfigSeqOf()
 
       override def run(jobConfiguration: ConcreteJobConfiguration): Unit = {
@@ -50,6 +54,8 @@ class JobTest extends UnitSpec {
     // arrange
     var hasRunBeenCalled = false
     object concreteJob extends Job[ConcreteJobConfiguration] {
+      val db = stub[Db]
+
       override def getJobConfigurations(jobDefinitions: JobDefinitions): Option[Seq[ConcreteJobConfiguration]] = None
 
       override def run(jobConfiguration: ConcreteJobConfiguration): Unit = {
@@ -66,6 +72,8 @@ class JobTest extends UnitSpec {
     // arrange
     var runCallCounter = 0
     object concreteJob extends Job[ConcreteJobConfiguration] {
+      val db = stub[Db]
+
       override def getJobConfigurations(jobDefinitions: JobDefinitions): Option[Seq[ConcreteJobConfiguration]] = createConfigSeqOf(aJobConfig, aJobConfig)
 
       override def run(jobConfiguration: ConcreteJobConfiguration): Unit = {

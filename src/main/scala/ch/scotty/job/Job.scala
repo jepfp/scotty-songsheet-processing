@@ -1,8 +1,11 @@
 package ch.scotty.job
 
+import ch.scotty.Db
 import ch.scotty.job.json.JobDefinitions
 
 trait Job[J] {
+  val db : Db
+
   final def runIfJobsDefined(jobDefinitions: JobDefinitions): Unit = {
     val c = getJobConfigurations(jobDefinitions)
     println

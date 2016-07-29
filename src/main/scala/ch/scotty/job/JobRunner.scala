@@ -1,17 +1,16 @@
 package ch.scotty.job
 
-import ch.scotty.Stopwatch
-import ch.scotty.converter.LiedSourcePdfFileFinder
-import ch.scotty.job.json.{JobConfiguration, JobDefinitions, JobParser}
+import ch.scotty.{Db, Stopwatch}
+import ch.scotty.job.json.JobDefinitions
 
-object JobRunner {
+class JobRunner(implicit val db: Db) {
 
   val singleSongToImageConverterJob = new SingleSongToImageConverterJob()
+  val allSongToImageConverterJob = new AllSongToImageConverterJob()
+
   def runAllJobs(jobDefinitions: JobDefinitions): Unit = {
-
-
     val sw = Stopwatch.time("All Jobs") {
-      AllSongToImageConverterJob.runIfJobsDefined(jobDefinitions)
+      allSongToImageConverterJob.runIfJobsDefined(jobDefinitions)
       singleSongToImageConverterJob.runIfJobsDefined(jobDefinitions)
     }
     println
