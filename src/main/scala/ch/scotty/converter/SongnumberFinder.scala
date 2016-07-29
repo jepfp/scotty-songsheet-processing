@@ -9,7 +9,7 @@ import ch.scotty.generatedschema.Tables
 import slick.driver.MySQLDriver.api._
 import scala.concurrent.Future
 
-object SongnumberFinder {
+class SongnumberFinder {
 
   def findSongnumbers(liedId: Long): Seq[Songnumber] = {
     require(liedId > 0, "liedId must be set")
