@@ -1,0 +1,13 @@
+dockerdefault = {
+  url = "jdbc:mysql://localhost:3306/dockerdefault?user=root&password=enterPasswordHere"
+  driver = slick.driver.MySQLDriver
+  connectionPool = disabled
+  keepAliveConnection = true
+}
+
+exampleScotty = {
+  url = "jdbc:mysql://localhost:3306/examplescotty?user=root&password=enterPasswordHere"
+  driver = slick.driver.MySQLDriver
+  connectionPool = disabled
+  keepAliveConnection = true
+}
