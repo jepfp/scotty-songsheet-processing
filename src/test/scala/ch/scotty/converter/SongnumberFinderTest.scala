@@ -1,8 +1,9 @@
 package ch.scotty.converter
 
 import ch.scotty.IntegrationSpec
+import org.scalatest.OneInstancePerTest
 
-class SongnumberFinderTest extends IntegrationSpec {
+class SongnumberFinderTest extends IntegrationSpec{
 
   "findSongnumbers" should "find the correct numbers for a songId" in {
     //arrange
@@ -13,4 +14,5 @@ class SongnumberFinderTest extends IntegrationSpec {
     //assert
     assertResult(Seq("129", "53", "4"), "expected to find these 3 songnumbers in here")(songnumbers.map(_.liednr))
   }
+
 }

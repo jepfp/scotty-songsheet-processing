@@ -10,19 +10,15 @@ import slick.driver.MySQLDriver.api._
 import scala.concurrent.Future
 
 class LiedSourcePdfFileFinder(implicit db : Db) {
-  val filetype = "sourcepdf"
+  private val filetype = "sourcepdf"
 
   def findFile(liedId: Long): LiedWithData = {
     require(liedId > 0, "liedId must be set")
-
     val joinQuery = for {
       f <- Tables.File
       fm <- f.filemetadataFk if fm.filetype === filetype
       l <- fm.liedFk if l.id === liedId
     } yield (l.id, l.titel, f.data)
-    
-//    println("Going to execute query: " + joinQuery.result.statements)
-
     val dbReadFuture = db.db.run(joinQuery.result)
     val result: Seq[LiedWithData] = Await.result(dbReadFuture, Duration.Inf).map(x => LiedWithData.tupled(x))
     throwExceptionIfMoreThanOneResult(result, liedId)
