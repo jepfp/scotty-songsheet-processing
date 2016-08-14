@@ -6,11 +6,10 @@ import ch.scotty.Db
 import ch.scotty.generatedschema.Tables
 import slick.driver.MySQLDriver.api._
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
-class RefDataFixture(db: Db) {
+class RefDataFixture(implicit db: Db) {
   private val rubrikRows = Seq(
     Tables.RubrikRow(1, Some("Auferstehung"), Some(100)),
     Tables.RubrikRow(2, Some("Lobpreis"), Some(100)),

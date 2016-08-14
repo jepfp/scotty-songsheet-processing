@@ -4,7 +4,6 @@ import ch.scotty.fixture.RefDataFixture
 import ch.scotty.generatedschema.Tables
 import slick.driver.MySQLDriver.api._
 import org.scalatest._
-import slick.driver.MySQLDriver
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -25,7 +24,7 @@ abstract class IntegrationSpec extends FlatSpec with BeforeAndAfterEach with Bef
 
   override def beforeEach() {
     createTestDatabaseWithSchema()
-    val refDataFixture = new RefDataFixture(db)
+    val refDataFixture = new RefDataFixture()
     refDataFixture.insertRefData()
   }
 

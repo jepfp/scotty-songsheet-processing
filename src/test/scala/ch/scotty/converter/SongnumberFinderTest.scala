@@ -1,7 +1,6 @@
 package ch.scotty.converter
 
 import ch.scotty.IntegrationSpec
-import org.scalatest.OneInstancePerTest
 
 class SongnumberFinderTest extends IntegrationSpec{
 

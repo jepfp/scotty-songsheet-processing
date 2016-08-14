@@ -1,13 +1,11 @@
 package ch.scotty.converter
 
-import scala.concurrent.Await
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration.Duration
-
 import ch.scotty.Db
 import ch.scotty.generatedschema.Tables
 import slick.driver.MySQLDriver.api._
-import scala.concurrent.Future
+
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
 
 class SongnumberFinder(implicit db : Db) {
 

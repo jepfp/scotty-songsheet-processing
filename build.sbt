@@ -13,6 +13,8 @@ libraryDependencies ++= Seq(
 	"mysql" % "mysql-connector-java" % "5.1.24",
 	"com.typesafe.play" %% "play-json" % "2.5.2",
 	"net.java.truecommons" % "truecommons-io" % "2.5.0",
+	"commons-io" % "commons-io" % "2.5",
+	"com.jsuereth" %% "scala-arm" % "1.4",
 	"org.scalatest" % "scalatest_2.11" % "2.2.6" % "test",
   "org.scalamock" %% "scalamock-scalatest-support" % "3.2.2" % "test"
 )

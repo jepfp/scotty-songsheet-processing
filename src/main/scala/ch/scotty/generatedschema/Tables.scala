@@ -1,4 +1,7 @@
 package ch.scotty.generatedschema
+
+import slick.profile.SqlProfile.ColumnOption.SqlType
+
 // AUTO-GENERATED Slick data model
 /** Stand-alone Slick data model for immediate use */
 object Tables extends {
@@ -89,7 +92,8 @@ trait Tables {
     /** Database column filemetadata_id SqlType(BIGINT) */
     val filemetadataId: Rep[Long] = column[Long]("filemetadata_id")
     /** Database column data SqlType(MEDIUMBLOB) */
-    val data: Rep[java.sql.Blob] = column[java.sql.Blob]("data")
+    // jep: Added manually SqlType("MEDIUMBLOB") because BLOB would be the automatic mapping which is to small
+    val data: Rep[java.sql.Blob] = column[java.sql.Blob]("data", SqlType("MEDIUMBLOB"))
     /** Database column filename SqlType(VARCHAR), Length(255,true) */
     val filename: Rep[String] = column[String]("filename", O.Length(255,varying=true))
     /** Database column filesize SqlType(VARCHAR), Length(50,true) */
