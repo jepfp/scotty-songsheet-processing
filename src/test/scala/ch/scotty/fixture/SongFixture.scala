@@ -36,11 +36,11 @@ object SongFixture {
       var songInsertAction: DBIOAction[Long, NoStream, Write with Transactional] = ((Tables.Lied returning Tables.Lied.map(_.id)) += songToInsert).transactionally
       if (file.isDefined) {
         val fileAndMetadataTuple = file.get.generateTableRows()
-        val (fileMetadataToInsert, fileToINsert) = fileAndMetadataTuple
+        val (fileMetadataToInsert, fileToInsert) = fileAndMetadataTuple
         songInsertAction = songInsertAction.flatMap(songId => {
           (Tables.Filemetadata returning Tables.Filemetadata.map(_.id)) += fileMetadataToInsert.copy(liedId = songId)
         }).flatMap(fileMetadataId => {
-          (Tables.File returning Tables.File.map(_.id)) += fileToINsert.copy(filemetadataId = fileMetadataId)
+          (Tables.File returning Tables.File.map(_.id)) += fileToInsert.copy(filemetadataId = fileMetadataId)
         }).transactionally
       }
       val future = db.db.run(songInsertAction)
