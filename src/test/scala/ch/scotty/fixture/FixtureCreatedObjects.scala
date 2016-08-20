@@ -1,9 +1,5 @@
 package ch.scotty.fixture
 
-import java.util
-
-import ch.scotty.generatedschema.Tables
-
 class FixtureCreatedObjects {
 
   private var createdRows = scala.collection.mutable.Map[Class[_ <: AnyRef], AnyRef]()
