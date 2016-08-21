@@ -7,7 +7,7 @@ import slick.driver.MySQLDriver.api._
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
-class SongnumberFinder(implicit db : Db) {
+private class SongnumberFinder(implicit db : Db) {
 
   def findSongnumbers(liedId: Long): Seq[Songnumber] = {
     require(liedId > 0, "liedId must be set")

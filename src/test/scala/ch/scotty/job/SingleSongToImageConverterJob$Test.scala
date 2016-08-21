@@ -10,33 +10,23 @@ class SingleSongToImageConverterJob$Test extends UnitSpec {
 
   implicit val dbStub = stub[Db]
 
-  val liedSourcePdfFileFinderStub = stub[LiedSourcePdfFileFinder]
-  val songnumberFinderStub = stub[SongnumberFinder]
-  val liedPdfToImageConverterStub = stub[LiedPdfToImageConverter]
+  private val converterBySongIdStub = stub[ConverterBySongId]
 
   private def createTestee(): SingleSongToImageConverterJob = {
     return new SingleSongToImageConverterJob {
-      protected override lazy val liedSourcePdfFileFinder = liedSourcePdfFileFinderStub
-      protected override lazy val songnumberFinder = songnumberFinderStub
-      protected override lazy val liedPdfToImageConverter = liedPdfToImageConverterStub
-
+      protected override lazy val converterBySongId = converterBySongIdStub
     }
   }
 
   "run" should "execute conversion with found songnumers" in {
     //arrange
-    val songId : Long = 4
+    val songId: Long = 4
     val fooJobConfig = SingleSongToImageConverterJobConfiguration(UUID.randomUUID(), songId)
-    val songnumbers: Seq[Songnumber] = Seq(Songnumber(songId, 5, "LU", "Adoray Luzern", "299"))
-    val liedWithData: LiedWithData = LiedWithData(songId, "foo", null)
-
-    (liedSourcePdfFileFinderStub.findFile _).when(songId).returns(liedWithData)
-    (songnumberFinderStub.findSongnumbers(_)).when(songId).returns(songnumbers)
     //act
     val testee = createTestee()
     testee.run(fooJobConfig)
     //assert
-    (liedPdfToImageConverterStub.convertPdfBlobToImage _).verify(LiedWithData(songId, "foo", null), songnumbers)
+    (converterBySongIdStub.convert _).verify(songId)
   }
 
 }
