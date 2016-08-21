@@ -14,6 +14,13 @@ class LiedSourcePdfFileFinder(implicit db : Db) {
 
   def findFile(liedId: Long): LiedWithData = {
     require(liedId > 0, "liedId must be set")
+    val result: Seq[LiedWithData] = performQuery(liedId)
+    throwExceptionIfMoreThanOneOrNoResults(result, liedId)
+    result.head
+  }
+
+  //VisibleForTesting
+  protected def performQuery(liedId: Long): Seq[LiedWithData] = {
     val joinQuery = for {
       f <- Tables.File
       fm <- f.filemetadataFk if fm.filetype === filetype
@@ -21,13 +28,15 @@ class LiedSourcePdfFileFinder(implicit db : Db) {
     } yield (l.id, l.titel, f.data)
     val dbReadFuture = db.db.run(joinQuery.result)
     val result: Seq[LiedWithData] = Await.result(dbReadFuture, Duration.Inf).map(x => LiedWithData.tupled(x))
-    throwExceptionIfMoreThanOneResult(result, liedId)
-    result.head
+    result
   }
 
-  private def throwExceptionIfMoreThanOneResult(result: Seq[LiedWithData], liedId: Long) = {
+  private def throwExceptionIfMoreThanOneOrNoResults(result: Seq[LiedWithData], liedId: Long) = {
     if (result.length > 1) {
       throw new ConverterException(s"More than one PDF source file found for liedId = $liedId")
+    }
+    if (result.length < 1) {
+      throw new ConverterException(s"Could not find a PDF source file for liedId = $liedId")
     }
   }
 

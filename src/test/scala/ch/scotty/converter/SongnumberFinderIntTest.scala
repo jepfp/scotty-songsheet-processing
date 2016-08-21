@@ -2,7 +2,7 @@ package ch.scotty.converter
 
 import ch.scotty.IntegrationSpec
 
-class SongnumberFinderTest extends IntegrationSpec{
+class SongnumberFinderIntTest extends IntegrationSpec{
 
   "findSongnumbers" should "find the correct numbers for a songId" in {
     //arrange
