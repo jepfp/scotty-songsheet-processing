@@ -4,11 +4,14 @@ class FixtureCreatedObjects {
 
   private var createdRows = scala.collection.mutable.Map[Class[_ <: AnyRef], AnyRef]()
 
-  def addRow[B <: AnyRef](classOfCreatedRow: Class[B], createdRow: B) = {
-    createdRows += (classOfCreatedRow -> createdRow)
+  def throwExceptionIfTypeAlreadyInList(classToCheck: Class[_ <: AnyRef]) = {
+    if(createdRows.get(classToCheck).isDefined){
+      throw new IllegalArgumentException("You must not add an element of the same class twice to the list!")
+    }
   }
 
   def addRow[B <: AnyRef](createdRow: B) = {
+    throwExceptionIfTypeAlreadyInList(createdRow.getClass)
     createdRows += (createdRow.getClass -> createdRow)
   }
 
