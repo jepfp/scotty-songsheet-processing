@@ -9,7 +9,7 @@ import ch.scotty.generatedschema.Tables
 import slick.driver.MySQLDriver.api._
 import scala.concurrent.Future
 
-class LiedSourcePdfFileFinder(implicit db : Db) {
+private class LiedSourcePdfFileFinder(implicit db : Db) {
   private val filetype = "sourcepdf"
 
   def findFile(liedId: Long): LiedWithData = {

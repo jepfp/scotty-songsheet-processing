@@ -11,9 +11,9 @@ class ConverterBySongIdTest extends UnitSpec {
 
   private def createTestee(): ConverterBySongId = {
     return new ConverterBySongId {
-      protected override lazy val liedSourcePdfFileFinder = liedSourcePdfFileFinderStub
-      protected override lazy val songnumberFinder = songnumberFinderStub
-      protected override lazy val liedPdfToImageConverter = liedPdfToImageConverterStub
+      protected[converter] override lazy val liedSourcePdfFileFinder = liedSourcePdfFileFinderStub
+      protected[converter] override lazy val songnumberFinder = songnumberFinderStub
+      protected[converter] override lazy val liedPdfToImageConverter = liedPdfToImageConverterStub
     }
   }
 
