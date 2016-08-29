@@ -6,7 +6,7 @@ import slick.driver.MySQLDriver
 class LiedSourcePdfFileFinderTest extends UnitSpec {
   implicit val db = stub[Db]
 
-  def createTesteeAndOverridePerformQuery(performQueryImplementation: Seq[LiedWithData]) : LiedSourcePdfFileFinder = {
+  private def createTesteeAndOverridePerformQuery(performQueryImplementation: Seq[LiedWithData]) : LiedSourcePdfFileFinder = {
     new LiedSourcePdfFileFinder(){
       override def performQuery(liedId: Long): Seq[LiedWithData] = performQueryImplementation
     }

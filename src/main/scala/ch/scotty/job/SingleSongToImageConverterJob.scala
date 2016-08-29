@@ -1,7 +1,7 @@
 package ch.scotty.job
 
 import ch.scotty.Db
-import ch.scotty.converter.{SongnumberFinder, _}
+import ch.scotty.converter._
 import ch.scotty.job.json.result.{Failure, Success}
 import ch.scotty.job.json.{JobDefinitions, SingleSongToImageConverterJobConfiguration}
 
