@@ -12,7 +12,7 @@ trait Job[J <: JobConfiguration] {
   val db: Db
   private val resultBuilder = new PerJobDefinitionResultHolder.Builder()
 
-  final def runIfJobsDefined(jobDefinitions: JobDefinitions): PerJobDefinitionResultHolder = {
+  def runIfJobsDefined(jobDefinitions: JobDefinitions): PerJobDefinitionResultHolder = {
     val c = getJobConfigurations(jobDefinitions)
     println(s"\nFinding job configurations for ${getClass.getSimpleName.replace("$", "")}...")
     if (c.isDefined && c.get.nonEmpty) {

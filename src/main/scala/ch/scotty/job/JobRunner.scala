@@ -1,23 +1,31 @@
 package ch.scotty.job
 
 import ch.scotty.{Db, Stopwatch}
-import ch.scotty.job.json.JobDefinitions
+import ch.scotty.job.json.{JobConfiguration, JobDefinitions}
 import ch.scotty.job.json.result.PerJobDefinitionResultHolder
 
 import scala.collection.mutable
 
-class JobRunner(implicit val db: Db) {
-  val jobResults = new mutable.HashMap[String, PerJobDefinitionResultHolder]()
-  val singleSongToImageConverterJob = new SingleSongToImageConverterJob()
-  val allSongToImageConverterJob = new AllSongToImageConverterJob()
+class JobRunner (private val jobDefinitions: JobDefinitions, private val singleSongToImageConverterJob : SingleSongToImageConverterJob, private val allSongToImageConverterJob : AllSongToImageConverterJob)(implicit val db: Db) {
+  private val jobResults = new mutable.HashMap[String, PerJobDefinitionResultHolder]()
 
-  def runAllJobs(jobDefinitions: JobDefinitions): Unit = {
+  def this(jobDefinitions: JobDefinitions)(implicit db: Db){
+    this(jobDefinitions, new SingleSongToImageConverterJob(), new AllSongToImageConverterJob())
+  }
+
+  def runAllJobs(): Map[String, PerJobDefinitionResultHolder] = {
     val sw = Stopwatch.time("All Jobs") {
-      allSongToImageConverterJob.runIfJobsDefined(jobDefinitions)
-      singleSongToImageConverterJob.runIfJobsDefined(jobDefinitions)
+      runJobAndStoreResult(allSongToImageConverterJob)
+      runJobAndStoreResult(singleSongToImageConverterJob)
     }
-    println
-    println(s"All jobs have been executed. Duration: $sw")
+    println(s"\nAll jobs have been executed. Duration: $sw")
+    jobResults.toMap
+  }
+
+  private def runJobAndStoreResult(jobToRun: Job[_]) = {
+    val jobResult = jobToRun.runIfJobsDefined(jobDefinitions)
+    val className  = jobToRun.getClass.getSimpleName
+    jobResults +=(className -> jobResult)
   }
 
 }

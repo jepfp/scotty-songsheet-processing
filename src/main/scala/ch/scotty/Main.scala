@@ -19,8 +19,8 @@ object Main {
     println(s"Reading job definitions...")
     val jobDefinitions: JobDefinitions = JobParser.parseJobJson(readJsonFile())
     println("Running jobs...")
-    val jobRunner = new JobRunner()
-    jobRunner.runAllJobs(jobDefinitions)
+    val jobRunner = new JobRunner(jobDefinitions)
+    jobRunner.runAllJobs()
     db.db.close()
   }
 
