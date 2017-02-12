@@ -1,7 +1,10 @@
 package ch.scotty
 
+import java.io.File
+
 import ch.scotty.generatedschema.Tables
 import ch.scotty.job.JobRunner
+import ch.scotty.job.json.result.JobResultWriter
 import ch.scotty.job.json.{JobDefinitions, JobParser}
 import slick.driver.MySQLDriver.api._
 import slick.lifted.TableQuery
@@ -11,16 +14,17 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
 
 object Main {
-  val jobsPath : String = "jobs.json"
+  val jobsPath: String = "jobs.json"
 
   implicit val db = new DefaultDb()
 
-  def main(args: Array[String]) = {
+  def main(args: Array[String]): Unit = {
     println(s"Reading job definitions...")
     val jobDefinitions: JobDefinitions = JobParser.parseJobJson(readJsonFile())
     println("Running jobs...")
     val jobRunner = new JobRunner(jobDefinitions)
-    jobRunner.runAllJobs()
+    val jobResults = jobRunner.runAllJobs()
+    JobResultWriter.writeJobResults(new File("result_" + jobsPath), jobResults)
     db.db.close()
   }
 

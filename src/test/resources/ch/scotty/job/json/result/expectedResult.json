@@ -1,0 +1,22 @@
+{
+  "job1" : {
+    "success" : [ {
+      "jobId" : "cc07c39c-f160-11e6-bc64-92361f002671"
+    } ],
+    "failure" : [ ]
+  },
+  "job2" : {
+    "success" : [ {
+      "jobId" : "cc07c6da-f160-11e6-bc64-92361f002671"
+    } ],
+    "failure" : [ {
+      "jobId" : "cc07c7e8-f160-11e6-bc64-92361f002671",
+      "message" : "first error message...",
+      "exceptions" : [ "with one exception" ]
+    }, {
+      "jobId" : "e2cb5eb8-f160-11e6-bc64-92361f002671",
+      "message" : "second error message...",
+      "exceptions" : [ "with two exceptions...", "see?" ]
+    } ]
+  }
+}

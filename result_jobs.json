@@ -1,0 +1,24 @@
+{
+  "AllSongToImageConverterJob" : {
+    "success" : [ {
+      "jobId" : "b46ff506-468f-4096-9f9d-7c17297145ac"
+    } ],
+    "failure" : [ ]
+  },
+  "SingleSongToImageConverterJob" : {
+    "success" : [ {
+      "jobId" : "b46ff506-468f-4096-9f9d-7c17297145ab"
+    }, {
+      "jobId" : "b46ff506-468f-4096-9f9d-7c17297145ab"
+    }, {
+      "jobId" : "b46ff506-468f-4096-9f9d-7c17297145ab"
+    }, {
+      "jobId" : "b46ff506-468f-4096-9f9d-7c17297145ab"
+    }, {
+      "jobId" : "b46ff506-468f-4096-9f9d-7c17297145ab"
+    }, {
+      "jobId" : "b46ff506-468f-4096-9f9d-7c17297145ab"
+    } ],
+    "failure" : [ ]
+  }
+}
