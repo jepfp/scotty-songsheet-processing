@@ -15,6 +15,6 @@ libraryDependencies ++= Seq(
 	"net.java.truecommons" % "truecommons-io" % "2.5.0",
 	"commons-io" % "commons-io" % "2.5",
 	"com.jsuereth" %% "scala-arm" % "1.4",
-	"org.scalatest" % "scalatest_2.11" % "2.2.6" % "test",
-  "org.scalamock" %% "scalamock-scalatest-support" % "3.2.2" % "test"
+	"org.scalatest" %% "scalatest" % "3.0.1" % "test",
+  "org.scalamock" %% "scalamock-scalatest-support" % "3.4.2" % "test"
 )
