@@ -4,17 +4,17 @@ import ch.scotty.Db
 import ch.scotty.job.json.result.{Failure, PerJobDefinitionResultHolder, Success}
 import ch.scotty.job.json.{JobConfiguration, JobDefinitions}
 
-object Job{
-  val UNKNOWN_EXCEPTION_IN_JOB_EXECUTION_OCCURRED = "Unknown exception in job execution occurred"
-}
-
 trait Job[J <: JobConfiguration] {
   val db: Db
   private val resultBuilder = new PerJobDefinitionResultHolder.Builder()
 
+  private def determineJobDefinition(): String ={
+    getClass.getSimpleName.replace("$", "")
+  }
+
   def runIfJobsDefined(jobDefinitions: JobDefinitions): PerJobDefinitionResultHolder = {
     val c = getJobConfigurations(jobDefinitions)
-    println(s"\nFinding job configurations for ${getClass.getSimpleName.replace("$", "")}...")
+    println(s"\nFinding job configurations for ${determineJobDefinition}...")
     if (c.isDefined && c.get.nonEmpty) {
       val jobConfigurations = c.get
       println("Found " + jobConfigurations.size + " job configuration(s).")
@@ -28,7 +28,11 @@ trait Job[J <: JobConfiguration] {
       try {
         run(jobConfig)
       } catch {
-        case ex: Exception => Left(Failure(jobConfig.jobId, Job.UNKNOWN_EXCEPTION_IN_JOB_EXECUTION_OCCURRED, Seq(ex)))
+        case ex: Exception => {
+          val m = s"The exception '${ex.getClass.getSimpleName}' occured for job '${jobConfig.jobId}' in definition '${determineJobDefinition}'."
+          Console.err.println(m)
+          Left(Failure(jobConfig.jobId, m, Seq(ex)))
+        }
       })
   }
 

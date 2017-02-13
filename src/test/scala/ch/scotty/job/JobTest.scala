@@ -4,8 +4,8 @@ import java.util.UUID
 
 import ch.scotty.converter.ConverterException
 import ch.scotty.job.json.result.{Failure, Success}
-import ch.scotty.{Db, UnitSpec}
 import ch.scotty.job.json.{JobConfiguration, JobDefinitions}
+import ch.scotty.{Db, UnitSpec}
 
 class JobTest extends UnitSpec {
 
@@ -71,7 +71,7 @@ class JobTest extends UnitSpec {
     // act
     val result = concreteJob.runIfJobsDefined(fooJobDef)
     // assert
-    val expectedFailure = Failure(aJobConfig.jobId, Job.UNKNOWN_EXCEPTION_IN_JOB_EXECUTION_OCCURRED, Seq(exceptionToBeThrown))
+    val expectedFailure = Failure(aJobConfig.jobId, "The exception 'IllegalStateException' occured for job 'b46ff506-468f-4096-9f9d-7c17297145ae' in definition 'ConcreteJob'.", Seq(exceptionToBeThrown))
     assertResult(Seq(expectedFailure))(result.failure)
     assertResult(Seq.empty[Success])(result.success)
   }
