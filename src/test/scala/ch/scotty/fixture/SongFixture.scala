@@ -2,10 +2,10 @@ package ch.scotty.fixture
 
 import java.net.URL
 
+import ch.scotty.fixture.SongBuilder.songBuilder
 import ch.scotty.generatedschema.Tables
 import ch.scotty.{Db, SongsheetTestUtils}
-import slick.dbio.DBIOAction
-import slick.dbio.Effect.{Transactional, Write}
+import slick.dbio.Effect.Write
 import slick.driver.MySQLDriver.api._
 import slick.profile.FixedSqlAction
 
@@ -33,7 +33,7 @@ object SongFixture {
 
     def withFile(f: InsertableFile) = new SongFixtureBuilder(song, Some(f))
 
-    def buildAndExecute(implicit db: Db) : FixtureCreatedObjects = {
+    def buildAndExecute(implicit db: Db): FixtureCreatedObjects = {
       val songToInsert = song.get
 
       val songInsertAction: FixedSqlAction[_root_.ch.scotty.generatedschema.Tables.LiedRow, NoStream, Write] = ((Tables.Lied returning Tables.Lied.map(_.id) into ((item, id) => item.copy(id = id))) += songToInsert)
@@ -56,6 +56,21 @@ object SongFixture {
         createdRows.addRow(insertedSong)
       }
       createdRows
+    }
+  }
+
+  /**
+    * Use this DefaultSongFixture if you just need a song with a pdf.
+    */
+  object DefaultSongFixture {
+    val title = "Revelation Song"
+    val pdfUrl = getClass.getResource("revelationSong.pdf")
+
+    def generateRevelationSong(implicit db: Db) : _root_.ch.scotty.generatedschema.Tables.LiedRow = {
+      val aSong = songBuilder withTitle title withSectionId 1 withLastEditUserId 1 withTonality Tonality.CA build()
+      val aFile = SongFixture.InsertableFile(pdfUrl)
+      val createdRows = songFixtureBuilder withSong aSong withFile aFile buildAndExecute;
+      createdRows.findRow(classOf[Tables.LiedRow])
     }
   }
 

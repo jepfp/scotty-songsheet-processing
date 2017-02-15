@@ -11,7 +11,7 @@ class JobTest extends UnitSpec {
 
   private val aJobConfig = ConcreteJobConfiguration(UUID.fromString("b46ff506-468f-4096-9f9d-7c17297145ae"), "foofoo")
   private val anotherJobConfig: ConcreteJobConfiguration = aJobConfig.copy(jobId = UUID.fromString("b46ff506-468f-4096-9f9d-7c17297145ab"))
-  private val fooJobDef = JobDefinitions(None, None) // None because not relevant for this tests!
+  private val fooJobDef = JobDefinitions(None, None, None) // None because not relevant for this tests!
 
   def runImplementationImitatingASuccessfulJobExecution(jobConfiguration: ConcreteJobConfiguration): Either[Failure, Success] = {
     // job returns Success object --> All jobs must do that if they succeed

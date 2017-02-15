@@ -2,6 +2,7 @@ package ch.scotty.job.json
 
 import java.util.UUID
 
+import ch.scotty.job.determinesongstoconvert.DetermineSongsToConvertJobConfiguration
 import play.api.libs.functional.syntax._
 import play.api.libs.json.Reads._
 import play.api.libs.json._
@@ -26,14 +27,24 @@ object JobParser {
       "jobId" -> allSongToImageConverterJobConfiguration.jobId)
   }
 
+  implicit val determineSongsToConvertJobConfigurationReads: Reads[DetermineSongsToConvertJobConfiguration] =
+    (JsPath \ "jobId").read[UUID].map(DetermineSongsToConvertJobConfiguration.apply _)
+
+  implicit val determineSongsToConvertJobConfigurationWrites = new Writes[DetermineSongsToConvertJobConfiguration] {
+    def writes(determineSongsToConvertJobConfiguration: DetermineSongsToConvertJobConfiguration) = Json.obj(
+      "jobId" -> determineSongsToConvertJobConfiguration.jobId)
+  }
+
   implicit val jobDefinitionsReads: Reads[JobDefinitions] = (
     (JsPath \ "singleSongToImageConverterJob").readNullable[Seq[SingleSongToImageConverterJobConfiguration]] and
-      (JsPath \ "allSongToImageConverterJob").readNullable[Seq[AllSongToImageConverterJobConfiguration]]) (JobDefinitions.apply _)
+      (JsPath \ "allSongToImageConverterJob").readNullable[Seq[AllSongToImageConverterJobConfiguration]] and
+      (JsPath \ "determineSongsToConvertJob").readNullable[Seq[DetermineSongsToConvertJobConfiguration]]) (JobDefinitions.apply _)
 
   implicit val jobDefinitionsWrites = new Writes[JobDefinitions] {
     def writes(jobDefinitions: JobDefinitions) = Json.obj(
       "singleSongToImageConverterJob" -> jobDefinitions.singleSongToImageConverterJob,
-      "allSongToImageConverterJob" -> jobDefinitions.allSongToImageConverterJob)
+      "allSongToImageConverterJob" -> jobDefinitions.allSongToImageConverterJob,
+      "determineSongsToConvertJob" -> jobDefinitions.determineSongsToConvertJob)
   }
 
   def parseJobJson(json: String): JobDefinitions = {

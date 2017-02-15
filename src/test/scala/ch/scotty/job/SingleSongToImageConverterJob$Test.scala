@@ -2,9 +2,9 @@ package ch.scotty.job
 
 import java.util.UUID
 
-import ch.scotty.{Db, UnitSpec}
 import ch.scotty.converter._
 import ch.scotty.job.json.SingleSongToImageConverterJobConfiguration
+import ch.scotty.{Db, UnitSpec}
 
 class SingleSongToImageConverterJob$Test extends UnitSpec {
 
@@ -28,5 +28,4 @@ class SingleSongToImageConverterJob$Test extends UnitSpec {
     //assert
     (converterBySongIdStub.convert _).verify(songId)
   }
-
 }

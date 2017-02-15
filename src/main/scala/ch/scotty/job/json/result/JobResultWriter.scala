@@ -2,6 +2,7 @@ package ch.scotty.job.json.result
 
 import java.io.File
 
+import ch.scotty.util.FilePrinter
 import play.api.libs.json.{JsObject, Json, Writes}
 
 object JobResultWriter {
@@ -26,15 +27,6 @@ object JobResultWriter {
 
   def writeJobResults(resultFile: File, jobResults: Map[String, PerJobDefinitionResultHolder]): Unit = {
     val resultString = Json.prettyPrint(Json.toJson(jobResults))
-    printToFile(resultFile)(p => p.println(resultString))
-  }
-
-  private def printToFile(f: java.io.File)(op: java.io.PrintWriter => Unit) {
-    val p = new java.io.PrintWriter(f)
-    try {
-      op(p)
-    } finally {
-      p.close()
-    }
+    FilePrinter.print(resultFile)(_.println(resultString))
   }
 }
