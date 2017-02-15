@@ -26,7 +26,7 @@ class WriterForSingleSongToImageConverterJob {
 
   implicit private val jobDefinitionsWrites = new Writes[JobDefinitions] {
     def writes(jobDefinitions: JobDefinitions) = Json.obj(
-      "singleSongToImageConverterJob" -> jobDefinitions.singleSongToImageConverterJob
+      "singleSongToImageConverterJob" -> jobDefinitions.singleSongToImageConverterJob)
 //      "allSongToImageConverterJob" -> jobDefinitions.allSongToImageConverterJob,
 //      "determineSongsToConvertJob" -> jobDefinitions.determineSongsToConvertJob)
   }
