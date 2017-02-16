@@ -1,68 +1,40 @@
 package ch.scotty
 
-import java.io.File
+import java.nio.file.{Files, Path, Paths}
 
-import ch.scotty.generatedschema.Tables
 import ch.scotty.job.JobRunner
 import ch.scotty.job.json.result.JobResultWriter
 import ch.scotty.job.json.{JobDefinitions, JobParser}
-import slick.driver.MySQLDriver.api._
-import slick.lifted.TableQuery
-
-import scala.concurrent.Await
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration.Duration
 
 object Main {
-  val jobsPath: String = "jobs.json"
+  val defaultJobsPath: String = "jobs.json"
 
   implicit val db = new DefaultDb()
 
   def main(args: Array[String]): Unit = {
-    println(s"Reading job definitions...")
-    val jobDefinitions: JobDefinitions = JobParser.parseJobJson(readJsonFile())
+    val jobsPath = determineAndValidateJobsPath(args)
+    println(s"Reading job definitions from '$jobsPath'...")
+    val jobDefinitions: JobDefinitions = JobParser.parseJobJson(readJsonFile(jobsPath.toString))
     println("Running jobs...")
     val jobRunner = new JobRunner(jobDefinitions)
     val jobResults = jobRunner.runAllJobs()
-    JobResultWriter.writeJobResults(new File("result_" + jobsPath), jobResults)
+    JobResultWriter.writeJobResults(createResultFile(jobsPath), jobResults)
     db.db.close()
   }
 
-  def readJsonFile(): String = {
-    val source = scala.io.Source.fromFile(jobsPath)
-    try source.mkString finally source.close()
+  private def createResultFile(jobsPath: Path) = {
+    val p = Paths.get(jobsPath.getParent.toString, "result_" + jobsPath.getFileName.toString)
+    p.toFile
   }
 
-  private def readLieder() = {
+  def determineAndValidateJobsPath(args: Array[String]): Path = {
+    val p = if (args.length > 0) Paths.get(args(0)) else Paths.get(defaultJobsPath)
+    if (Files.notExists(p)) throw new IllegalArgumentException(s"File with path '$p' does not exist.")
+    p
+  }
 
-    //val lieds: TableQuery[Tables.Lied] = TableQuery[Tables.Lied]
-    val users: TableQuery[Tables.User] = TableQuery[Tables.User]
-    val lieds = Tables.Lied
-
-    val joinQuery2 = for {
-      l <- lieds
-      s <- users if l.lastedituserId === s.id
-    } yield (l.titel, s.firstname)
-
-    try {
-      val joinQuery = lieds.join(users).on(_.lastedituserId === _.id)
-
-      Await.result(db.db.run(DBIO.seq(
-        lieds.result.map(r => {
-          for (aRecord <- r) {
-            println
-            println("Titel: " + aRecord.titel)
-            println("Tonart: " + aRecord.tonality)
-          }
-        }),
-        lieds.filter(_.id === 1L).result.map(result => result.foreach(aRow => println("Lied mit ID 1: " + aRow.titel))),
-        lieds.filter(_.id === 1L).map { case (titel) => titel }.result.map {
-          println
-        },
-        lieds.map(_.titel).result.map(println),
-        joinQuery2.result.map(println),
-        joinQuery.result.map(println) //
-      )), Duration.Inf)
-    } finally db.db.close
+  def readJsonFile(jobsPath: String): String = {
+    val source = scala.io.Source.fromFile(jobsPath)
+    try source.mkString finally source.close()
   }
 }

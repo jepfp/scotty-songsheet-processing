@@ -27,6 +27,7 @@ object JobResultWriter {
 
   def writeJobResults(resultFile: File, jobResults: Map[String, PerJobDefinitionResultHolder]): Unit = {
     val resultString = Json.prettyPrint(Json.toJson(jobResults))
+    println(s"Writing ${resultFile.getPath}")
     FilePrinter.print(resultFile)(_.println(resultString))
   }
 }

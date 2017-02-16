@@ -3,12 +3,13 @@ package ch.scotty.job.determinesongstoconvert
 import java.io.File
 import java.util.UUID
 
-import ch.scotty.IntegrationSpec
 import ch.scotty.job.json.SingleSongToImageConverterJobConfiguration
 import ch.scotty.job.json.result._
+import ch.scotty.{IntegrationSpec, ResourceFileContentWithFileContentComparator}
 
 class WriterForSingleSongToImageConverterJobTest extends IntegrationSpec with TestFolder {
 
+  def assertContentEquals = ResourceFileContentWithFileContentComparator.assertContentEquals(getClass) _
   behavior of "WriterForSingleSongToImageConverterJobTest"
 
   it should "generateAndWriteJobFile write the results to a json as expected" in {
@@ -22,16 +23,7 @@ class WriterForSingleSongToImageConverterJobTest extends IntegrationSpec with Te
     // act
     testee.generateAndWriteJobFile(outputFile, jobs)
     // assert
-    val expectedResult = readResourceFile("expectedJobInputFile.json")
-    val source = scala.io.Source.fromFile(outputFile)
-    val actualResult = try source.mkString finally source.close()
-    assertResult(expectedResult)(actualResult)
-  }
-
-  def readResourceFile(filename: String): String = {
-    val stream = getClass.getResourceAsStream(filename)
-    val source = scala.io.Source.fromInputStream(stream)
-    try source.mkString finally source.close()
+    assertContentEquals("expectedJobInputFile.json", outputFile)
   }
 
 }

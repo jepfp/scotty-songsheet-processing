@@ -3,9 +3,12 @@ package ch.scotty.job.json.result
 import java.io.File
 import java.util.UUID
 
-import ch.scotty.UnitSpec
+import ch.scotty.{ResourceFileContentWithFileContentComparator, UnitSpec}
 
 class JobResultWriterTest extends UnitSpec with TestFolder {
+
+  def assertContentEquals = ResourceFileContentWithFileContentComparator.assertContentEquals(getClass) _
+
   "The JobResultWriter" should "write the results to a json as expected" in {
     // arrange
     val jobResults = Map(//
@@ -22,15 +25,6 @@ class JobResultWriterTest extends UnitSpec with TestFolder {
     // act
     JobResultWriter.writeJobResults(outputFile, jobResults)
     // assert
-    val expectedResult = readResourceFile("expectedResult.json")
-    val source = scala.io.Source.fromFile(outputFile)
-    val actualResult = try source.mkString finally source.close()
-    assertResult(expectedResult)(actualResult)
-  }
-
-  def readResourceFile(filename: String): String = {
-    val stream = getClass.getResourceAsStream(filename)
-    val source = scala.io.Source.fromInputStream(stream)
-    try source.mkString finally source.close()
+    assertContentEquals("expectedResult.json", outputFile)
   }
 }
