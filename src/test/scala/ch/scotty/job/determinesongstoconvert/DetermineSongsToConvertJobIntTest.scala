@@ -19,7 +19,7 @@ class DetermineSongsToConvertJobIntTest extends IntegrationSpec with TestFolder{
     //assert
     val source = scala.io.Source.fromFile(new File(outputFilePath))
     val actualResult = try source.mkString finally source.close()
-    assert(actualResult.contains(createdLiedRow.id.toString))
+    assert(actualResult.contains("\"songId\" : " + createdLiedRow.id))
   }
 
   private def createTestee(path: String): DetermineSongsToConvertJob = {

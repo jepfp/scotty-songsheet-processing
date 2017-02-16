@@ -10,9 +10,5 @@ class AllSongToImageConverterJob(implicit val db: Db) extends Job[AllSongToImage
   override def run(jobConfiguration: AllSongToImageConverterJobConfiguration): Either[Failure, Success] = {
     println(s"Executing job '${jobConfiguration.jobId}'")
     throw new UnsupportedOperationException("AllSongToImageConverterJob is not yet implemented")
-    println("Going to export all songs")
-    //readAllSongIdsWithPdfs()
-    //convertEachSong
-    Right(Success(jobConfiguration.jobId))
   }
 }

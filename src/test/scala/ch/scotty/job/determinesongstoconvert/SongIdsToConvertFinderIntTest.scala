@@ -13,5 +13,14 @@ class SongIdsToConvertFinderIntTest extends IntegrationSpec {
     //assert
     assertResult(createdLiedRow.id)(seqOfSongIds.head)
   }
+
+  it should "return an empty list if no songIds are found" in {
+    //arrange
+    val testee = new SongIdsToConvertFinder()
+    //act
+    val seqOfSongIds = testee.findSongIdsToConvert()
+    //assert
+    assertResult(Seq.empty)(seqOfSongIds)
+  }
 }
 
