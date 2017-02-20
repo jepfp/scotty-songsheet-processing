@@ -18,3 +18,8 @@ libraryDependencies ++= Seq(
 	"org.scalatest" %% "scalatest" % "3.0.1" % "test",
   "org.scalamock" %% "scalamock-scalatest-support" % "3.4.2" % "test"
 )
+
+//Because of the database, which is set up for each test, integration tests run in sequence
+parallelExecution in Test := false
+
+mainClass in assembly := Some("ch.scotty.Main")

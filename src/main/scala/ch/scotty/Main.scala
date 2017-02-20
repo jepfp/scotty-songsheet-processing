@@ -30,7 +30,7 @@ object Main {
   def determineAndValidateJobsPath(args: Array[String]): Path = {
     val p = if (args.length > 0) Paths.get(args(0)) else Paths.get(defaultJobsPath)
     if (Files.notExists(p)) throw new IllegalArgumentException(s"File with path '$p' does not exist.")
-    p
+    p.toAbsolutePath
   }
 
   def readJsonFile(jobsPath: String): String = {
