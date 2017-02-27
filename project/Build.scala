@@ -1,6 +1,4 @@
-import sbt._
-import Keys._
-import Tests._
+
 
 /**
  * This is a simple sbt setup generating Slick code from the given
@@ -13,7 +11,7 @@ object dbReverseEngineerer extends Build {
     id="main",
     base=file("."),
     settings = Project.defaultSettings ++ Seq(
-      scalaVersion := "2.11.6",
+      scalaVersion := "2.11.8",
       libraryDependencies ++= List(
         "com.typesafe.slick" %% "slick" % slickVersion,
         "com.typesafe.slick" %% "slick-codegen" % slickVersion,
@@ -23,7 +21,7 @@ object dbReverseEngineerer extends Build {
       // the following line is commented out because we want to run the generation manually by executing the task "gen-tables"
       //sourceGenerators in Compile <+= slickCodeGenTask // register automatic code generation on every compile, remove for only manual use
     )
-  ) 
+  )
 
   // code generation task
   lazy val slick = TaskKey[Seq[File]]("gen-tables")

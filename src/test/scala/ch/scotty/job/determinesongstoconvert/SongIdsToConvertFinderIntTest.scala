@@ -1,9 +1,9 @@
 package ch.scotty.job.determinesongstoconvert
 
-import ch.scotty.IntegrationSpec
 import ch.scotty.fixture.SongFixture
+import ch.scotty.{DatabaseConnection, IntegrationSpec}
 
-class SongIdsToConvertFinderIntTest extends IntegrationSpec {
+class SongIdsToConvertFinderIntTest extends IntegrationSpec with DatabaseConnection {
   "findSongIdsToConvert" should "return the id of the song which is stored in the database" in {
     //arrange
     val createdLiedRow = SongFixture.DefaultSongFixture.generateRevelationSong

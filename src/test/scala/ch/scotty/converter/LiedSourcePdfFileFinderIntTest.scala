@@ -1,10 +1,10 @@
 package ch.scotty.converter
 
 import ch.scotty.fixture.SongFixture
-import ch.scotty.{IntegrationSpec, SongsheetTestUtils}
+import ch.scotty.{DatabaseConnection, IntegrationSpec, SongsheetTestUtils}
 import org.apache.commons.io.IOUtils
 
-class LiedSourcePdfFileFinderIntTest extends IntegrationSpec {
+class LiedSourcePdfFileFinderIntTest extends IntegrationSpec with DatabaseConnection {
 
 
   "findFile" should "return a LiedWithData object with all attributes and the binary data" in {

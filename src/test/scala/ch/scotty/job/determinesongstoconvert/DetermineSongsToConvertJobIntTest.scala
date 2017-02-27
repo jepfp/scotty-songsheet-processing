@@ -3,11 +3,11 @@ package ch.scotty.job.determinesongstoconvert
 import java.io.File
 import java.util.UUID
 
-import ch.scotty.IntegrationSpec
 import ch.scotty.fixture.SongFixture
 import ch.scotty.job.json.result.TestFolder
+import ch.scotty.{DatabaseConnection, IntegrationSpec}
 
-class DetermineSongsToConvertJobIntTest extends IntegrationSpec with TestFolder{
+class DetermineSongsToConvertJobIntTest extends IntegrationSpec with TestFolder  with DatabaseConnection{
   "findSongIdsToConvert" should "return the id of the song which is stored in the database" in {
     //arrange
     val createdLiedRow = SongFixture.DefaultSongFixture.generateRevelationSong

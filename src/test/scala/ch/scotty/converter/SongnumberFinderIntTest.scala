@@ -1,8 +1,8 @@
 package ch.scotty.converter
 
-import ch.scotty.IntegrationSpec
+import ch.scotty.{DatabaseConnection, IntegrationSpec}
 
-class SongnumberFinderIntTest extends IntegrationSpec{
+class SongnumberFinderIntTest extends IntegrationSpec  with DatabaseConnection{
 
   "findSongnumbers" should "find the correct numbers for a songId" in {
     //arrange
