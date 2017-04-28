@@ -13,6 +13,7 @@ class ConverterBySongId(implicit val db: Db) {
     val liedData = liedSourcePdfFileFinder.findFile(songId)
     val songnumbers = songnumberFinder.findSongnumbers(songId)
     liedPdfToImageConverter.convertPdfBlobToImage(liedData, songnumbers)
+    Unit
   }
 
 }
