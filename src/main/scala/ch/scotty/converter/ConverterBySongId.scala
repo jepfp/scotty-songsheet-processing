@@ -1,6 +1,7 @@
 package ch.scotty.converter
 
 import ch.scotty.Db
+import ch.scotty.converter.ConversionResults.ConversionResult
 
 class ConverterBySongId(implicit val db: Db) {
 
@@ -9,11 +10,10 @@ class ConverterBySongId(implicit val db: Db) {
   protected[converter] lazy val songnumberFinder = new SongnumberFinder()
   protected[converter] lazy val liedPdfToImageConverter = new LiedPdfToImageConverter()
 
-  def convert(songId: Long) = {
+  def convert(songId: Long) : ConversionResult = {
     val liedData = liedSourcePdfFileFinder.findFile(songId)
     val songnumbers = songnumberFinder.findSongnumbers(songId)
     liedPdfToImageConverter.convertPdfBlobToImage(liedData, songnumbers)
-    Unit
   }
 
 }

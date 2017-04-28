@@ -1,20 +1,10 @@
 package ch.scotty.converter
 
-import ch.scotty.converter.LiedPdfToImageConverter.{ConversionFailed, Result, Success}
+import ch.scotty.converter.ConversionResults.{ConversionResult, FailedConversion, Success}
 import net.java.truecommons.io.Loan._
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.rendering.{ImageType, PDFRenderer}
 import org.apache.pdfbox.tools.imageio.ImageIOUtil
-
-private object LiedPdfToImageConverter {
-
-  sealed trait Result
-
-  case class Success() extends Result
-
-  case class ConversionFailed(message: String, exception: Exception) extends Result
-
-}
 
 private class LiedPdfToImageConverter(exportPathResolverAndCreator: ExportPathResolverAndCreator) {
 
@@ -22,12 +12,12 @@ private class LiedPdfToImageConverter(exportPathResolverAndCreator: ExportPathRe
     this(new ExportPathResolverAndCreator())
   }
 
-  def convertPdfBlobToImage(liedWithData: LiedWithData, songnumbers: Seq[Songnumber]): Result = {
+  def convertPdfBlobToImage(liedWithData: LiedWithData, songnumbers: Seq[Songnumber]): ConversionResult = {
     try {
       loadPdfConvertAndSaveAllPages(liedWithData, songnumbers)
     } catch {
       case e: Exception =>
-        ConversionFailed("Error while exporting " + liedWithData + ". Song is skipped. Error: " + e, e)
+        FailedConversion("Error while exporting " + liedWithData + ". Song is skipped. Error: " + e, e)
     }
   }
 

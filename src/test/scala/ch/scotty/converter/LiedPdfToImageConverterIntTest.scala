@@ -5,7 +5,7 @@ import java.sql.Blob
 
 import better.files._
 import ch.scotty._
-import ch.scotty.converter.LiedPdfToImageConverter.{ConversionFailed, Success}
+import ch.scotty.converter.ConversionResults.{FailedConversion, Success}
 import ch.scotty.job.json.result.TestFolder
 import com.typesafe.config.ConfigFactory
 
@@ -72,7 +72,7 @@ class LiedPdfToImageConverterIntTest extends IntegrationSpec with TestFolder {
     val result = testee.convertPdfBlobToImage(createLiedWithNumber(pdfWithNotLinkableProfile), createSongnumber)
     //assert
     result match {
-      case ConversionFailed(message: String, exception) => {
+      case FailedConversion(message: String, exception) => {
         assert(message.contains("Error while exporting"))
       }
       case _ => {
