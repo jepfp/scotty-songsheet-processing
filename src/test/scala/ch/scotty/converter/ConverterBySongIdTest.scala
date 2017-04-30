@@ -1,5 +1,6 @@
 package ch.scotty.converter
 
+import ch.scotty.converter.ConversionResults.Success
 import ch.scotty.{Db, UnitSpec}
 
 class ConverterBySongIdTest extends UnitSpec {
@@ -30,5 +31,16 @@ class ConverterBySongIdTest extends UnitSpec {
     testee.convert(songId)
     //assert
     (liedPdfToImageConverterStub.convertPdfBlobToImage _).verify(LiedWithData(songId, "foo", null), songnumbers)
+  }
+
+  it should "forward the return value from liedPdfToImageConverter" in {
+    //arrange
+    val songId : Long = 4
+    (liedPdfToImageConverterStub.convertPdfBlobToImage _).when(*, *).returns(Success())
+    //act
+    val testee = createTestee()
+    val result = testee.convert(songId)
+    //assert
+    assertResult(Success())(result)
   }
 }

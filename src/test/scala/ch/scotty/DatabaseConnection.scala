@@ -9,7 +9,7 @@ import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
 // Done according to http://www.superloopy.io/articles/2013/scala-slick-postgresql-unit-tests.html
-trait DatabaseConnection extends FlatSpec with BeforeAndAfterEach with BeforeAndAfterAll {
+trait DatabaseConnection extends TestSuite with BeforeAndAfterEach with BeforeAndAfterAll {
   private val schemaName = "scottymole_inttest"
 
   //This is done once per test class as scalatest does not create a new instance for every test.

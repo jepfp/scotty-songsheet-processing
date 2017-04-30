@@ -16,7 +16,18 @@ class SingleSongToImageConverterJob(implicit val db: Db) extends Job[SingleSongT
     println(s"Converting song with id ${jobConfiguration.songId}...")
 
     val songId = jobConfiguration.songId
-    converterBySongId.convert(songId)
-    Right(Success(jobConfiguration.jobId))
+    val result = converterBySongId.convert(songId)
+    mapResult(jobConfiguration, result)
+  }
+
+  private def mapResult(jobConfiguration: SingleSongToImageConverterJobConfiguration, result: ConversionResults.ConversionResult) = {
+    result match {
+      case ConversionResults.Success() => {
+        Right(Success(jobConfiguration.jobId))
+      }
+      case ConversionResults.FailedConversion(message, exception) => {
+        Left(Failure(jobConfiguration.jobId, message, Seq(exception)))
+      }
+    }
   }
 }

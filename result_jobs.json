@@ -1,9 +1,11 @@
 {
   "DetermineSongsToConvertJob" : {
-    "success" : [ {
-      "jobId" : "b46ff506-468f-4096-9f9d-7c17297145ac"
-    } ],
-    "failure" : [ ]
+    "success" : [ ],
+    "failure" : [ {
+      "jobId" : "b46ff506-468f-4096-9f9d-7c17297145ac",
+      "message" : "The exception 'CommunicationsException' occured for job 'b46ff506-468f-4096-9f9d-7c17297145ac' in definition 'DetermineSongsToConvertJob'.",
+      "exceptions" : [ "Communications link failure\n\nThe last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server." ]
+    } ]
   },
   "AllSongToImageConverterJob" : {
     "success" : [ ],

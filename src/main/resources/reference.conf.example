@@ -1,3 +1,7 @@
+//---------
+// Note: For integration tests, this configuration is overwritten by application.conf which is a test resource file.
+//---------
+
 dockerdefault = {
   url = "jdbc:mysql://localhost:3306/dockerdefault?user=root&password=enterPasswordHere"
   driver = slick.driver.MySQLDriver

@@ -4,7 +4,7 @@ import java.io.File
 
 import org.scalatest._
 
-trait TestFolder extends FlatSpec {
+trait TestFolder extends TestSuite {
   self: Suite =>
   var testFolder: File = _
 
