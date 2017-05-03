@@ -1,6 +1,6 @@
 package ch.scotty.converter
 
-import ch.scotty.converter.ConversionResults.{ConversionResult, FailedConversion, Success}
+import ch.scotty.converter.ConversionResults.{ConversionResult, FailedConversionWithException, Success}
 import net.java.truecommons.io.Loan._
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.rendering.{ImageType, PDFRenderer}
@@ -17,7 +17,7 @@ private class LiedPdfToImageConverter(exportPathResolverAndCreator: ExportPathRe
       loadPdfConvertAndSaveAllPages(liedWithData, songnumbers)
     } catch {
       case e: Exception =>
-        FailedConversion("Error while exporting " + liedWithData + ". Song is skipped. Error: " + e, e)
+        FailedConversionWithException("Error while exporting " + liedWithData + ". Song is skipped. Error: " + e, e)
     }
   }
 

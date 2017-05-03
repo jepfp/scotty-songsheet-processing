@@ -51,7 +51,7 @@ class SingleSongToImageConverterJob$Test extends UnitSpec {
     val fooJobConfig = SingleSongToImageConverterJobConfiguration(jobUuid, songId)
     val message = "foo"
     val exception = new Exception()
-    (converterBySongIdStub.convert _).when(songId).returns(ConversionResults.FailedConversion(message, exception))
+    (converterBySongIdStub.convert _).when(songId).returns(ConversionResults.FailedConversionWithException(message, exception))
     //act
     val testee = createTestee()
     val result = testee.run(fooJobConfig)

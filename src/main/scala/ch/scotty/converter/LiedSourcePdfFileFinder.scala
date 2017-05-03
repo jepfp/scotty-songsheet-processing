@@ -1,22 +1,23 @@
 package ch.scotty.converter
 
-import scala.concurrent.Await
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration.Duration
-
 import ch.scotty.Db
 import ch.scotty.generatedschema.Tables
 import slick.driver.MySQLDriver.api._
-import scala.concurrent.Future
 
-private class LiedSourcePdfFileFinder(implicit db : Db) {
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
+
+private class LiedSourcePdfFileFinder(implicit db: Db) {
   private val filetype = "sourcepdf"
 
-  def findFile(liedId: Long): LiedWithData = {
+  def findFile(liedId: Long): Either[String, LiedWithData] = {
     require(liedId > 0, "liedId must be set")
     val result: Seq[LiedWithData] = performQuery(liedId)
-    throwExceptionIfMoreThanOneOrNoResults(result, liedId)
-    result.head
+    result.length match {
+      case x if x < 1 => Left(s"Could not find a PDF source file for liedId = $liedId")
+      case 1 => Right(result.head)
+      case x if x > 1 => Left(s"More than one PDF source file found for liedId = $liedId")
+    }
   }
 
   //VisibleForTesting
@@ -30,14 +31,4 @@ private class LiedSourcePdfFileFinder(implicit db : Db) {
     val result: Seq[LiedWithData] = Await.result(dbReadFuture, Duration.Inf).map(x => LiedWithData.tupled(x))
     result
   }
-
-  private def throwExceptionIfMoreThanOneOrNoResults(result: Seq[LiedWithData], liedId: Long) = {
-    if (result.length > 1) {
-      throw new ConverterException(s"More than one PDF source file found for liedId = $liedId")
-    }
-    if (result.length < 1) {
-      throw new ConverterException(s"Could not find a PDF source file for liedId = $liedId")
-    }
-  }
-
 }

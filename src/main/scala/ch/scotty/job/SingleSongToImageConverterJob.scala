@@ -25,7 +25,10 @@ class SingleSongToImageConverterJob(implicit val db: Db) extends Job[SingleSongT
       case ConversionResults.Success() => {
         Right(Success(jobConfiguration.jobId))
       }
-      case ConversionResults.FailedConversion(message, exception) => {
+      case ConversionResults.FailedConversion(message) => {
+        Left(Failure(jobConfiguration.jobId, message, Seq()))
+      }
+      case ConversionResults.FailedConversionWithException(message, exception) => {
         Left(Failure(jobConfiguration.jobId, message, Seq(exception)))
       }
     }

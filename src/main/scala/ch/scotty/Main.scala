@@ -9,9 +9,8 @@ import ch.scotty.job.json.{JobDefinitions, JobParser}
 object Main {
   val defaultJobsPath: String = "jobs.json"
 
-  implicit val db = new DefaultDb()
-
   def main(args: Array[String]): Unit = {
+    implicit val db = new DefaultDb()
     val jobsPath = determineAndValidateJobsPath(args)
     println(s"Reading job definitions from '$jobsPath'...")
     val jobDefinitions: JobDefinitions = JobParser.parseJobJson(readJsonFile(jobsPath.toString))

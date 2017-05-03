@@ -6,6 +6,10 @@ import ch.scotty.{Db, UnitSpec}
 class ConverterBySongIdTest extends UnitSpec {
   implicit val dbStub = stub[Db]
 
+  val songId: Long = 4
+  val songnumbers: Seq[Songnumber] = Seq(Songnumber(songId, 5, "LU", "Adoray Luzern", "299"))
+  val liedWithData: LiedWithData = LiedWithData(songId, "foo", null)
+
   private val liedSourcePdfFileFinderStub = stub[LiedSourcePdfFileFinder]
   private val songnumberFinderStub = stub[SongnumberFinder]
   private val liedPdfToImageConverterStub = stub[LiedPdfToImageConverter]
@@ -20,12 +24,7 @@ class ConverterBySongIdTest extends UnitSpec {
 
   "run" should "execute conversion with found songnumers" in {
     //arrange
-    val songId : Long = 4
-    val songnumbers: Seq[Songnumber] = Seq(Songnumber(songId, 5, "LU", "Adoray Luzern", "299"))
-    val liedWithData: LiedWithData = LiedWithData(songId, "foo", null)
-
-    (liedSourcePdfFileFinderStub.findFile _).when(songId).returns(liedWithData)
-    (songnumberFinderStub.findSongnumbers(_)).when(songId).returns(songnumbers)
+    trainStubs
     //act
     val testee = createTestee()
     testee.convert(songId)
@@ -33,9 +32,14 @@ class ConverterBySongIdTest extends UnitSpec {
     (liedPdfToImageConverterStub.convertPdfBlobToImage _).verify(LiedWithData(songId, "foo", null), songnumbers)
   }
 
+  private def trainStubs = {
+    (liedSourcePdfFileFinderStub.findFile _).when(songId).returns(Right(liedWithData))
+    (songnumberFinderStub.findSongnumbers(_)).when(songId).returns(songnumbers)
+  }
+
   it should "forward the return value from liedPdfToImageConverter" in {
     //arrange
-    val songId : Long = 4
+    trainStubs
     (liedPdfToImageConverterStub.convertPdfBlobToImage _).when(*, *).returns(Success())
     //act
     val testee = createTestee()
