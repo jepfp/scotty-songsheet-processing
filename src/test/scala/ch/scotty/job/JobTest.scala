@@ -2,7 +2,6 @@ package ch.scotty.job
 
 import java.util.UUID
 
-import ch.scotty.converter.ConverterException
 import ch.scotty.job.json.result.{Failure, Success}
 import ch.scotty.job.json.{JobConfiguration, JobDefinitions}
 import ch.scotty.{Db, UnitSpec}
@@ -78,8 +77,8 @@ class JobTest extends UnitSpec {
 
   it should "forwad a failure if a specific run implementation created it" in {
     // arrange
-    val exception1ToBeThrown = new ConverterException("No valid PDF.")
-    val exception2ToBeThrown = new ConverterException("Unknown conversion exception")
+    val exception1ToBeThrown = new Exception("No valid PDF.")
+    val exception2ToBeThrown = new Exception("Unknown conversion exception")
     val aFailure = Failure(aJobConfig.jobId, "Conversion of songs 1, 4 and 9 failed. See exception list for details.", Seq(exception1ToBeThrown, exception2ToBeThrown))
     val givenJobConfiguration: Option[Seq[ConcreteJobConfiguration]] = createConfigSeqOf(aJobConfig)
     val concreteJob = new ConcreteJob(givenJobConfiguration, c => Left(aFailure))
