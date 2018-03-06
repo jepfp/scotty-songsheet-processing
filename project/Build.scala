@@ -1,4 +1,5 @@
-
+import sbt.Keys._
+import sbt._
 
 /**
  * This is a simple sbt setup generating Slick code from the given
