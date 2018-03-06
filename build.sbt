@@ -7,8 +7,11 @@ scalaVersion := "2.11.8"
 EclipseKeys.withSource := true
 
 libraryDependencies ++= Seq(
-	"org.apache.pdfbox" % "pdfbox" % "2.0.0",
-	"org.apache.pdfbox" % "pdfbox-tools" % "2.0.0",
+	"org.apache.pdfbox" % "pdfbox" % "2.0.6",
+	"org.apache.pdfbox" % "pdfbox-tools" % "2.0.6",
+	"org.bouncycastle" % "bcprov-jdk15on" % "1.57",
+	"org.bouncycastle" % "bcmail-jdk15on" % "1.57",
+	"org.bouncycastle" % "bcpkix-jdk15on" % "1.57",
 	"com.typesafe.slick" %% "slick" % "3.1.1",
 	"mysql" % "mysql-connector-java" % "5.1.24",
 	"com.typesafe.play" %% "play-json" % "2.5.2",
