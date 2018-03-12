@@ -6,13 +6,13 @@ import sbt._
  * database before compiling the projects code.
  */
 object dbReverseEngineerer extends Build {
-  val slickVersion = "3.1.1"
+  val slickVersion = "3.2.2"
 
   lazy val mainProject = Project(
     id="main",
     base=file("."),
     settings = Project.defaultSettings ++ Seq(
-      scalaVersion := "2.11.8",
+      scalaVersion := "2.12",
       libraryDependencies ++= List(
         "com.typesafe.slick" %% "slick" % slickVersion,
         "com.typesafe.slick" %% "slick-codegen" % slickVersion,

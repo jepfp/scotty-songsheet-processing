@@ -1,6 +1,6 @@
 package ch.scotty.generatedschema
 
-import slick.profile.SqlProfile.ColumnOption.SqlType
+import slick.sql.SqlProfile.ColumnOption.SqlType
 
 // AUTO-GENERATED Slick data model
 /** Stand-alone Slick data model for immediate use */
