@@ -30,7 +30,7 @@ object dbReverseEngineerer extends Build {
     val outputDir = (dir).getPath
     val url = "jdbc:mysql://localhost:3306/dockerdefault?user=root&password=sumsang100"
     val jdbcDriver = "com.mysql.jdbc.Driver"
-    val slickDriver = "slick.driver.MySQLDriver"
+    val slickDriver = "slick.jdbc.MySQLProfile"
     val pkg = "ch.scotty.generatedschema"
     toError(r.run("slick.codegen.SourceCodeGenerator", cp.files, Array(slickDriver, jdbcDriver, url, outputDir, pkg), s.log))
     val fname = outputDir + "/ch/scotty/generatedschema/Tables.scala"

@@ -1,10 +1,11 @@
 package ch.scotty
 
+import ch.scotty.generatedschema.Tables
+import slick.jdbc.MySQLProfile.api._
+
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
-import slick.driver.MySQLDriver.api._
-import ch.scotty.generatedschema.Tables
 
 object ReadDbExample extends App {
 

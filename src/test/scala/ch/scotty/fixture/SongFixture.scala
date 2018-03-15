@@ -6,7 +6,7 @@ import ch.scotty.fixture.SongBuilder.songBuilder
 import ch.scotty.generatedschema.Tables
 import ch.scotty.{Db, SongsheetTestUtils}
 import slick.dbio.Effect.Write
-import slick.driver.MySQLDriver.api._
+import slick.jdbc.MySQLProfile.api._
 import slick.sql.FixedSqlAction
 
 import scala.concurrent.Await

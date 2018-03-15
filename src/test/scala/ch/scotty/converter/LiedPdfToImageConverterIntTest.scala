@@ -37,9 +37,10 @@ class LiedPdfToImageConverterIntTest extends IntegrationSpec with TestFolder {
   }
 
   def assertExpectedAndActualPictureIsTheSame(filename: String) = {
-    val expectedFile = File(getClass.getResource(filename).toURI)
-    val actualFile = new JFile(testFolder.getPath, filename).toScala
-    assert(expectedFile === actualFile)
+    val expectedFile: File = File(getClass.getResource(filename).toURI)
+    val actualFile: File = new JFile(testFolder.getPath, filename).toScala
+    expectedFile === actualFile
+    assert(expectedFile.isSameContentAs(actualFile))
   }
 
   private def createTestee = {

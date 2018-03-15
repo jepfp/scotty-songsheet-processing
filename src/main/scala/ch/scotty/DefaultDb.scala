@@ -2,7 +2,7 @@ package ch.scotty
 
 
 import com.typesafe.config.{ConfigFactory, ConfigRenderOptions}
-import slick.driver.MySQLDriver.api._
+import slick.jdbc.MySQLProfile.api._
 
 
 class DefaultDb extends Db {

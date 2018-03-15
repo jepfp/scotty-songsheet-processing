@@ -4,7 +4,7 @@
 
 dockerdefault = {
   url = "jdbc:mysql://localhost:3306/dockerdefault?user=root&password=enterPasswordHere"
-  driver = slick.driver.MySQLDriver
+  driver = slick.jdbc.MySQLProfile
   connectionPool = disabled
   keepAliveConnection = true
 }
@@ -15,7 +15,7 @@ converter = {
 
 exampleScotty = {
   url = "jdbc:mysql://localhost:3306/examplescotty?user=root&password=enterPasswordHere"
-  driver = slick.driver.MySQLDriver
+  driver = slick.jdbc.MySQLProfile
   connectionPool = disabled
   keepAliveConnection = true
 }

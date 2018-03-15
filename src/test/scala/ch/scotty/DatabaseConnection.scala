@@ -3,7 +3,7 @@ package ch.scotty
 import ch.scotty.fixture.RefDataFixture
 import ch.scotty.generatedschema.Tables
 import org.scalatest._
-import slick.driver.MySQLDriver.api._
+import slick.jdbc.MySQLProfile.api._
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -29,7 +29,7 @@ trait DatabaseConnection extends TestSuite with BeforeAndAfterEach with BeforeAn
   }
 
   private def createTestDatabaseWithSchema() = {
-    val dbWithoutConfig: _root_.slick.driver.MySQLDriver.backend.DatabaseDef = Database.forConfig("scotty-mole-integration-testing-dbsetup")
+    val dbWithoutConfig = Database.forConfig("scotty-mole-integration-testing-dbsetup")
     println(s"Starting setup of int test db (db: $schemaName)...")
     val setupAction: DBIO[Unit] = DBIO.seq(
       sqlu"""drop database if exists #$schemaName""",

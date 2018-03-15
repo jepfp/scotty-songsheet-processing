@@ -1,7 +1,7 @@
 package ch.scotty
 
-import slick.driver.MySQLDriver
+import slick.jdbc.MySQLProfile
 
 trait Db {
-    val db : MySQLDriver.backend.Database
+    val db : MySQLProfile.api.Database
 }

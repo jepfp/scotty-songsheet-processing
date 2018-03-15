@@ -4,7 +4,7 @@ import java.sql.Timestamp
 
 import ch.scotty.Db
 import ch.scotty.generatedschema.Tables
-import slick.driver.MySQLDriver.api._
+import slick.jdbc.MySQLProfile.api._
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
