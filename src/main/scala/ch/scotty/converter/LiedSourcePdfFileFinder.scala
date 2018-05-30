@@ -1,5 +1,7 @@
 package ch.scotty.converter
 
+import java.time.LocalDateTime
+
 import ch.scotty.Db
 import ch.scotty.generatedschema.Tables
 import slick.jdbc.MySQLProfile.api._
@@ -26,9 +28,9 @@ private class LiedSourcePdfFileFinder(implicit db: Db) {
       f <- Tables.File
       fm <- f.filemetadataFk if fm.filetype === filetype
       l <- fm.liedFk if l.id === liedId
-    } yield (l.id, l.titel, f.data)
+    } yield (l.id, l.titel, l.tonality, l.createdAt, l.updatedAt, f.data)
     val dbReadFuture = db.db.run(joinQuery.result)
-    val result: Seq[LiedWithData] = Await.result(dbReadFuture, Duration.Inf).map(x => LiedWithData.tupled(x))
+    val result: Seq[LiedWithData] = Await.result(dbReadFuture, Duration.Inf).map(x => LiedWithData(x._1, x._2, x._3, x._4.map(_.toLocalDateTime).getOrElse(LocalDateTime.MIN), x._5.map(_.toLocalDateTime).getOrElse(LocalDateTime.MIN), x._6))
     result
   }
 }

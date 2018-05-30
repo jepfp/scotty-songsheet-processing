@@ -26,7 +26,7 @@ private class LiedPdfToImageConverter(exportPathResolverAndCreator: ExportPathRe
     loan(PDDocument.load(binaryStream)).to { doc =>
       val renderer = new PDFRenderer(doc)
       for (i <- 0 until doc.getNumberOfPages) yield {
-        println(s"Exporting '${liedWithData.titel}' page " + (i + 1))
+        println(s"Exporting '${liedWithData.title}' page " + (i + 1))
         convertAndSave(renderer, i, generatePathString(liedWithData, songnumbers, i))
       }
       Success()
@@ -39,7 +39,7 @@ private class LiedPdfToImageConverter(exportPathResolverAndCreator: ExportPathRe
   }
 
   private def generatePathString(liedWithData: LiedWithData, songnumbers: Seq[Songnumber], i: Int) = {
-    val filename = FilenameBuilder.build(liedWithData, songnumbers, i)
+    val filename = IdTimestampFilenameBuilder.build(liedWithData, songnumbers, i)
     val path = exportPathResolverAndCreator.resolve(filename)
     path
   }

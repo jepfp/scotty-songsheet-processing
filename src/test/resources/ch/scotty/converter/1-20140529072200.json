@@ -1,0 +1,13 @@
+{
+  "songId" : 1,
+  "title" : "foo",
+  "tonality" : "C",
+  "songnumbers" : [ {
+    "songbookId" : 2,
+    "mnemonic" : "mnemonic",
+    "songbookTitle" : "liederbuch",
+    "number" : "liednr"
+  } ],
+  "createdAt" : "-999999999-01-01T00:00:00",
+  "updatedAt" : "2014-05-29T07:22:00"
+}

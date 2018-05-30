@@ -2,6 +2,8 @@ package ch.scotty.converter
 
 import java.io.{File => JFile}
 import java.sql.Blob
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 import better.files._
 import ch.scotty._
@@ -18,6 +20,7 @@ class LiedPdfToImageConverterIntTest extends IntegrationSpec with TestFolder {
   private val MNEMONIC = "mnemonic"
   private val LIEDERBUCH = "liederbuch"
   private val LIED_NR = "liednr"
+  private val updatedAt = LocalDateTime.of(2014, 5, 29, 7, 22)
 
   private val convertible3pagesPdfResourceName = "convertible3pages"
   private val pdfWithNotLinkableProfile = "pdfWithNotLinkableProfile"
@@ -50,7 +53,7 @@ class LiedPdfToImageConverterIntTest extends IntegrationSpec with TestFolder {
   }
 
   private def generatePngFilename(pdfResourceName: String, page: Int) = {
-    s"${LIED_ID}-${page}-${MNEMONIC}${LIED_NR}-${pdfResourceName}-.png"
+    s"${LIED_ID}-${updatedAt.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))}-${page}.png"
   }
 
   private def createSongnumber = {
@@ -58,7 +61,7 @@ class LiedPdfToImageConverterIntTest extends IntegrationSpec with TestFolder {
   }
 
   private def createLiedWithNumber(pdfResourceName: String) = {
-    LiedWithData(LIED_ID, pdfResourceName, readPdfSongResourceAsBlob(pdfResourceName))
+    LiedWithData(LIED_ID, pdfResourceName, Some("C"), LocalDateTime.MIN, updatedAt, readPdfSongResourceAsBlob(pdfResourceName))
   }
 
   def readPdfSongResourceAsBlob(prfResourceName: String): Blob = {

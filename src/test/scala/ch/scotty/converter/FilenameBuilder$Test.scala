@@ -1,13 +1,14 @@
 package ch.scotty.converter
 
-import java.sql.Blob
+import java.time.LocalDateTime
 
 import ch.scotty.UnitSpec
 
 class FilenameBuilder$Test extends UnitSpec {
 
+  private val aDateTime: LocalDateTime = LocalDateTime.of(2014, 5, 29, 7, 22)
   val songnumberAl1000: Songnumber = Songnumber(4, 2, "AL", "Adoray Liederordner", "1000")
-  val liedAbc = LiedWithData(4, "Abc", null)
+  val liedAbc = LiedWithData(4, "Abc", Some("C"), aDateTime, aDateTime.plusYears(4), null)
 
   "build" should s"return '4-0-AL1000-Abc-.png' for $liedAbc and $songnumberAl1000" in {
     // arrange
@@ -40,7 +41,7 @@ class FilenameBuilder$Test extends UnitSpec {
     // arrange
     val expectedString = "4-1-AL1000-.azAZ09äöüÄÖÜ-.png"
     // act
-    val actualString = FilenameBuilder.build(LiedWithData(4, ".azAZ09äöüÄÖÜ", null), Seq(songnumberAl1000), 1)
+    val actualString = FilenameBuilder.build(LiedWithData(4, ".azAZ09äöüÄÖÜ", Some("C"), aDateTime, aDateTime.plusYears(4), null), Seq(songnumberAl1000), 1)
     // assert
     assertResult(expectedString)(actualString)
   }
@@ -49,7 +50,7 @@ class FilenameBuilder$Test extends UnitSpec {
     // arrange
     val expectedString = "4-1-AL1000--.png"
     // act
-    val actualString = FilenameBuilder.build(LiedWithData(4, "_-$/%&", null), Seq(songnumberAl1000), 1)
+    val actualString = FilenameBuilder.build(LiedWithData(4, "_-$/%&", Some("C"), aDateTime, aDateTime.plusYears(4), null), Seq(songnumberAl1000), 1)
     // assert
     assertResult(expectedString)(actualString)
   }

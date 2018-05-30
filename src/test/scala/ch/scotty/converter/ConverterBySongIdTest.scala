@@ -1,14 +1,17 @@
 package ch.scotty.converter
 
+import java.time.LocalDateTime
+
 import ch.scotty.converter.ConversionResults.Success
 import ch.scotty.{Db, UnitSpec}
 
 class ConverterBySongIdTest extends UnitSpec {
   implicit val dbStub = stub[Db]
 
+  private val aDateTime: LocalDateTime = LocalDateTime.of(2014, 5, 29, 7, 22)
   val songId: Long = 4
   val songnumbers: Seq[Songnumber] = Seq(Songnumber(songId, 5, "LU", "Adoray Luzern", "299"))
-  val liedWithData: LiedWithData = LiedWithData(songId, "foo", null)
+  val liedWithData: LiedWithData = LiedWithData(songId, "foo", Some("C"), aDateTime, aDateTime.plusYears(4), null)
 
   private val liedSourcePdfFileFinderStub = stub[LiedSourcePdfFileFinder]
   private val songnumberFinderStub = stub[SongnumberFinder]
@@ -29,7 +32,7 @@ class ConverterBySongIdTest extends UnitSpec {
     val testee = createTestee()
     testee.convert(songId)
     //assert
-    (liedPdfToImageConverterStub.convertPdfBlobToImage _).verify(LiedWithData(songId, "foo", null), songnumbers)
+    (liedPdfToImageConverterStub.convertPdfBlobToImage _).verify(LiedWithData(songId, "foo", Some("C"), aDateTime, aDateTime.plusYears(4),  null), songnumbers)
   }
 
   private def trainStubs = {

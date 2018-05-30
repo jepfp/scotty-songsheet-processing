@@ -16,7 +16,7 @@ class LiedSourcePdfFileFinderIntTest extends IntegrationSpec with DatabaseConnec
     val liedWithDataEither = testee.findFile(createdLiedRow.id)
     //assert
     val liedWithData = liedWithDataEither.right.value
-    assertResult(createdLiedRow.titel)(liedWithData.titel)
+    assertResult(createdLiedRow.titel)(liedWithData.title)
     assertResult(true, "Content of both blobs must be equals.")(IOUtils.contentEquals(SongsheetTestUtils.readFileToBlob(SongFixture.DefaultSongFixture.pdfUrl).getBinaryStream, liedWithData.data.getBinaryStream()))
   }
 }

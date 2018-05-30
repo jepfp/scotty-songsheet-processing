@@ -18,7 +18,7 @@ libraryDependencies ++= Seq(
 	"com.jsuereth" %% "scala-arm" % "2.0",
 	"org.scalatest" %% "scalatest" % "3.0.1" % "test",
   "org.scalamock" %% "scalamock-scalatest-support" % "3.4.2" % "test",
-	"com.github.pathikrit" %% "better-files" % "3.4.0" % "test"
+	"com.github.pathikrit" %% "better-files" % "3.4.0"
 )
 
 //Because of the database, which is set up for each test, integration tests run in sequence
