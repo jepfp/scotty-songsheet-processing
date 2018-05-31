@@ -5,11 +5,12 @@ import java.time.LocalDateTime
 object TableOfContentsDTOs {
 
   case class Song(songId: Long,
-                     title: String,
-                     tonality: Option[String],
-                     songnumbers: Seq[Songnumber],
-                     createdAt: LocalDateTime,
-                     updatedAt: LocalDateTime) {}
+                  title: String,
+                  tonality: Option[String],
+                  songnumbers: Seq[Songnumber],
+                  amountOfPages: Int,
+                  createdAt: LocalDateTime,
+                  updatedAt: LocalDateTime) {}
 
   case class Songnumber(songbookId: Long,
                         mnemonic: String,
