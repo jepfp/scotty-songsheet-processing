@@ -1,16 +1,12 @@
 package ch.scotty.converter
 
-import ch.scotty.converter.ConversionResults.{ConversionResult, FailedConversionWithException, Success}
+import ch.scotty.converter.ConversionResults.{ConversionResult, FailedConversionWithException}
 import net.java.truecommons.io.Loan._
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.rendering.{ImageType, PDFRenderer}
 import org.apache.pdfbox.tools.imageio.ImageIOUtil
 
-private class LiedPdfToImageConverter(exportPathResolverAndCreator: ExportPathResolverAndCreator) {
-
-  def this() {
-    this(new ExportPathResolverAndCreator())
-  }
+private class LiedPdfToImageConverter(exportPathResolverAndCreator: ExportPathResolverAndCreator = new ExportPathResolverAndCreator(), tableOfContentsFileCreator : TableOfContentsFileCreator = new TableOfContentsFileCreator()) {
 
   def convertPdfBlobToImage(liedWithData: LiedWithData, songnumbers: Seq[Songnumber]): ConversionResult = {
     try {
@@ -25,11 +21,12 @@ private class LiedPdfToImageConverter(exportPathResolverAndCreator: ExportPathRe
     val binaryStream = liedWithData.data.getBinaryStream
     loan(PDDocument.load(binaryStream)).to { doc =>
       val renderer = new PDFRenderer(doc)
-      for (i <- 0 until doc.getNumberOfPages) yield {
+      val amountOfPages = doc.getNumberOfPages
+      for (i <- 0 until amountOfPages) yield {
         println(s"Exporting '${liedWithData.title}' page " + (i + 1))
         convertAndSave(renderer, i, generatePathString(liedWithData, songnumbers, i))
       }
-      Success()
+      tableOfContentsFileCreator.createFile(liedWithData, songnumbers, amountOfPages)
     }
   }
 

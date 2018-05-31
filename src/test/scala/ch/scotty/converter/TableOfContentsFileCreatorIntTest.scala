@@ -28,7 +28,7 @@ class TableOfContentsFileCreatorIntTest extends IntegrationSpec with TestFolder 
     //arrange
     val testee = createTestee
     //act
-    val result = testee.createFile(createLiedWithNumber, createSongnumber)
+    val result = testee.createFile(createLiedWithNumber, createSongnumber, 3)
     //assert
     assertExpectedAndActualJsonIsTheSame(generateJsonFilename())
     assertResult(Success())(result)
