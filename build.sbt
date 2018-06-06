@@ -1,6 +1,6 @@
 name := "scotty-songsheet-processing"
 
-version := "4.0-SNAPSHOT"
+version := "5.0-SNAPSHOT"
 
 scalaVersion := "2.12.2"
 

@@ -1,6 +1,9 @@
 package ch.scotty.converter
 
 
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 import better.files._
 import ch.scotty.converter.ConversionResults.{ConversionResult, FailedConversionWithException, Success}
 
@@ -30,10 +33,15 @@ private class TableOfContentsFileCreator(exportPathResolverAndCreator: ExportPat
       liedWithData.tonality,
       songnumbers.map(s => TableOfContentsDTOs.Songnumber(s.liederbuchId, s.mnemonic, s.liederbuch, s.liednr)),
       amountOfPages,
+      //TODO: Get the version from the database field that has to be introduced first.
+      formatUpdatedAtDate(liedWithData.updatedAt),
       liedWithData.createdAt,
       liedWithData.updatedAt)
   }
 
+  private def formatUpdatedAtDate(updatedAt: LocalDateTime) = {
+    updatedAt.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
+  }
 
   private def writeFile(liedWithData: LiedWithData, songnumbers: Seq[Songnumber], amountOfPages: Int) = {
     val songInformation = createEntry(liedWithData, songnumbers, amountOfPages)

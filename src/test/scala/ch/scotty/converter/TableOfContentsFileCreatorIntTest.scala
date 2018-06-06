@@ -2,7 +2,6 @@ package ch.scotty.converter
 
 import java.io.{File => JFile}
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 import better.files._
 import ch.scotty._
@@ -55,7 +54,7 @@ class TableOfContentsFileCreatorIntTest extends IntegrationSpec with TestFolder 
   }
 
   private def generateJsonFilename() = {
-    s"${LIED_ID}-${updatedAt.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))}.json"
+    s"${LIED_ID}.json"
   }
 
   private def createSongnumber = {

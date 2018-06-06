@@ -9,7 +9,7 @@ private object IdTimestampFilenameBuilder {
   }
 
   def buildForTocEntry(liedWithData: LiedWithData): String = {
-    val filename = liedWithData.songId + "-" + formatUpdatedAtDate(liedWithData) + ".json"
+    val filename = liedWithData.songId + ".json"
     filename
   }
 

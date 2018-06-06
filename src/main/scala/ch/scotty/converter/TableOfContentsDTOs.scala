@@ -9,6 +9,7 @@ object TableOfContentsDTOs {
                   tonality: Option[String],
                   songnumbers: Seq[Songnumber],
                   amountOfPages: Int,
+                  pdfSourceVersion : String,
                   createdAt: LocalDateTime,
                   updatedAt: LocalDateTime) {}
 
