@@ -11,7 +11,7 @@
           </set>
         </option>
         <option name="resolveJavadocs" value="true" />
-        <option name="sbtVersion" value="0.13.17" />
+        <option name="sbtVersion" value="1.3.2" />
       </SbtProjectSettings>
     </option>
     <option name="maximumHeapSize" value="2048" />
