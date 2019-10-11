@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter
 
 import better.files._
 import ch.scotty._
-import ch.scotty.converter.ConversionResults.{FailedConversionWithException, Success}
+import ch.scotty.converter.ConversionResults.Success
 import ch.scotty.job.json.result.TestFolder
 import com.typesafe.config.ConfigFactory
 
@@ -23,7 +23,6 @@ class LiedPdfToImageConverterIntTest extends IntegrationSpec with TestFolder {
   private val updatedAt = LocalDateTime.of(2014, 5, 29, 7, 22)
 
   private val convertible3pagesPdfResourceName = "convertible3pages"
-  private val pdfWithNotLinkableProfile = "pdfWithNotLinkableProfile"
 
   def assertContentEquals = ResourceFileContentWithFileContentComparator.assertContentEquals(getClass) _
 
@@ -67,22 +66,6 @@ class LiedPdfToImageConverterIntTest extends IntegrationSpec with TestFolder {
   def readPdfSongResourceAsBlob(prfResourceName: String): Blob = {
     val pdfUrl = getClass.getResource(prfResourceName + ".pdf")
     SongsheetTestUtils.readFileToBlob(pdfUrl)
-  }
-
-  it should s"return ConversionFailed when '${pdfWithNotLinkableProfile}' is being converted" in {
-    //arrange
-    val testee = createTestee
-    //act
-    val result = testee.convertPdfBlobToImage(createLiedWithNumber(pdfWithNotLinkableProfile), createSongnumber)
-    //assert
-    result match {
-      case FailedConversionWithException(message: String, exception) => {
-        assert(message.contains("Error while exporting"))
-      }
-      case _ => {
-        fail("Was not ConversionFailed")
-      }
-    }
   }
 
 }
