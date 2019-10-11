@@ -12,7 +12,7 @@ object dbReverseEngineerer extends Build {
     id="main",
     base=file("."),
     settings = Project.defaultSettings ++ Seq(
-      scalaVersion := "2.12",
+      scalaVersion := "2.13",
       libraryDependencies ++= List(
         "com.typesafe.slick" %% "slick" % slickVersion,
         "com.typesafe.slick" %% "slick-codegen" % slickVersion,
