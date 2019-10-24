@@ -10,7 +10,7 @@ import ch.scotty._
 import ch.scotty.converter.ConversionResults.Success
 import ch.scotty.job.json.result.TestFolder
 import com.typesafe.config.ConfigFactory
-import org.scalatest.{Inside, Matchers}
+import org.scalatest.Matchers
 
 import scala.collection.JavaConversions._
 
@@ -78,9 +78,25 @@ class ConditionalLiedPdfToImageConverterIntTest extends IntegrationSpec with Tes
     val result = testee.convertPdfBlobToImage(createLiedWithNumber(convertible3pagesPdfResourceName), createSongnumber)
     //assert
     testFolder.listFiles().length shouldBe 1
-    Inside.inside(result) {
-      case Success(Some(m)) => m should include("Checksums were equal.")
-    }
+    Success(None)
+  }
+
+  it should s"not convert if checksums match but still export other song attributes" in {
+    //arrange
+    val testee = createTestee
+    val tocFilename = s"$LIED_ID.json"
+    val currentTableOfContentFile: File = File(getClass.getResource(tocFilename).toURI)
+    val tocFile: File = file"${testFolder.getPath}/$tocFilename"
+    currentTableOfContentFile.copyTo(tocFile)
+    //act
+    val changedUpdatedAtTime = LocalDateTime.now
+    val result = testee.convertPdfBlobToImage(createLiedWithNumber(convertible3pagesPdfResourceName).copy(title = "changed title", updatedAt = changedUpdatedAtTime, tonality = Some("foo")), createSongnumber)
+    //assert
+    testFolder.listFiles().length shouldBe 1
+    val contentOfUpdatedTocFile = tocFile.contentAsString
+    contentOfUpdatedTocFile should include("changed title")
+    contentOfUpdatedTocFile should include("foo")
+    contentOfUpdatedTocFile should include(changedUpdatedAtTime.toString)
   }
 
 }

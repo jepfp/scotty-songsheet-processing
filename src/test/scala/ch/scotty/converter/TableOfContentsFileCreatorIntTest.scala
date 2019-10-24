@@ -34,12 +34,6 @@ class TableOfContentsFileCreatorIntTest extends IntegrationSpec with TestFolder 
     assertResult(Success(None))(result)
   }
 
-  def assertExpectedAndActualPictureIsTheSame(filename: String) = {
-    val expectedFile: File = File(getClass.getResource(filename).toURI)
-    val actualFile: File = new JFile(testFolder.getPath, filename).toScala
-    expectedFile.contentAsString shouldBe actualFile.contentAsString
-  }
-
   def assertExpectedAndActualJsonIsTheSame(filename: String) = {
     val expectedFile: File = File(getClass.getResource(filename).toURI)
     val actualFile: File = new JFile(testFolder.getPath, filename).toScala

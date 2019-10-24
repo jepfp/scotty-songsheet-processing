@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter
 import java.util.zip.{CRC32, CheckedInputStream, Checksum}
 
 import better.files.DisposeableExtensions
-import ch.scotty.converter.ConversionResults.{ConversionResult, FailedConversionWithException, Success}
+import ch.scotty.converter.ConversionResults.{ConversionResult, FailedConversionWithException}
 import com.typesafe.scalalogging.Logger
 import org.apache.commons.io.IOUtils
 import org.apache.pdfbox.pdmodel.PDDocument
@@ -39,9 +39,10 @@ private class ConditionalLiedPdfToImageConverter(exportPathResolverAndCreator: E
     val tocReadResult = tableOfContentsFileReader.readTableOfContentsFile(liedWithData.songId)
     tocReadResult match {
       case Right(t) if t.pdfSourceChecksum == checksum.getValue.toString =>
-        Success(Some(s"No conversion for id=${liedWithData.songId} title='${liedWithData.title}' necessary. Checksums were equal."))
+        logger.debug(s"No conversion for id=${liedWithData.songId} title='${liedWithData.title}' necessary. Checksums were equal.")
+        tableOfContentsFileCreator.createFile(liedWithData, songnumbers, t.amountOfPages, t.pdfSourceChecksum, t.versionTimestamp)
       case _ =>
-        println(s"Exporting id=${liedWithData.songId} title='${liedWithData.title}'. Checksums did not match. Checksum database: ${checksum.getValue} Current toc read result: ${tocReadResult}")
+        logger.debug(s"Exporting id=${liedWithData.songId} title='${liedWithData.title}'. Checksums did not match. Checksum database: ${checksum.getValue} Current toc read result: ${tocReadResult}")
         val amountOfPages = exportPdf(liedWithData, songnumbers, content, checksum)
         tableOfContentsFileCreator.createFile(liedWithData, songnumbers, amountOfPages, checksum.getValue.toString, formatUpdatedAtDate(LocalDateTime.now()))
     }
