@@ -15,7 +15,7 @@ class ConverterBySongIdTest extends UnitSpec {
 
   private val liedSourcePdfFileFinderStub = stub[LiedSourcePdfFileFinder]
   private val songnumberFinderStub = stub[SongnumberFinder]
-  private val liedPdfToImageConverterStub = stub[LiedPdfToImageConverter]
+  private val liedPdfToImageConverterStub = stub[ConditionalLiedPdfToImageConverter]
 
   private def createTestee(): ConverterBySongId = {
     return new ConverterBySongId {
@@ -43,11 +43,11 @@ class ConverterBySongIdTest extends UnitSpec {
   it should "forward the return value from liedPdfToImageConverter" in {
     //arrange
     trainStubs
-    (liedPdfToImageConverterStub.convertPdfBlobToImage _).when(*, *).returns(Success())
+    (liedPdfToImageConverterStub.convertPdfBlobToImage _).when(*, *).returns(Success(None))
     //act
     val testee = createTestee()
     val result = testee.convert(songId)
     //assert
-    assertResult(Success())(result)
+    assertResult(Success(None))(result)
   }
 }

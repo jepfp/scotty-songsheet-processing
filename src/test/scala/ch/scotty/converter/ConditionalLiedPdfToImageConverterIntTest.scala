@@ -10,10 +10,11 @@ import ch.scotty._
 import ch.scotty.converter.ConversionResults.Success
 import ch.scotty.job.json.result.TestFolder
 import com.typesafe.config.ConfigFactory
+import org.scalatest.{Inside, Matchers}
 
 import scala.collection.JavaConversions._
 
-class LiedPdfToImageConverterIntTest extends IntegrationSpec with TestFolder {
+class ConditionalLiedPdfToImageConverterIntTest extends IntegrationSpec with TestFolder with Matchers {
 
   private val LIED_ID = 1
   private val LIEDERBUCH_ID = 2
@@ -35,20 +36,19 @@ class LiedPdfToImageConverterIntTest extends IntegrationSpec with TestFolder {
     assertExpectedAndActualPictureIsTheSame(generatePngFilename(convertible3pagesPdfResourceName, 0))
     assertExpectedAndActualPictureIsTheSame(generatePngFilename(convertible3pagesPdfResourceName, 1))
     assertExpectedAndActualPictureIsTheSame(generatePngFilename(convertible3pagesPdfResourceName, 2))
-    assertResult(Success())(result)
+    assertResult(Success(None))(result)
   }
 
   def assertExpectedAndActualPictureIsTheSame(filename: String) = {
     val expectedFile: File = File(getClass.getResource(filename).toURI)
     val actualFile: File = new JFile(testFolder.getPath, filename).toScala
-    expectedFile === actualFile
-    assert(expectedFile.isSameContentAs(actualFile))
+    actualFile.contentAsString shouldBe expectedFile.contentAsString
   }
 
   private def createTestee = {
     val configMap: Map[String, String] = Map("converter.exportBaseDir" -> (testFolder.getPath.toString))
     val exportPathResolverAndCreator = new ExportPathResolverAndCreator(ConfigFactory.parseMap(configMap))
-    new LiedPdfToImageConverter(exportPathResolverAndCreator)
+    new ConditionalLiedPdfToImageConverter(exportPathResolverAndCreator)
   }
 
   private def generatePngFilename(pdfResourceName: String, page: Int) = {
@@ -66,6 +66,21 @@ class LiedPdfToImageConverterIntTest extends IntegrationSpec with TestFolder {
   def readPdfSongResourceAsBlob(prfResourceName: String): Blob = {
     val pdfUrl = getClass.getResource(prfResourceName + ".pdf")
     SongsheetTestUtils.readFileToBlob(pdfUrl)
+  }
+
+  it should s"not convert if the checksum of the source pdf and the checksum value in the table of content json match" in {
+    //arrange
+    val testee = createTestee
+    val tocFilename = s"$LIED_ID.json"
+    val currentTableOfContentFile: File = File(getClass.getResource(tocFilename).toURI)
+    currentTableOfContentFile.copyTo(file"${testFolder.getPath}/$tocFilename")
+    //act
+    val result = testee.convertPdfBlobToImage(createLiedWithNumber(convertible3pagesPdfResourceName), createSongnumber)
+    //assert
+    testFolder.listFiles().length shouldBe 1
+    Inside.inside(result) {
+      case Success(Some(m)) => m should include("Checksums were equal.")
+    }
   }
 
 }

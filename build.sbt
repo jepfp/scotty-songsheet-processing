@@ -1,4 +1,5 @@
 name := "scotty-songsheet-processing"
+organization := "ch.rebstokk"
 
 version := "6.0-SNAPSHOT"
 
@@ -18,7 +19,9 @@ libraryDependencies ++= Seq(
 	"com.jsuereth" % "scala-arm_2.12" % "2.0",
 	"org.scalatest" %% "scalatest" % "3.0.8" % "test",
   "org.scalamock" % "scalamock-scalatest-support_2.12" % "3.6.0" % Test,
-	"com.github.pathikrit" %% "better-files" % "3.8.0"
+	"com.github.pathikrit" %% "better-files" % "3.8.0",
+	"com.typesafe.scala-logging" %% "scala-logging" % "3.9.2",
+	"ch.qos.logback" % "logback-classic" % "1.2.3"
 )
 
 //Because of the database, which is set up for each test, integration tests run in sequence

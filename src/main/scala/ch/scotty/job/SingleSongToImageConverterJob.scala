@@ -22,7 +22,7 @@ class SingleSongToImageConverterJob(implicit val db: Db) extends Job[SingleSongT
 
   private def mapResult(jobConfiguration: SingleSongToImageConverterJobConfiguration, result: ConversionResults.ConversionResult) = {
     result match {
-      case ConversionResults.Success() => {
+      case ConversionResults.Success(_) => {
         Right(Success(jobConfiguration.jobId))
       }
       case ConversionResults.FailedConversion(message) => {

@@ -23,7 +23,7 @@ class SingleSongToImageConverterJob$Test extends UnitSpec {
     //arrange
     val songId: Long = 4
     val fooJobConfig = SingleSongToImageConverterJobConfiguration(UUID.randomUUID(), songId)
-    (converterBySongIdStub.convert _).when(songId).returns(ConversionResults.Success())
+    (converterBySongIdStub.convert _).when(songId).returns(ConversionResults.Success(None))
     //act
     val testee = createTestee()
     testee.run(fooJobConfig)
@@ -36,7 +36,7 @@ class SingleSongToImageConverterJob$Test extends UnitSpec {
     val songId: Long = 4
     val jobUuid = UUID.randomUUID
     val fooJobConfig = SingleSongToImageConverterJobConfiguration(jobUuid, songId)
-    (converterBySongIdStub.convert _).when(songId).returns(ConversionResults.Success())
+    (converterBySongIdStub.convert _).when(songId).returns(ConversionResults.Success(None))
     //act
     val testee = createTestee()
     val result = testee.run(fooJobConfig)

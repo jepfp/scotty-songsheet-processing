@@ -8,8 +8,8 @@ private object IdTimestampFilenameBuilder {
     filename
   }
 
-  def buildForTocEntry(liedWithData: LiedWithData): String = {
-    val filename = liedWithData.songId + ".json"
+  def buildForTocEntry(songId: Long): String = {
+    val filename = songId + ".json"
     filename
   }
 

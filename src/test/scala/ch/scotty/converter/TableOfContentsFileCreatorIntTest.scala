@@ -8,10 +8,11 @@ import ch.scotty._
 import ch.scotty.converter.ConversionResults.Success
 import ch.scotty.job.json.result.TestFolder
 import com.typesafe.config.ConfigFactory
+import org.scalatest.Matchers
 
 import scala.collection.JavaConversions._
 
-class TableOfContentsFileCreatorIntTest extends IntegrationSpec with TestFolder {
+class TableOfContentsFileCreatorIntTest extends IntegrationSpec with TestFolder with Matchers {
 
   private val LIED_ID = 1
   private val LIEDERBUCH_ID = 2
@@ -27,24 +28,22 @@ class TableOfContentsFileCreatorIntTest extends IntegrationSpec with TestFolder 
     //arrange
     val testee = createTestee
     //act
-    val result = testee.createFile(createLiedWithNumber, createSongnumber, 3)
+    val result = testee.createFile(createLiedWithNumber(), createSongnumber, 3, "2745913656", "20190909121340")
     //assert
     assertExpectedAndActualJsonIsTheSame(generateJsonFilename())
-    assertResult(Success())(result)
+    assertResult(Success(None))(result)
   }
 
   def assertExpectedAndActualPictureIsTheSame(filename: String) = {
     val expectedFile: File = File(getClass.getResource(filename).toURI)
     val actualFile: File = new JFile(testFolder.getPath, filename).toScala
-    expectedFile === actualFile
-    assert(expectedFile.isSameContentAs(actualFile))
+    expectedFile.contentAsString shouldBe actualFile.contentAsString
   }
 
   def assertExpectedAndActualJsonIsTheSame(filename: String) = {
     val expectedFile: File = File(getClass.getResource(filename).toURI)
     val actualFile: File = new JFile(testFolder.getPath, filename).toScala
-    expectedFile === actualFile
-    assert(expectedFile.isSameContentAs(actualFile))
+    expectedFile.contentAsString shouldBe actualFile.contentAsString
   }
 
   private def createTestee = {
