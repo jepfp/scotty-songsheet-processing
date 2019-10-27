@@ -3,7 +3,6 @@ package ch.scotty.converter
 import java.io.{File => JFile}
 import java.sql.Blob
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 import better.files._
 import ch.scotty._
@@ -22,6 +21,7 @@ class ConditionalLiedPdfToImageConverterIntTest extends IntegrationSpec with Tes
   private val LIEDERBUCH = "liederbuch"
   private val LIED_NR = "liednr"
   private val updatedAt = LocalDateTime.of(2014, 5, 29, 7, 22)
+  val STUBBED_VERSION_STRING = "1234"
 
   private val convertible3pagesPdfResourceName = "convertible3pages"
 
@@ -48,11 +48,16 @@ class ConditionalLiedPdfToImageConverterIntTest extends IntegrationSpec with Tes
   private def createTestee = {
     val configMap: Map[String, String] = Map("converter.exportBaseDir" -> (testFolder.getPath.toString))
     val exportPathResolverAndCreator = new ExportPathResolverAndCreator(ConfigFactory.parseMap(configMap))
-    new ConditionalLiedPdfToImageConverter(exportPathResolverAndCreator)
+    val versionStringCreator = new VersionStringCreator{
+      override def createVersionString(timestamp: LocalDateTime): String = {
+        STUBBED_VERSION_STRING
+      }
+    }
+    new ConditionalLiedPdfToImageConverter(exportPathResolverAndCreator, versionStringCreator)
   }
 
   private def generatePngFilename(pdfResourceName: String, page: Int) = {
-    s"${LIED_ID}-${updatedAt.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))}-${page}.png"
+    s"${LIED_ID}-${STUBBED_VERSION_STRING}-${page}.png"
   }
 
   private def createSongnumber = {
