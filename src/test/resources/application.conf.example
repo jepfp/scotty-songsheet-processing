@@ -1,12 +1,12 @@
 scotty-mole-integration-testing-dbsetup = {
-  url = "jdbc:mysql://localhost:3306/?user=root&password=enterPasswordHere"
+  url = "jdbc:mysql://localhost:3306/?user=root&password=enterPasswordHere&serverTimezone=Europe/Zurich"
   driver = slick.jdbc.MySQLProfile
   connectionPool = disabled
   keepAliveConnection = true
 }
 
 scotty-mole-integration-testing = {
-  url = "jdbc:mysql://localhost:3306/scottymole_inttest?user=root&password=enterPasswordHere"
+  url = "jdbc:mysql://localhost:3306/scottymole_inttest?user=root&password=enterPasswordHere&serverTimezone=Europe/Zurich"
   driver = slick.jdbc.MySQLProfile
   connectionPool = disabled
   keepAliveConnection = true
