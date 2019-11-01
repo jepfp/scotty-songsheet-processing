@@ -1,8 +1,8 @@
-package ch.scotty.job.json.result
+package ch.scotty
 
 import java.io.File
 
-import org.scalatest._
+import org.scalatest.{Outcome, Suite, TestSuite}
 
 trait TestFolder extends TestSuite {
   self: Suite =>

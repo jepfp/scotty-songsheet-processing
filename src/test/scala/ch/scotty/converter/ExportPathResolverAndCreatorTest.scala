@@ -2,8 +2,7 @@ package ch.scotty.converter
 
 import java.nio.file.{Files, Paths}
 
-import ch.scotty.UnitSpec
-import ch.scotty.job.json.result.TestFolder
+import ch.scotty.{TestFolder, UnitSpec}
 import com.typesafe.config.{Config, ConfigFactory}
 
 import scala.collection.JavaConversions._

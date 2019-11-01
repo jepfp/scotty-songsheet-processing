@@ -4,9 +4,8 @@ import java.io.{File => JFile}
 import java.time.LocalDateTime
 
 import better.files._
-import ch.scotty._
 import ch.scotty.converter.ConversionResults.Success
-import ch.scotty.job.json.result.TestFolder
+import ch.scotty.{TestFolder, _}
 import com.typesafe.config.ConfigFactory
 import org.scalatest.Matchers
 
