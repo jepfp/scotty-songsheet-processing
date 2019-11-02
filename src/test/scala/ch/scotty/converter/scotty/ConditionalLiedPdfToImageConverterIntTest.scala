@@ -95,7 +95,7 @@ class ConditionalLiedPdfToImageConverterIntTest extends IntegrationSpec with Tes
     val tocFile: File = file"${testFolder.getPath}/$tocFilename"
     currentTableOfContentFile.copyTo(tocFile)
     //act
-    val changedUpdatedAtTime = LocalDateTime.now
+    val changedUpdatedAtTime = LocalDateTime.of(2019, 11, 2, 22, 14, 2)
     val result = testee.convertPdfBlobToImage(createLiedWithNumber(convertible3pagesPdfResourceName).copy(title = "changed title", updatedAt = changedUpdatedAtTime, tonality = Some("foo")), createSongnumber)
     //assert
     testFolder.listFiles().length shouldBe 1
