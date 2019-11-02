@@ -1,10 +1,11 @@
-package ch.scotty.converter
+package ch.scotty.converter.effect
 
 import java.io.{File => JFile}
 import java.time.LocalDateTime
 
 import better.files._
 import ch.scotty.converter.ConversionResults.Success
+import ch.scotty.converter.{LiedWithData, Songnumber}
 import ch.scotty.{TestFolder, _}
 import com.typesafe.config.ConfigFactory
 import org.scalatest.Matchers

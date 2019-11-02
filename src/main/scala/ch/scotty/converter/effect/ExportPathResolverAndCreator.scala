@@ -1,11 +1,11 @@
-package ch.scotty.converter
+package ch.scotty.converter.effect
 
 import java.nio.file.{Files, Paths}
 
 import com.typesafe.config.{Config, ConfigFactory}
 import com.typesafe.scalalogging.Logger
 
-private class ExportPathResolverAndCreator(conf: Config) {
+private[converter] class ExportPathResolverAndCreator(conf: Config) {
 
   val config = conf.getConfig("converter")
   val logger = Logger(classOf[ExportPathResolverAndCreator])

@@ -1,4 +1,4 @@
-package ch.scotty.converter
+package ch.scotty.converter.scotty
 
 import ch.scotty.fixture.SongFixture
 import ch.scotty.{DatabaseConnection, IntegrationSpec, SongsheetTestUtils}

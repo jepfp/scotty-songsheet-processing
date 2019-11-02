@@ -1,9 +1,9 @@
-package ch.scotty.converter
+package ch.scotty.converter.effect
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-private class VersionStringCreator() {
+private[converter] class VersionStringCreator() {
 
 
   def createVersionString(timestamp: LocalDateTime) = {

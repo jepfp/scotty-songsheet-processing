@@ -1,4 +1,4 @@
-package ch.scotty.converter
+package ch.scotty.converter.effect
 
 import java.time.LocalDateTime
 

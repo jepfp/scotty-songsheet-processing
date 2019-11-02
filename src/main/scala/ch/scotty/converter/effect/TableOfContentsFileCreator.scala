@@ -1,11 +1,11 @@
-package ch.scotty.converter
-
+package ch.scotty.converter.effect
 
 import better.files._
 import ch.scotty.converter.ConversionResults.{ConversionResult, FailedConversionWithException, Success}
+import ch.scotty.converter.{LiedWithData, Songnumber}
 import com.typesafe.scalalogging.Logger
 
-private class TableOfContentsFileCreator(exportPathResolverAndCreator: ExportPathResolverAndCreator) {
+private[converter] class TableOfContentsFileCreator(exportPathResolverAndCreator: ExportPathResolverAndCreator) {
 
   import play.api.libs.json._
 

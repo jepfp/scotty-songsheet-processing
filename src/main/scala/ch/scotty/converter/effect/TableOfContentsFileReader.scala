@@ -1,8 +1,8 @@
-package ch.scotty.converter
+package ch.scotty.converter.effect
 
 import better.files._
 
-private class TableOfContentsFileReader(exportPathResolverAndCreator: ExportPathResolverAndCreator) {
+private[converter] class TableOfContentsFileReader(exportPathResolverAndCreator: ExportPathResolverAndCreator) {
 
   import play.api.libs.json._
 

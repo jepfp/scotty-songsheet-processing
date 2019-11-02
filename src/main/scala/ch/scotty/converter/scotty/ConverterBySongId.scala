@@ -1,14 +1,15 @@
-package ch.scotty.converter
+package ch.scotty.converter.scotty
 
 import ch.scotty.Db
 import ch.scotty.converter.ConversionResults.{ConversionResult, FailedConversion}
+import ch.scotty.converter.LiedWithData
 
 class ConverterBySongId(implicit val db: Db) {
 
   //VisibleForTesting
-  protected[converter] lazy val liedSourcePdfFileFinder = new LiedSourcePdfFileFinder()
-  protected[converter] lazy val songnumberFinder = new SongnumberFinder()
-  protected[converter] lazy val liedPdfToImageConverter = new ConditionalLiedPdfToImageConverter()
+  protected[scotty] lazy val liedSourcePdfFileFinder = new LiedSourcePdfFileFinder()
+  protected[scotty] lazy val songnumberFinder = new SongnumberFinder()
+  protected[scotty] lazy val liedPdfToImageConverter = new ConditionalLiedPdfToImageConverter()
 
   def convert(songId: Long): ConversionResult = {
     val liedData = liedSourcePdfFileFinder.findFile(songId)

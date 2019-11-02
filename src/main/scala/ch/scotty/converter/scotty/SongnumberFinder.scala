@@ -1,6 +1,7 @@
-package ch.scotty.converter
+package ch.scotty.converter.scotty
 
 import ch.scotty.Db
+import ch.scotty.converter.Songnumber
 import ch.scotty.generatedschema.Tables
 import slick.jdbc.MySQLProfile.api._
 

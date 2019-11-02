@@ -1,7 +1,8 @@
-package ch.scotty.converter
+package ch.scotty.converter.scotty
 
 import java.time.LocalDateTime
 
+import ch.scotty.converter.LiedWithData
 import ch.scotty.{Db, UnitSpec}
 import org.scalatest.EitherValues
 

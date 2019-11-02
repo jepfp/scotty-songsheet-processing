@@ -4,10 +4,14 @@ package ch.scotty
 import com.typesafe.config.{ConfigFactory, ConfigRenderOptions}
 import slick.jdbc.MySQLProfile.api._
 
+object DefaultDb{
+  //def scotty = DefaultDb("exampleScotty")
+  def scotty = new DefaultDb("dockerdefault")
+  def songship = new DefaultDb("songanize-prod")
+}
 
-class DefaultDb extends Db {
+class DefaultDb(databaseConnectionConfigKey : String) extends Db {
   //val databaseConnectionConfigKey = "exampleScotty"
-  val databaseConnectionConfigKey = "dockerdefault"
 
   //Enable to see information about what the db configuration is and where it comes from.
   printOutConfigInformation

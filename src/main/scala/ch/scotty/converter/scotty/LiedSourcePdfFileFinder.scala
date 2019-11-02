@@ -1,8 +1,9 @@
-package ch.scotty.converter
+package ch.scotty.converter.scotty
 
 import java.time.LocalDateTime
 
 import ch.scotty.Db
+import ch.scotty.converter.LiedWithData
 import ch.scotty.generatedschema.Tables
 import slick.jdbc.MySQLProfile.api._
 

@@ -1,6 +1,8 @@
-package ch.scotty.converter
+package ch.scotty.converter.effect
 
-private object IdTimestampFilenameBuilder {
+import ch.scotty.converter.{LiedWithData, Songnumber}
+
+private[converter] object IdTimestampFilenameBuilder {
   def build(liedWithData: LiedWithData, songnumbers: Seq[Songnumber], sheetnumber: Integer, versionTimestamp: String): String = {
     val filename = liedWithData.songId + "-" + versionTimestamp + "-" + sheetnumber + ".png"
     filename

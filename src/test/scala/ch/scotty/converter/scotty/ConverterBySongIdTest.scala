@@ -1,8 +1,9 @@
-package ch.scotty.converter
+package ch.scotty.converter.scotty
 
 import java.time.LocalDateTime
 
 import ch.scotty.converter.ConversionResults.Success
+import ch.scotty.converter.{LiedWithData, Songnumber}
 import ch.scotty.{Db, UnitSpec}
 
 class ConverterBySongIdTest extends UnitSpec {

@@ -1,5 +1,4 @@
-package ch.scotty.converter
-
+package ch.scotty.converter.scotty
 
 import java.io.InputStream
 import java.time.LocalDateTime
@@ -7,13 +6,17 @@ import java.util.zip.{CRC32, CheckedInputStream, Checksum}
 
 import better.files.DisposeableExtensions
 import ch.scotty.converter.ConversionResults.{ConversionResult, FailedConversionWithException}
+import ch.scotty.converter.effect._
+import ch.scotty.converter.{LiedWithData, Songnumber}
 import com.typesafe.scalalogging.Logger
 import org.apache.commons.io.IOUtils
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.rendering.{ImageType, PDFRenderer}
 import org.apache.pdfbox.tools.imageio.ImageIOUtil
 
-private class ConditionalLiedPdfToImageConverter(exportPathResolverAndCreator: ExportPathResolverAndCreator = new ExportPathResolverAndCreator(), versionStringCreator: VersionStringCreator = new VersionStringCreator()) {
+private class ConditionalLiedPdfToImageConverter(
+                                                  exportPathResolverAndCreator: ExportPathResolverAndCreator = new ExportPathResolverAndCreator(),
+                                                  versionStringCreator: VersionStringCreator = new VersionStringCreator()) {
 
   val tableOfContentsFileReader: TableOfContentsFileReader = new TableOfContentsFileReader(exportPathResolverAndCreator)
   val tableOfContentsFileCreator: TableOfContentsFileCreator = new TableOfContentsFileCreator(exportPathResolverAndCreator)
@@ -48,7 +51,7 @@ private class ConditionalLiedPdfToImageConverter(exportPathResolverAndCreator: E
     }
   }
 
-  private def exportPdf(liedWithData: LiedWithData, songnumbers: Seq[Songnumber], content: Array[Byte], checksum: Checksum, versionTimestamp : String) = {
+  private def exportPdf(liedWithData: LiedWithData, songnumbers: Seq[Songnumber], content: Array[Byte], checksum: Checksum, versionTimestamp: String) = {
     val doc = PDDocument.load(content)
     val renderer = new PDFRenderer(doc)
     val amountOfPages = doc.getNumberOfPages
@@ -70,7 +73,7 @@ private class ConditionalLiedPdfToImageConverter(exportPathResolverAndCreator: E
     (content, checksum)
   }
 
-  private def generatePathString(liedWithData: LiedWithData, songnumbers: Seq[Songnumber], i: Int, versionTimestamp : String) = {
+  private def generatePathString(liedWithData: LiedWithData, songnumbers: Seq[Songnumber], i: Int, versionTimestamp: String) = {
     val filename = IdTimestampFilenameBuilder.build(liedWithData, songnumbers, i, versionTimestamp)
     val path = exportPathResolverAndCreator.resolve(filename)
     path
