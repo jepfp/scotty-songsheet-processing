@@ -4,15 +4,14 @@ import java.io.{File => JFile}
 import java.time.LocalDateTime
 
 import better.files._
-import ch.scotty.converter.ConversionResults.Success
-import ch.scotty.converter.{LiedWithData, Songnumber}
+import ch.scotty.converter.{FileType, LiedWithData, Songnumber, SourceSystem}
 import ch.scotty.{TestFolder, _}
 import com.typesafe.config.ConfigFactory
-import org.scalatest.Matchers
+import org.scalatest.{Matchers, TryValues}
 
 import scala.collection.JavaConversions._
 
-class TableOfContentsFileCreatorIntTest extends IntegrationSpec with TestFolder with Matchers {
+class TableOfContentsFileCreatorIntTest extends IntegrationSpec with TestFolder with Matchers with TryValues {
 
   private val LIED_ID = 1
   private val LIEDERBUCH_ID = 2
@@ -31,7 +30,7 @@ class TableOfContentsFileCreatorIntTest extends IntegrationSpec with TestFolder 
     val result = testee.createFile(createLiedWithNumber(), createSongnumber, 3, "2745913656", "20190909121340")
     //assert
     assertExpectedAndActualJsonIsTheSame(generateJsonFilename())
-    assertResult(Success(None))(result)
+    result.success.value.songId shouldBe LIED_ID
   }
 
   def assertExpectedAndActualJsonIsTheSame(filename: String) = {
@@ -55,7 +54,7 @@ class TableOfContentsFileCreatorIntTest extends IntegrationSpec with TestFolder 
   }
 
   private def createLiedWithNumber() = {
-    LiedWithData(LIED_ID, "foo", Some("C"), LocalDateTime.MIN, updatedAt, null)
+    LiedWithData(SourceSystem.Scotty, LIED_ID, "foo", Some("C"), List.empty, LocalDateTime.MIN, updatedAt, null, FileType.Pdf)
   }
 
 }

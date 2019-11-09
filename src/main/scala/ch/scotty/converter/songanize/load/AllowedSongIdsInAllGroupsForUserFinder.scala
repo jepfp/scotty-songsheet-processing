@@ -1,6 +1,7 @@
-package ch.scotty.converter.songanize
+package ch.scotty.converter.songanize.load
 
 import ch.scotty.Db
+import ch.scotty.converter.songanize.SongForUser
 import slick.jdbc.GetResult
 import slick.jdbc.MySQLProfile.api._
 import slick.sql.SqlStreamingAction

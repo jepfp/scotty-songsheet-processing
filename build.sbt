@@ -21,7 +21,9 @@ libraryDependencies ++= Seq(
   "org.scalamock" % "scalamock-scalatest-support_2.12" % "3.6.0" % Test,
 	"com.github.pathikrit" %% "better-files" % "3.8.0",
 	"com.typesafe.scala-logging" %% "scala-logging" % "3.9.2",
-	"ch.qos.logback" % "logback-classic" % "1.2.3"
+	"ch.qos.logback" % "logback-classic" % "1.2.3",
+	"com.jcraft" % "jsch" % "0.1.55"
+
 )
 
 //Because of the database, which is set up for each test, integration tests run in sequence

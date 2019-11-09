@@ -1,8 +1,9 @@
-package ch.scotty.converter.songanize
+package ch.scotty.converter.songanize.load
 
 import java.sql.Timestamp
 
 import ch.scotty.Db
+import ch.scotty.converter.songanize.SonganizeSong
 import slick.jdbc.GetResult
 import slick.jdbc.MySQLProfile.api._
 

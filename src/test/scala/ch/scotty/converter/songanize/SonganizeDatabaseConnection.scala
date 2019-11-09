@@ -9,6 +9,9 @@ import slick.jdbc.MySQLProfile.api._
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
+//Just because get class of the trait returns the class of the implementing class in another package
+case object ReferenceDataLink
+
 // Done according to http://www.superloopy.io/articles/2013/scala-slick-postgresql-unit-tests.html
 trait SonganizeDatabaseConnection extends TestSuite with BeforeAndAfterEach with BeforeAndAfterAll {
   private val schemaName = "songanize_inttest"
@@ -30,7 +33,7 @@ trait SonganizeDatabaseConnection extends TestSuite with BeforeAndAfterEach with
   }
 
   private def loadTableDefinitionsAndContent() = {
-    val expectedFile: File = File(getClass.getResource(referenceDataFilename).toURI)
+    val expectedFile: File = File(ReferenceDataLink.getClass.getResource(referenceDataFilename).toURI)
     expectedFile.contentAsString.split(";")
   }
 

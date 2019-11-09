@@ -4,10 +4,8 @@ import better.files._
 
 private[converter] class TableOfContentsFileReader(exportPathResolverAndCreator: ExportPathResolverAndCreator) {
 
+  import TableOfContentsDTOs.Formats._
   import play.api.libs.json._
-
-  private implicit val songnumberFormat: OFormat[TableOfContentsDTOs.Songnumber] = Json.format[TableOfContentsDTOs.Songnumber]
-  private implicit val songFormat: OFormat[TableOfContentsDTOs.Song] = Json.format[TableOfContentsDTOs.Song]
 
   def this() {
     this(new ExportPathResolverAndCreator())

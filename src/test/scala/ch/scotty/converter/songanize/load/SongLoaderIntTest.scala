@@ -1,8 +1,9 @@
-package ch.scotty.converter.songanize
+package ch.scotty.converter.songanize.load
 
 import java.sql.Timestamp
 
 import ch.scotty.IntegrationSpec
+import ch.scotty.converter.songanize.{SonganizeDatabaseConnection, SonganizeSong}
 import org.scalatest.EitherValues
 import org.scalatest.Matchers._
 
