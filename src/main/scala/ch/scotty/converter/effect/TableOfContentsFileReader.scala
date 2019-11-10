@@ -1,6 +1,7 @@
 package ch.scotty.converter.effect
 
 import better.files._
+import ch.scotty.converter.SourceSystem
 
 private[converter] class TableOfContentsFileReader(exportPathResolverAndCreator: ExportPathResolverAndCreator) {
 
@@ -11,9 +12,10 @@ private[converter] class TableOfContentsFileReader(exportPathResolverAndCreator:
     this(new ExportPathResolverAndCreator())
   }
 
-  def readTableOfContentsFile(id: Long): Either[String, TableOfContentsDTOs.Song] = {
+  def readTableOfContentsFile(sourceSystem: SourceSystem, id: Long): Either[String, TableOfContentsDTOs.Song] = {
+    val path = generatePathString(sourceSystem, id)
     try {
-      val file: File = File(generatePathString(id))
+      val file: File = File(path)
       Json.fromJson[TableOfContentsDTOs.Song](Json.parse(file.contentAsString())) match {
         case JsSuccess(song, _) =>
           Right(song)
@@ -23,13 +25,13 @@ private[converter] class TableOfContentsFileReader(exportPathResolverAndCreator:
 
     } catch {
       case e: Exception =>
-        Left("Error while reading json file " + generatePathString(id) + ". Error: " + e)
+        Left("Error while reading json file " + path + ". Error: " + e)
     }
   }
 
-  private def generatePathString(songId: Long) = {
+  private def generatePathString(sourceSystem: SourceSystem, songId: Long) = {
     val filename = IdTimestampFilenameBuilder.buildForTocEntry(songId)
-    exportPathResolverAndCreator.resolve(filename)
+    exportPathResolverAndCreator.resolve(sourceSystem, filename)
   }
 }
 

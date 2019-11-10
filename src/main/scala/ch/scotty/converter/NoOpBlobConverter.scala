@@ -12,9 +12,9 @@ private class NoOpBlobConverter(override val exportPathResolverAndCreator: Expor
 
   final val AmountOfPages = 1
 
-  override def convertToImages(songId: Long, data: Array[Byte], dataChecksum: String): Try[Int] = {
+  override def convertToImages(sourceSystem: SourceSystem, songId: Long, data: Array[Byte], dataChecksum: String): Try[Int] = {
     Try {
-      val file: File = File(generatePathString(songId, 0, dataChecksum))
+      val file: File = File(generatePathString(sourceSystem, songId, 0, dataChecksum))
       logger.debug("Exporting with no conversion songId={}", songId)
       file.writeByteArray(data)
       AmountOfPages

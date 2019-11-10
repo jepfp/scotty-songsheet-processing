@@ -3,13 +3,19 @@ package ch.scotty.converter
 import java.time.LocalDateTime
 
 
-sealed trait SourceSystem
+sealed trait SourceSystem{
+  def getIdentifier : String
+}
 
 object SourceSystem {
 
-  case object Scotty extends SourceSystem
+  case object Scotty extends SourceSystem {
+    override def getIdentifier: String = "scotty"
+  }
 
-  case object Songanize extends SourceSystem
+  case object Songanize extends SourceSystem {
+    override def getIdentifier: String = "songanize"
+  }
 
 }
 

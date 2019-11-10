@@ -14,7 +14,7 @@ private class PdfBlobConverter(override val exportPathResolverAndCreator: Export
 
   val logger = Logger(classOf[PdfBlobConverter])
 
-  override def convertToImages(songId: Long, data: Array[Byte], dataChecksum: String): Try[Int] = {
+  override def convertToImages(sourceSystem: SourceSystem, songId: Long, data: Array[Byte], dataChecksum: String): Try[Int] = {
     Try {
       val doc: PDDocument = PDDocument.load(data)
       using(doc) { doc =>
@@ -23,7 +23,7 @@ private class PdfBlobConverter(override val exportPathResolverAndCreator: Export
         for (i <- 0 until amountOfPages) yield {
           logger.debug("Exporting songId={}, pageIndex={} of {}", songId, i, amountOfPages)
           val bim: BufferedImage = renderer.renderImageWithDPI(i, 90, ImageType.RGB)
-          ImageIOUtil.writeImage(bim, generatePathString(songId, i, dataChecksum), 0)
+          ImageIOUtil.writeImage(bim, generatePathString(sourceSystem, songId, i, dataChecksum), 0)
         }
         amountOfPages
       }

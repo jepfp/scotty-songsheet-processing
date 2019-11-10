@@ -1,7 +1,9 @@
 package ch.scotty.converter.effect
 
+import java.io.File
 import java.nio.file.{Files, Paths}
 
+import ch.scotty.converter.SourceSystem
 import ch.scotty.{TestFolder, UnitSpec}
 import com.typesafe.config.{Config, ConfigFactory}
 
@@ -15,16 +17,17 @@ class ExportPathResolverAndCreatorTest extends UnitSpec with TestFolder {
     // arrange
     val testee = new ExportPathResolverAndCreator(config)
     // act
-    val actualString = testee.resolve("foo")
+    val actualString = testee.resolve(SourceSystem.Scotty, "foo")
     // assert
-    actualString should include("data-test-dir")
+
+    actualString should include(s"data-test-dir${File.separator}scotty")
   }
 
   it should "return an absolute file path" in {
     // arrange
     val testee = new ExportPathResolverAndCreator(config)
     // act
-    val actualString = testee.resolve("./")
+    val actualString = testee.resolve(SourceSystem.Scotty, "./")
     val path = Paths.get(actualString)
     // assert
      path.isAbsolute should be(true)
@@ -35,7 +38,7 @@ class ExportPathResolverAndCreatorTest extends UnitSpec with TestFolder {
     val configMap: Map[String, String] = Map("converter.exportBaseDir" -> (testFolder.getPath.toString + "/dir1/dir2/dir3"))
     val testee = new ExportPathResolverAndCreator(ConfigFactory.parseMap(configMap))
     // act
-    val actualString = testee.resolve("foo")
+    val actualString = testee.resolve(SourceSystem.Scotty, "foo")
     // assert
     actualString should include("dir3")
     val pathWithoutFileName = actualString.replace("foo", "")

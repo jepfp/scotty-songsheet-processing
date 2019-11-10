@@ -1,6 +1,5 @@
 package ch.scotty.converter
 
-import java.io.{File => JFile}
 import java.sql.Blob
 import java.time.LocalDateTime
 
@@ -43,7 +42,7 @@ class ConverterExporterIntTest extends IntegrationSpec with TestFolder with Matc
 
     val resource = getClass.getResource(filename)
     val expectedFile: File = File(resource.toURI)
-    val actualFile: File = new JFile(testFolder.getPath, filename).toScala
+    val actualFile: File = File(testFolder.getPath, SourceSystem.Scotty.getIdentifier, filename)
     actualFile.contentAsString shouldBe expectedFile.contentAsString
   }
 
@@ -73,22 +72,26 @@ class ConverterExporterIntTest extends IntegrationSpec with TestFolder with Matc
   it should s"not convert if the checksum of the source pdf and the checksum value in the table of content json match" in {
     //arrange
     val testee = createTestee
-    val tocFilename = s"$LIED_ID.json"
-    val currentTableOfContentFile: File = File(getClass.getResource(tocFilename).toURI)
-    currentTableOfContentFile.copyTo(file"${testFolder.getPath}/$tocFilename")
+    copyToCFileToTempDir()
     //act
     testee.convertAndExport(createLiedWithNumber(convertible3pagesPdfResourceName), createSongnumber)
     //assert
     testFolder.listFiles().length shouldBe 1
   }
 
+  private def copyToCFileToTempDir() = {
+    val tocFilename = s"$LIED_ID.json"
+    val currentTableOfContentFile: File = File(getClass.getResource(tocFilename).toURI)
+    val destinationFile = file"${testFolder.getPath}/${SourceSystem.Scotty.getIdentifier}"
+    destinationFile.createDirectoryIfNotExists(true)
+    currentTableOfContentFile.copyToDirectory(destinationFile)
+    destinationFile./(tocFilename)
+  }
+
   it should s"not convert if checksums match but still export other song attributes" in {
     //arrange
     val testee = createTestee
-    val tocFilename = s"$LIED_ID.json"
-    val currentTableOfContentFile: File = File(getClass.getResource(tocFilename).toURI)
-    val tocFile: File = file"${testFolder.getPath}/$tocFilename"
-    currentTableOfContentFile.copyTo(tocFile)
+    val tocFile: File = copyToCFileToTempDir()
     //act
     val changedUpdatedAtTime = LocalDateTime.of(2019, 11, 2, 22, 14, 2)
     testee.convertAndExport(createLiedWithNumber(convertible3pagesPdfResourceName).copy(title = "changed title", updatedAt = changedUpdatedAtTime, tonality = Some("foo")), createSongnumber)

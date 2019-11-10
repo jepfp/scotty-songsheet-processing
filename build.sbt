@@ -1,7 +1,7 @@
 name := "scotty-songsheet-processing"
 organization := "ch.rebstokk"
 
-version := "7.0.1-SNAPSHOT"
+version := "8.0.0-SNAPSHOT"
 
 scalaVersion := "2.12.10"
 

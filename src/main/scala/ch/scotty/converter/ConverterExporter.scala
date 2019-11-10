@@ -56,7 +56,7 @@ class ConverterExporter(exportPathResolverAndCreator: ExportPathResolverAndCreat
   private def convertAndPerformExportIfNecessary(liedWithData: LiedWithData, songnumbers: Seq[Songnumber], converter: BlobConverter): Try[TableOfContentsDTOs.Song] = {
 
     val (content: Array[Byte], checksum: Checksum) = loadContentWithChecksum(liedWithData)
-    val tocReadResult = tableOfContentsFileReader.readTableOfContentsFile(liedWithData.songId)
+    val tocReadResult = tableOfContentsFileReader.readTableOfContentsFile(liedWithData.sourceSystem, liedWithData.songId)
     val checksumString = checksum.getValue.toString
     (tocReadResult match {
       case Right(t) if t.pdfSourceChecksum == checksumString =>
@@ -76,7 +76,7 @@ class ConverterExporter(exportPathResolverAndCreator: ExportPathResolverAndCreat
         } Current toc read result: ${
           tocReadResult
         }")
-        converter.convertToImages(liedWithData.songId, content, checksumString)
+        converter.convertToImages(liedWithData.sourceSystem, liedWithData.songId, content, checksumString)
           .flatMap(amountOfPages => tableOfContentsFileCreator.createFile(liedWithData, songnumbers, amountOfPages, checksumString, checksumString))
 
     })

@@ -1,6 +1,5 @@
 package ch.scotty.converter.effect
 
-import java.io.{File => JFile}
 import java.time.LocalDateTime
 
 import better.files._
@@ -35,7 +34,7 @@ class TableOfContentsFileCreatorIntTest extends IntegrationSpec with TestFolder 
 
   def assertExpectedAndActualJsonIsTheSame(filename: String) = {
     val expectedFile: File = File(getClass.getResource(filename).toURI)
-    val actualFile: File = new JFile(testFolder.getPath, filename).toScala
+    val actualFile: File = File(testFolder.getPath, SourceSystem.Scotty.getIdentifier, filename)
     expectedFile.contentAsString shouldBe actualFile.contentAsString
   }
 

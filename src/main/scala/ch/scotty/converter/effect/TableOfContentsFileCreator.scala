@@ -45,7 +45,7 @@ private[converter] class TableOfContentsFileCreator(exportPathResolverAndCreator
 
   private def generatePathString(liedWithData: LiedWithData) = {
     val filename = IdTimestampFilenameBuilder.buildForTocEntry(liedWithData.songId)
-    val path = exportPathResolverAndCreator.resolve(filename)
+    val path = exportPathResolverAndCreator.resolve(liedWithData.sourceSystem, filename)
     path
   }
 }
