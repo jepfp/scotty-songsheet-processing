@@ -9,7 +9,7 @@ import org.apache.pdfbox.io.IOUtils
 
 import scala.util.Try
 
-private class RemoteFileLoader(channelSftp: ChannelSftp) {
+class RemoteFileLoader(channelSftp: ChannelSftp) {
 
 
   val logger = Logger(classOf[RemoteFileLoader])

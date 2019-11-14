@@ -30,7 +30,6 @@ class ConverterExporter(exportPathResolverAndCreator: ExportPathResolverAndCreat
       conversionResult recoverWith {
         case t: Throwable =>
           val m = s"Failure while exporting $liedWithData."
-          logger.warn(m, t)
           Failure(new Exception(m, t))
       }
     }.flatten

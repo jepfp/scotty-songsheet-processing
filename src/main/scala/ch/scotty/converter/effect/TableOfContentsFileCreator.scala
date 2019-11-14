@@ -36,6 +36,8 @@ private[converter] class TableOfContentsFileCreator(exportPathResolverAndCreator
       liedWithData.title,
       liedWithData.tonality,
       songnumbers.map(s => TableOfContentsDTOs.Songnumber(s.liederbuchId, s.mnemonic, s.liederbuch, s.liednr)),
+      liedWithData.tags,
+      liedWithData.sourceSystem.getIdentifier,
       amountOfPages,
       pdfSourceChecksum,
       versionTimestamp,

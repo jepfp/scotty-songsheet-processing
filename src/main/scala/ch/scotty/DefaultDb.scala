@@ -7,7 +7,7 @@ import slick.jdbc.MySQLProfile.api._
 object DefaultDb{
   //def scotty = DefaultDb("exampleScotty")
   def scotty = new DefaultDb("dockerdefault")
-  def songship = new DefaultDb("songanize-prod")
+  def songanize = new DefaultDb("songanize-prod")
 }
 
 class DefaultDb(databaseConnectionConfigKey : String) extends Db {
