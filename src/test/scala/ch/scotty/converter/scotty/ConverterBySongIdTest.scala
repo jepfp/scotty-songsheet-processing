@@ -15,7 +15,7 @@ class ConverterBySongIdTest extends UnitSpec {
   val songId: Long = 4
   val songnumbers: Seq[Songnumber] = Seq(Songnumber(songId, 5, "LU", "Adoray Luzern", "299"))
   val liedWithData: LiedWithData = LiedWithData(SourceSystem.Scotty, songId, "foo", Some("C"), List.empty, aDateTime, aDateTime.plusYears(4), null, FileType.Pdf)
-  val effectSong = TableOfContentsDTOs.Song(songId, liedWithData.title, liedWithData.tonality, songnumbers.map(s => TableOfContentsDTOs.Songnumber(s.liederbuchId, s.mnemonic, s.liederbuch, s.liednr)), Seq.empty, SourceSystem.Scotty.getIdentifier, 2, "someChecksum", "someVersionTimestamp", aDateTime, aDateTime.plusYears(4))
+  val effectSong = TableOfContentsDTOs.Song(SourceSystem.Scotty.getIdentifier, songId, liedWithData.title, liedWithData.tonality, songnumbers.map(s => TableOfContentsDTOs.Songnumber(s.liederbuchId, s.mnemonic, s.liederbuch, s.liednr)), Seq.empty, 2, "someChecksum", "someVersionTimestamp", aDateTime, aDateTime.plusYears(4))
 
   private val liedSourcePdfFileFinderStub = stub[LiedSourcePdfFileFinder]
   private val songnumberFinderStub = stub[SongnumberFinder]

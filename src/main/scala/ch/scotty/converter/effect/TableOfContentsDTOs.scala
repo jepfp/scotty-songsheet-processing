@@ -11,12 +11,12 @@ object TableOfContentsDTOs {
     implicit val songFormat: OFormat[TableOfContentsDTOs.Song] = Json.format[TableOfContentsDTOs.Song]
   }
 
-  case class Song(songId: Long,
+  case class Song(sourceSystem : String,
+                  songId: Long,
                   title: String,
                   tonality: Option[String],
                   songnumbers: Seq[Songnumber],
                   tags : Seq[String],
-                  sourceSystem : String,
                   amountOfPages: Int,
                   //used to check, if pdf shall be overwritten by scotty-songsheet-processing, because it changed in scotty
                   pdfSourceChecksum: String,

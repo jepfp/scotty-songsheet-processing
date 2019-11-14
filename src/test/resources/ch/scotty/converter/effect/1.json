@@ -1,4 +1,5 @@
 {
+  "sourceSystem" : "scotty",
   "songId" : 1,
   "title" : "foo",
   "tonality" : "C",
@@ -9,7 +10,6 @@
     "number" : "liednr"
   } ],
   "tags" : [ ],
-  "sourceSystem" : "scotty",
   "amountOfPages" : 3,
   "pdfSourceChecksum" : "2745913656",
   "versionTimestamp" : "20190909121340",

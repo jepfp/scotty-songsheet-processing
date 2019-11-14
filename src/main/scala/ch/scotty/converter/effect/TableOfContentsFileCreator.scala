@@ -32,12 +32,13 @@ private[converter] class TableOfContentsFileCreator(exportPathResolverAndCreator
   }
 
   private def createEntry(liedWithData: LiedWithData, songnumbers: Seq[Songnumber], amountOfPages: Int, pdfSourceChecksum: String, versionTimestamp: String) = {
-    TableOfContentsDTOs.Song(liedWithData.songId,
+    TableOfContentsDTOs.Song(
+      liedWithData.sourceSystem.getIdentifier,
+      liedWithData.songId,
       liedWithData.title,
       liedWithData.tonality,
       songnumbers.map(s => TableOfContentsDTOs.Songnumber(s.liederbuchId, s.mnemonic, s.liederbuch, s.liednr)),
       liedWithData.tags,
-      liedWithData.sourceSystem.getIdentifier,
       amountOfPages,
       pdfSourceChecksum,
       versionTimestamp,
