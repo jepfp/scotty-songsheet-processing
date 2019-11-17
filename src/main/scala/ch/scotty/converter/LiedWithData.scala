@@ -30,7 +30,7 @@ object FileType {
     extensionNormalized match {
       case "pdf" => Pdf()
       case "png" | "gif" | "jpg" | "jpeg" => Image(extensionNormalized)
-      case _ => Image(extensionNormalized)
+      case _ => Unknown(extensionNormalized)
     }
   }
 
