@@ -23,7 +23,7 @@ private class LiedWithDataBuilder {
               createdAt = song.timestamp.toLocalDateTime,
               updatedAt = song.lastChange.toLocalDateTime,
               data = blob,
-              fileType = FileType.fromString(song.fileType)
+              fileType = FileType(song.fileType)
             ))
 
           case None =>

@@ -61,7 +61,7 @@ class ConverterExporterIntTest extends IntegrationSpec with TestFolder with Matc
   }
 
   private def createLiedWithNumber(pdfResourceName: String) = {
-    LiedWithData(SourceSystem.Scotty, LIED_ID, pdfResourceName, Some("C"), List.empty, LocalDateTime.MIN, updatedAt, readPdfSongResourceAsBlob(pdfResourceName), FileType.Pdf)
+    LiedWithData(SourceSystem.Scotty, LIED_ID, pdfResourceName, Some("C"), List.empty, LocalDateTime.MIN, updatedAt, readPdfSongResourceAsBlob(pdfResourceName), FileType.Pdf())
   }
 
   def readPdfSongResourceAsBlob(prfResourceName: String): Blob = {

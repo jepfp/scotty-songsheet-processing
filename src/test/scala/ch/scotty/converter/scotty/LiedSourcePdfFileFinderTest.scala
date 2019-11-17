@@ -26,7 +26,7 @@ class LiedSourcePdfFileFinderTest extends UnitSpec with TryValues {
 
   "findFile" should "return an either left if more than one PDF source file for a given liedId can be found" in {
     //arrange
-    val testee = createTesteeAndOverridePerformQuery(Seq(LiedWithData(SourceSystem.Scotty, 50, "foo", Some("C"), List.empty, aDateTime, aDateTime.plusYears(4), null, FileType.Pdf), LiedWithData(SourceSystem.Scotty, 50, "blub", Some("C"), List.empty, aDateTime, aDateTime.plusYears(4), null, FileType.Pdf)))
+    val testee = createTesteeAndOverridePerformQuery(Seq(LiedWithData(SourceSystem.Scotty, 50, "foo", Some("C"), List.empty, aDateTime, aDateTime.plusYears(4), null, FileType.Pdf()), LiedWithData(SourceSystem.Scotty, 50, "blub", Some("C"), List.empty, aDateTime, aDateTime.plusYears(4), null, FileType.Pdf())))
     //act & assert
     val result = testee.findFile(50).failure.exception
     result.getMessage shouldBe "More than one PDF source file found for liedId = 50"

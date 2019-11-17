@@ -3,8 +3,8 @@ package ch.scotty.converter
 import java.time.LocalDateTime
 
 
-sealed trait SourceSystem{
-  def getIdentifier : String
+sealed trait SourceSystem {
+  def getIdentifier: String
 }
 
 object SourceSystem {
@@ -20,34 +20,29 @@ object SourceSystem {
 }
 
 sealed trait FileType {
-  def extensions: List[String]
-
-  def toOptionIfMatchesTypeString(typeAsString: String): Option[FileType] = {
-    if (extensions.contains(typeAsString.toLowerCase)) Some(this) else None
-  }
+  def concreteExtension: String
 }
 
 object FileType {
 
-  case object Pdf extends FileType {
-    override def extensions: List[String] = List("pdf")
+  def apply(extension: String): FileType = {
+    val extensionNormalized = extension.toLowerCase
+    extensionNormalized match {
+      case "pdf" => Pdf()
+      case "png" | "gif" | "jpg" | "jpeg" => Image(extensionNormalized)
+      case _ => Image(extensionNormalized)
+    }
   }
 
-  case object Image extends FileType {
-    override def extensions: List[String] = List("png", "gif", "jpg", "jpeg")
+  case object Pdf {
+    def apply(): FileType = Pdf("pdf")
   }
 
-  case class Unknown(unknownType : String) extends FileType {
-    override def extensions: List[String] = List.empty
+  case class Pdf(concreteExtension: String) extends FileType
 
-  }
+  case class Image(concreteExtension: String) extends FileType
 
-
-  def fromString(typeAsString: String): FileType = {
-    Pdf.toOptionIfMatchesTypeString(typeAsString)
-      .orElse(Image.toOptionIfMatchesTypeString(typeAsString))
-      .getOrElse(Unknown(typeAsString))
-  }
+  case class Unknown(concreteExtension: String) extends FileType
 
 }
 

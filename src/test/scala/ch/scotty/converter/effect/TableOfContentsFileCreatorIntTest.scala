@@ -53,7 +53,7 @@ class TableOfContentsFileCreatorIntTest extends IntegrationSpec with TestFolder 
   }
 
   private def createLiedWithNumber() = {
-    LiedWithData(SourceSystem.Scotty, LIED_ID, "foo", Some("C"), List.empty, LocalDateTime.MIN, updatedAt, null, FileType.Pdf)
+    LiedWithData(SourceSystem.Scotty, LIED_ID, "foo", Some("C"), List.empty, LocalDateTime.MIN, updatedAt, null, FileType.Pdf())
   }
 
 }

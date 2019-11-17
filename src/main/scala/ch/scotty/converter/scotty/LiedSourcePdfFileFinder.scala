@@ -32,7 +32,7 @@ private class LiedSourcePdfFileFinder(implicit db: Db) {
       l <- fm.liedFk if l.id === liedId
     } yield (l.id, l.titel, l.tonality, l.createdAt, l.updatedAt, f.data)
     val dbReadFuture = db.db.run(joinQuery.result)
-    val result: Seq[LiedWithData] = Await.result(dbReadFuture, Duration.Inf).map(x => LiedWithData(SourceSystem.Scotty, x._1, x._2, x._3, List.empty[String], x._4.map(_.toLocalDateTime).getOrElse(LocalDateTime.MIN), x._5.map(_.toLocalDateTime).getOrElse(LocalDateTime.MIN), x._6, FileType.Pdf))
+    val result: Seq[LiedWithData] = Await.result(dbReadFuture, Duration.Inf).map(x => LiedWithData(SourceSystem.Scotty, x._1, x._2, x._3, List.empty[String], x._4.map(_.toLocalDateTime).getOrElse(LocalDateTime.MIN), x._5.map(_.toLocalDateTime).getOrElse(LocalDateTime.MIN), x._6, FileType.Pdf()))
     result
   }
 }

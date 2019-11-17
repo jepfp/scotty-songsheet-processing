@@ -37,9 +37,9 @@ class ConverterExporter(exportPathResolverAndCreator: ExportPathResolverAndCreat
 
   private def createConverter(liedWithData: LiedWithData) = {
     liedWithData.fileType match {
-      case FileType.Pdf =>
+      case FileType.Pdf(_) =>
         Success(new PdfBlobConverter(exportPathResolverAndCreator))
-      case FileType.Image =>
+      case FileType.Image(_) =>
         Success(new NoOpBlobConverter(exportPathResolverAndCreator))
       case FileType.Unknown(unknownType) =>
         Failure(new Exception(s"Detected unknown file type which cannot be converted: fileType=${

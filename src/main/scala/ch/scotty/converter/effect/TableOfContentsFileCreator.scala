@@ -43,7 +43,8 @@ private[converter] class TableOfContentsFileCreator(exportPathResolverAndCreator
       pdfSourceChecksum,
       versionTimestamp,
       liedWithData.createdAt,
-      liedWithData.updatedAt)
+      liedWithData.updatedAt,
+      liedWithData.fileType.concreteExtension)
   }
 
   private def generatePathString(liedWithData: LiedWithData) = {

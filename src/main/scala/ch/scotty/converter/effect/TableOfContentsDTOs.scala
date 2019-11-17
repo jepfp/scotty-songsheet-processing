@@ -23,13 +23,12 @@ object TableOfContentsDTOs {
                   //timestamp when data on songship was changed last. Can be used by a consumer to decide if image data has to be refetched or not
                   versionTimestamp: String,
                   createdAtInScotty: LocalDateTime,
-                  updatedAtInScotty: LocalDateTime) {}
+                  updatedAtInScotty: LocalDateTime,
+                  fileType : String)
 
   case class Songnumber(songbookId: Long,
                         mnemonic: String,
                         songbookTitle: String,
-                        number: String) {
-
-  }
+                        number: String)
 
 }
