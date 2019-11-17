@@ -3,6 +3,7 @@ package ch.scotty.converter
 import java.util.zip.{CRC32, CheckedInputStream, Checksum}
 
 import better.files.DisposeableExtensions
+import ch.scotty.converter.blob.{BlobConverter, NoOpBlobConverter, PdfBlobConverter}
 import ch.scotty.converter.effect._
 import com.typesafe.scalalogging.Logger
 import org.apache.commons.io.IOUtils
@@ -64,19 +65,11 @@ class ConverterExporter(exportPathResolverAndCreator: ExportPathResolverAndCreat
         } title='${
           liedWithData.title
         }' necessary. Checksums were equal.")
-        tableOfContentsFileCreator.createFile(liedWithData, songnumbers, t.amountOfPages, t.pdfSourceChecksum, t.versionTimestamp)
+        tableOfContentsFileCreator.createFile(liedWithData, songnumbers, t.amountOfPages, t.pdfSourceChecksum, t.versionTimestamp, t.fileType)
       case _ =>
-        logger.debug(s"Exporting id=${
-          liedWithData.songId
-        } title='${
-          liedWithData.title
-        }'. Checksums did not match. Checksum database: ${
-          checksum.getValue
-        } Current toc read result: ${
-          tocReadResult
-        }")
-        converter.convertToImages(liedWithData.sourceSystem, liedWithData.songId, content, checksumString)
-          .flatMap(amountOfPages => tableOfContentsFileCreator.createFile(liedWithData, songnumbers, amountOfPages, checksumString, checksumString))
+        logger.debug(s"Exporting id=${liedWithData.songId} title='${liedWithData.title}'. Checksums did not match. Checksum database: ${checksum.getValue} Current toc read result: ${tocReadResult}")
+        converter.convertToImages(liedWithData.sourceSystem, liedWithData.songId, content, checksumString, liedWithData.fileType)
+          .flatMap(r => tableOfContentsFileCreator.createFile(liedWithData, songnumbers, r.amountOfPages, checksumString, checksumString, r.fileTypeAfterExport))
 
     })
   }

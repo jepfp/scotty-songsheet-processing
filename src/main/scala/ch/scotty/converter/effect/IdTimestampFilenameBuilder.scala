@@ -1,8 +1,8 @@
 package ch.scotty.converter.effect
 
 private[converter] object IdTimestampFilenameBuilder {
-  def build(songId: Long, sheetnumber: Integer, versionTimestamp: String): String = {
-    val filename = songId + "-" + versionTimestamp + "-" + sheetnumber + ".png"
+  def build(songId: Long, sheetnumber: Integer, versionTimestamp: String, outputFileType : String): String = {
+    val filename = songId + "-" + versionTimestamp + "-" + sheetnumber + "." + outputFileType
     filename
   }
 

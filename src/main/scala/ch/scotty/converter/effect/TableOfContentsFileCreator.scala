@@ -19,19 +19,19 @@ private[converter] class TableOfContentsFileCreator(exportPathResolverAndCreator
     this(new ExportPathResolverAndCreator())
   }
 
-  def createFile(liedWithData: LiedWithData, songnumbers: Seq[Songnumber], amountOfPages: Int, pdfSourceCheckSum: String, versionTimestamp: String): Try[TableOfContentsDTOs.Song] = {
-    Try(writeFile(liedWithData, songnumbers, amountOfPages, pdfSourceCheckSum, versionTimestamp))
+  def createFile(liedWithData: LiedWithData, songnumbers: Seq[Songnumber], amountOfPages: Int, pdfSourceCheckSum: String, versionTimestamp: String, fileTypeAfterExport : String): Try[TableOfContentsDTOs.Song] = {
+    Try(writeFile(liedWithData, songnumbers, amountOfPages, pdfSourceCheckSum, versionTimestamp, fileTypeAfterExport))
   }
 
-  private def writeFile(liedWithData: LiedWithData, songnumbers: Seq[Songnumber], amountOfPages: Int, pdfSourceCheckSum: String, versionTimestamp: String) = {
-    val songInformation = createEntry(liedWithData, songnumbers, amountOfPages, pdfSourceCheckSum, versionTimestamp)
+  private def writeFile(liedWithData: LiedWithData, songnumbers: Seq[Songnumber], amountOfPages: Int, pdfSourceCheckSum: String, versionTimestamp: String, fileTypeAfterExport : String) = {
+    val songInformation = createEntry(liedWithData, songnumbers, amountOfPages, pdfSourceCheckSum, versionTimestamp, fileTypeAfterExport)
     val resultString = Json.prettyPrint(Json.toJson(songInformation))
     val file = File(generatePathString(liedWithData))
     file.overwrite(resultString)
     songInformation
   }
 
-  private def createEntry(liedWithData: LiedWithData, songnumbers: Seq[Songnumber], amountOfPages: Int, pdfSourceChecksum: String, versionTimestamp: String) = {
+  private def createEntry(liedWithData: LiedWithData, songnumbers: Seq[Songnumber], amountOfPages: Int, pdfSourceChecksum: String, versionTimestamp: String, fileTypeAfterExport : String) = {
     TableOfContentsDTOs.Song(
       liedWithData.sourceSystem.getIdentifier,
       liedWithData.songId,
@@ -44,7 +44,7 @@ private[converter] class TableOfContentsFileCreator(exportPathResolverAndCreator
       versionTimestamp,
       liedWithData.createdAt,
       liedWithData.updatedAt,
-      liedWithData.fileType.concreteExtension)
+      fileTypeAfterExport)
   }
 
   private def generatePathString(liedWithData: LiedWithData) = {

@@ -18,6 +18,7 @@ class TableOfContentsFileCreatorIntTest extends IntegrationSpec with TestFolder 
   private val LIEDERBUCH = "liederbuch"
   private val LIED_NR = "liednr"
   private val updatedAt = LocalDateTime.of(2014, 5, 29, 7, 22)
+  private val fileTypeAfterExport = "jpeg"
 
 
   def assertContentEquals = ResourceFileContentWithFileContentComparator.assertContentEquals(getClass) _
@@ -26,7 +27,7 @@ class TableOfContentsFileCreatorIntTest extends IntegrationSpec with TestFolder 
     //arrange
     val testee = createTestee
     //act
-    val result = testee.createFile(createLiedWithNumber(), createSongnumber, 3, "2745913656", "20190909121340")
+    val result = testee.createFile(createLiedWithNumber(), createSongnumber, 3, "2745913656", "20190909121340", fileTypeAfterExport)
     //assert
     assertExpectedAndActualJsonIsTheSame(generateJsonFilename())
     result.success.value.songId shouldBe LIED_ID
