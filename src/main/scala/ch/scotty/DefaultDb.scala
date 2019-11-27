@@ -2,6 +2,7 @@ package ch.scotty
 
 
 import com.typesafe.config.{ConfigFactory, ConfigRenderOptions}
+import com.typesafe.scalalogging.Logger
 import slick.jdbc.MySQLProfile.api._
 
 object DefaultDb{
@@ -12,6 +13,7 @@ object DefaultDb{
 
 class DefaultDb(databaseConnectionConfigKey : String) extends Db {
   //val databaseConnectionConfigKey = "exampleScotty"
+  val logger = Logger(classOf[DefaultDb])
 
   //Enable to see information about what the db configuration is and where it comes from.
   printOutConfigInformation
@@ -21,6 +23,6 @@ class DefaultDb(databaseConnectionConfigKey : String) extends Db {
   private def printOutConfigInformation = {
     val config = ConfigFactory.load()
     val options = ConfigRenderOptions.defaults().setFormatted(true)
-    println("The following database configuration is used: \n" + config.getConfig(databaseConnectionConfigKey).root().render(options))
+    logger.info("The following database configuration is used: \n" + config.getConfig(databaseConnectionConfigKey).root().render(options))
   }
 }
