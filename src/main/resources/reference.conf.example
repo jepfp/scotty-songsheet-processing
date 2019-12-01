@@ -3,19 +3,30 @@
 //---------
 
 dockerdefault = {
-  url = "jdbc:mysql://localhost:3306/dockerdefault?user=root&password=enterPasswordHere"
-  driver = slick.jdbc.MySQLProfile
-  connectionPool = disabled
-  keepAliveConnection = true
+    dataSourceClass = "slick.jdbc.DatabaseUrlDataSource"
+    properties = {
+        url = "jdbc:mysql://localhost:3306/exampleScotty?user=root&password=changeme&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Europe/Zurich"
+        driver = slick.jdbc.MySQLProfile
+    }
 }
+
+//dockerdefault = {
+//  dataSourceClass = "slick.jdbc.DatabaseUrlDataSource"
+//    properties = {
+//        url = "jdbc:mysql://172.18.0.4:3306/dockerdefault?user=dockerdefault&password=changeme&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Europe/Zurich"
+//        driver = slick.jdbc.MySQLProfile
+//    }
+//}
+
 
 converter = {
   exportBaseDir = "./data/"
 }
 
 exampleScotty = {
-  url = "jdbc:mysql://localhost:3306/examplescotty?user=root&password=enterPasswordHere"
-  driver = slick.jdbc.MySQLProfile
-  connectionPool = disabled
-  keepAliveConnection = true
+    dataSourceClass = "slick.jdbc.DatabaseUrlDataSource"
+    properties = {
+        url = "jdbc:mysql://localhost:3306/examplescotty?user=root&password=changeme&serverTimezone=Europe/Zurich"
+        driver = slick.jdbc.MySQLProfile
+    }
 }

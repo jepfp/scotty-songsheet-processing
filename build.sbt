@@ -13,6 +13,7 @@ libraryDependencies ++= Seq(
   "org.bouncycastle" % "bcpkix-jdk15on" % "1.63",
 	"com.typesafe.slick" %% "slick" % "3.3.2",
 	"mysql" % "mysql-connector-java" % "8.0.17",
+	"com.typesafe.slick" %% "slick-hikaricp" % "3.3.1",
 	"com.typesafe.play" %% "play-json" % "2.7.4",
 	"net.java.truecommons" % "truecommons-io" % "2.5.0",
 	"commons-io" % "commons-io" % "2.5",
