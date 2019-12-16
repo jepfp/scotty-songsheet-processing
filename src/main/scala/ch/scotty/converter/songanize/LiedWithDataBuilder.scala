@@ -1,5 +1,6 @@
 package ch.scotty.converter.songanize
 
+import ch.scotty.converter.songanize.effect.SongForUser
 import ch.scotty.converter.{FileType, LiedWithData, SourceSystem}
 
 import scala.util.{Failure, Success, Try}

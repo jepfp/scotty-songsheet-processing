@@ -1,7 +1,8 @@
 package ch.scotty.converter.songanize.load
 
 import ch.scotty.IntegrationSpec
-import ch.scotty.converter.songanize.{SongForUser, SonganizeDatabaseConnection}
+import ch.scotty.converter.songanize.SonganizeDatabaseConnection
+import ch.scotty.converter.songanize.effect.SongForUser
 import org.scalatest.EitherValues
 import org.scalatest.Matchers._
 

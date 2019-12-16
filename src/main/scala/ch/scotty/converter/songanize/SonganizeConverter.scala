@@ -2,6 +2,7 @@ package ch.scotty.converter.songanize
 
 import ch.scotty.converter.ConverterExporter
 import ch.scotty.converter.effect.{ExportPathResolverAndCreator, TableOfContentsDTOs}
+import ch.scotty.converter.songanize.effect.SongForUser
 import com.typesafe.scalalogging.Logger
 
 import scala.util.{Failure, Try}
