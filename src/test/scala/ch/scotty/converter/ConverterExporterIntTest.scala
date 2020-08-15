@@ -43,7 +43,10 @@ class ConverterExporterIntTest extends IntegrationSpec with TestFolder with Matc
     val resource = getClass.getResource(filename)
     val expectedFile: File = File(resource.toURI)
     val actualFile: File = File(testFolder.getPath, SourceSystem.Scotty.getIdentifier, filename)
-    actualFile.contentAsString shouldBe expectedFile.contentAsString
+    withClue(s"Compared content of actualFile=${actualFile.path} with expectedFile=${expectedFile.path}") {
+      actualFile.md5 shouldBe expectedFile.md5
+    }
+    //    actualFile.contentAsString shouldBe expectedFile.contentAsString
   }
 
   private def createTestee = {
