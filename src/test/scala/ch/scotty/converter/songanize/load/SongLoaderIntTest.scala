@@ -1,12 +1,11 @@
 package ch.scotty.converter.songanize.load
 
-import java.sql.Timestamp
-
 import ch.scotty.IntegrationSpec
 import ch.scotty.converter.songanize.{SonganizeDatabaseConnection, SonganizeSong}
 import org.scalatest.EitherValues
-import org.scalatest.Matchers._
+import org.scalatest.matchers.should.Matchers.{convertToAnyShouldWrapper, have}
 
+import java.sql.Timestamp
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
@@ -31,6 +30,6 @@ class SongLoaderIntTest extends IntegrationSpec with SonganizeDatabaseConnection
     //act
     val result = Await.result(testee.load(None), Duration.Inf)
     //assert
-    result should have size(256)
+    result should have size (256)
   }
 }

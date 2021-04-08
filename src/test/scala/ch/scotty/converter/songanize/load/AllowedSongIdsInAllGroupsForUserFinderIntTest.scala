@@ -4,14 +4,12 @@ import ch.scotty.IntegrationSpec
 import ch.scotty.converter.songanize.SonganizeDatabaseConnection
 import ch.scotty.converter.songanize.effect.SongForUser
 import org.scalatest.EitherValues
-import org.scalatest.Matchers._
+import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
 class AllowedSongIdsInAllGroupsForUserFinderIntTest extends IntegrationSpec with SonganizeDatabaseConnection with EitherValues {
-
-
   "AllowedSongIdsInAllGroupsForUserFinder" should "return return all songIds with the belonging group to which a user has access" in {
     //arrange
     val testee = new AllowedSongIdsInAllGroupsForUserFinder()

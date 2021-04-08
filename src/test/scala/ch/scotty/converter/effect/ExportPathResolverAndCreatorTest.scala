@@ -1,13 +1,11 @@
 package ch.scotty.converter.effect
 
-import java.io.File
-import java.nio.file.{Files, Paths}
-
 import ch.scotty.converter.SourceSystem
 import ch.scotty.{TestFolder, UnitSpec}
 import com.typesafe.config.{Config, ConfigFactory}
 
-import scala.collection.JavaConversions._
+import java.io.File
+import java.nio.file.{Files, Paths}
 
 class ExportPathResolverAndCreatorTest extends UnitSpec with TestFolder {
 
@@ -35,8 +33,9 @@ class ExportPathResolverAndCreatorTest extends UnitSpec with TestFolder {
 
   it should "create the directory structure if it does not yet exist" in {
     // arrange
+    import scala.jdk.CollectionConverters._
     val configMap: Map[String, String] = Map("converter.exportBaseDir" -> (testFolder.getPath.toString + "/dir1/dir2/dir3"))
-    val testee = new ExportPathResolverAndCreator(ConfigFactory.parseMap(configMap))
+    val testee = new ExportPathResolverAndCreator(ConfigFactory.parseMap(configMap.asJava))
     // act
     val actualString = testee.resolve(SourceSystem.Scotty, "foo")
     // assert

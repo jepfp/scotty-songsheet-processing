@@ -1,9 +1,8 @@
 package ch.scotty
 
+import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
+
 import java.io.File
-
-import org.scalatest.Matchers._
-
 import scala.io.BufferedSource
 
 object ResourceFileContentWithFileContentComparator {

@@ -1,15 +1,14 @@
 package ch.scotty.converter
 
-import java.sql.Blob
-import java.time.LocalDateTime
-
 import better.files._
 import ch.scotty.converter.effect.ExportPathResolverAndCreator
 import ch.scotty.{TestFolder, _}
 import com.typesafe.config.ConfigFactory
-import org.scalatest.{Matchers, TryValues}
+import org.scalatest.TryValues
+import org.scalatest.matchers.should.Matchers
 
-import scala.collection.JavaConversions._
+import java.sql.Blob
+import java.time.LocalDateTime
 
 class ConverterExporterIntTest extends IntegrationSpec with TestFolder with Matchers with TryValues {
 
@@ -50,8 +49,9 @@ class ConverterExporterIntTest extends IntegrationSpec with TestFolder with Matc
   }
 
   private def createTestee = {
-    val configMap: Map[String, String] = Map("converter.exportBaseDir" -> (testFolder.getPath.toString))
-    val exportPathResolverAndCreator = new ExportPathResolverAndCreator(ConfigFactory.parseMap(configMap))
+    import scala.jdk.CollectionConverters._
+    val configMap: Map[String, String] = Map("converter.exportBaseDir" -> (testFolder.getPath))
+    val exportPathResolverAndCreator = new ExportPathResolverAndCreator(ConfigFactory.parseMap(configMap.asJava))
     new ConverterExporter(exportPathResolverAndCreator)
   }
 

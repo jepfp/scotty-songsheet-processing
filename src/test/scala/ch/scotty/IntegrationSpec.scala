@@ -1,7 +1,8 @@
 package ch.scotty
 
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-abstract class IntegrationSpec extends FlatSpec {
+
+abstract class IntegrationSpec extends AnyFlatSpec {
 
 }

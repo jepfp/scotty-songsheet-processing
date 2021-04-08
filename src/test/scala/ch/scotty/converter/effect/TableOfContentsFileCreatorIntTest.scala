@@ -1,14 +1,14 @@
 package ch.scotty.converter.effect
 
-import java.time.LocalDateTime
-
 import better.files._
 import ch.scotty.converter.{FileType, LiedWithData, Songnumber, SourceSystem}
 import ch.scotty.{TestFolder, _}
 import com.typesafe.config.ConfigFactory
-import org.scalatest.{Matchers, TryValues}
+import org.scalatest.TryValues
+import org.scalatest.matchers.should.Matchers
 
-import scala.collection.JavaConversions._
+import java.time.LocalDateTime
+
 
 class TableOfContentsFileCreatorIntTest extends IntegrationSpec with TestFolder with Matchers with TryValues {
 
@@ -40,8 +40,9 @@ class TableOfContentsFileCreatorIntTest extends IntegrationSpec with TestFolder 
   }
 
   private def createTestee = {
-    val configMap: Map[String, String] = Map("converter.exportBaseDir" -> (testFolder.getPath.toString))
-    val exportPathResolverAndCreator = new ExportPathResolverAndCreator(ConfigFactory.parseMap(configMap))
+    import scala.jdk.CollectionConverters._
+    val configMap: Map[String, String] = Map("converter.exportBaseDir" -> (testFolder.getPath))
+    val exportPathResolverAndCreator = new ExportPathResolverAndCreator(ConfigFactory.parseMap(configMap.asJava))
     new TableOfContentsFileCreator(exportPathResolverAndCreator)
   }
 
