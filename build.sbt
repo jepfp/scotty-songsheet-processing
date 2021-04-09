@@ -1,8 +1,6 @@
 name := "scotty-songsheet-processing"
 organization := "ch.rebstokk"
 
-version := "8.0.0-SNAPSHOT"
-
 scalaVersion := "2.13.5"
 
 libraryDependencies ++= Seq(
