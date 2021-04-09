@@ -28,3 +28,5 @@ libraryDependencies ++= Seq(
 
 //Because of the database, which is set up for each test, integration tests run in sequence
 parallelExecution in Test := false
+
+publish / skip := true
