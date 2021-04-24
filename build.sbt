@@ -9,6 +9,8 @@ libraryDependencies ++= Seq(
 	"org.bouncycastle" % "bcprov-jdk15on" % "1.68",
   "org.bouncycastle" % "bcmail-jdk15on" % "1.68",
   "org.bouncycastle" % "bcpkix-jdk15on" % "1.68",
+	"com.sksamuel.scrimage" % "scrimage-core" % "4.0.18",
+	"com.sksamuel.scrimage" % "scrimage-filters" % "4.0.18",
 	"com.typesafe.slick" %% "slick" % "3.3.3",
 	"mysql" % "mysql-connector-java" % "8.0.23",
 	"com.typesafe.slick" %% "slick-hikaricp" % "3.3.3",

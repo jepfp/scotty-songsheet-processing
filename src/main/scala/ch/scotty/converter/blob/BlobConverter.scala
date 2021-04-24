@@ -9,13 +9,18 @@ private[converter] trait BlobConverter {
 
   def exportPathResolverAndCreator: ExportPathResolverAndCreator = new ExportPathResolverAndCreator()
 
-  def convertToImages(sourceSystem: SourceSystem, songId: Long, data: Array[Byte], dataChecksum: String, inputFileType : FileType): Try[BlobConverterResult]
+  def convertToImages(sourceSystem: SourceSystem, songId: Long, data: Array[Byte], dataChecksum: String, inputFileType: FileType): Try[BlobConverterResult]
 
-  private[converter] def using[A <: {def close() : Unit}, B](param: A)(f: A => B): B =
+  private[converter] def using[A <: {def close(): Unit}, B](param: A)(f: A => B): B =
     try f(param) finally param.close()
 
-  private[converter] def generatePathString(sourceSystem: SourceSystem, songId: Long, i: Int, versionTimestamp: String, outputFileType : String) = {
+  private[converter] def generatePathString(sourceSystem: SourceSystem, songId: Long, i: Int, versionTimestamp: String, outputFileType: String) = {
     val filename = IdTimestampFilenameBuilder.build(songId, i, versionTimestamp, outputFileType)
+    exportPathResolverAndCreator.resolve(sourceSystem, filename)
+  }
+
+  private[converter] def generatePathStringWithSuffix(sourceSystem: SourceSystem, songId: Long, i: Int, versionTimestamp: String, filenameSuffix: String, outputFileType: String) = {
+    val filename = IdTimestampFilenameBuilder.buildWithSuffix(songId, i, versionTimestamp, filenameSuffix, outputFileType)
     exportPathResolverAndCreator.resolve(sourceSystem, filename)
   }
 }

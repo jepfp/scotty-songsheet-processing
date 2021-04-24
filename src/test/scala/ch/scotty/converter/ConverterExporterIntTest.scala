@@ -3,7 +3,6 @@ package ch.scotty.converter
 import better.files._
 import ch.scotty.converter.effect.ExportPathResolverAndCreator
 import ch.scotty.{TestFolder, _}
-import com.typesafe.config.ConfigFactory
 import org.scalatest.TryValues
 import org.scalatest.matchers.should.Matchers
 
@@ -33,6 +32,9 @@ class ConverterExporterIntTest extends IntegrationSpec with TestFolder with Matc
     assertExpectedAndActualPictureIsTheSame(generatePngFilename(convertible3pagesPdfResourceName, 0))
     assertExpectedAndActualPictureIsTheSame(generatePngFilename(convertible3pagesPdfResourceName, 1))
     assertExpectedAndActualPictureIsTheSame(generatePngFilename(convertible3pagesPdfResourceName, 2))
+    assertExpectedAndActualPictureIsTheSame(generatePngFilenameUncompressed(convertible3pagesPdfResourceName, 0))
+    assertExpectedAndActualPictureIsTheSame(generatePngFilenameUncompressed(convertible3pagesPdfResourceName, 1))
+    assertExpectedAndActualPictureIsTheSame(generatePngFilenameUncompressed(convertible3pagesPdfResourceName, 2))
     result.success.value.songId shouldBe LIED_ID
   }
 
@@ -45,19 +47,17 @@ class ConverterExporterIntTest extends IntegrationSpec with TestFolder with Matc
     withClue(s"Compared content of actualFile=${actualFile.path} with expectedFile=${expectedFile.path}") {
       actualFile.md5 shouldBe expectedFile.md5
     }
-    //    actualFile.contentAsString shouldBe expectedFile.contentAsString
+    //actualFile.contentAsString shouldBe expectedFile.contentAsString
   }
 
   private def createTestee = {
-    import scala.jdk.CollectionConverters._
-    val configMap: Map[String, String] = Map("converter.exportBaseDir" -> (testFolder.getPath))
-    val exportPathResolverAndCreator = new ExportPathResolverAndCreator(ConfigFactory.parseMap(configMap.asJava))
+    val exportPathResolverAndCreator = new ExportPathResolverAndCreator(SongsheetConfig.get(Map("scotty-songsheet-processing.exportBaseDir" -> testFolder.getPath)))
     new ConverterExporter(exportPathResolverAndCreator)
   }
 
-  private def generatePngFilename(pdfResourceName: String, page: Int) = {
-    s"${LIED_ID}-${STUBBED_VERSION_STRING}-${page}.png"
-  }
+  private def generatePngFilename(pdfResourceName: String, page: Int) =     s"${LIED_ID}-${STUBBED_VERSION_STRING}-${page}.png"
+  private def generatePngFilenameUncompressed(pdfResourceName: String, page: Int) =     s"${LIED_ID}-${STUBBED_VERSION_STRING}-${page}-uncompressed.png"
+
 
   private def createSongnumber = {
     Seq(Songnumber(LIED_ID, LIEDERBUCH_ID, MNEMONIC, LIEDERBUCH, LIED_NR))
