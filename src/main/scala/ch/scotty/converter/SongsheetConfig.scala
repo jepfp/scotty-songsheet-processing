@@ -8,8 +8,7 @@ object SongsheetConfig {
   private def config(configOverride: Map[String, AnyRef] = Map.empty): Config = {
     import scala.jdk.CollectionConverters._
     ConfigFactory
-      .parseMap(configOverride.asJava)  //to override stuff in tests
-      .withFallback(ConfigFactory.load("application.local")) //to override stuff locally (application.local.conf), this file is excluded in gitignore
+      .parseMap(configOverride.asJava) //to override stuff in tests
       .withFallback(ConfigFactory.load()) //the normal application.conf
       .getConfig("scotty-songsheet-processing")
   }
@@ -36,7 +35,7 @@ object SongsheetConfig {
 
 case class SongsheetConfig(
                             exportBaseDir: String,
-                            persistUncompressedImage : Boolean,
+                            persistUncompressedImage: Boolean,
                             pdf: Pdf,
                             png: Png
                           )
