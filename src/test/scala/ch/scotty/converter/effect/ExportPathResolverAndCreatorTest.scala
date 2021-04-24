@@ -32,7 +32,7 @@ class ExportPathResolverAndCreatorTest extends UnitSpec with TestFolder {
 
   it should "create the directory structure if it does not yet exist" in {
     // arrange
-    val testee = new ExportPathResolverAndCreator(SongsheetConfig.get(Map("scotty-songsheet-processing.exportBaseDir" -> testFolder.getPath)))
+    val testee = new ExportPathResolverAndCreator(SongsheetConfig.get(Map("scotty-songsheet-processing.exportBaseDir" -> (testFolder.getPath + "/dir1/dir2/dir3"))))
     // act
     val actualString = testee.resolve(SourceSystem.Scotty, "foo")
     // assert
