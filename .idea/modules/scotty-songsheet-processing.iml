@@ -13,17 +13,29 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="sbt: ar.com.hjg:pngj:2.1.0:jar" level="project" />
     <orderEntry type="library" name="sbt: ch.qos.logback:logback-classic:1.2.3:jar" level="project" />
     <orderEntry type="library" name="sbt: ch.qos.logback:logback-core:1.2.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.adobe.xmp:xmpcore:6.0.6:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.drewnoakes:metadata-extractor:2.14.0:jar" level="project" />
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.core:jackson-annotations:2.10.5:jar" level="project" />
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.core:jackson-core:2.10.5:jar" level="project" />
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.core:jackson-databind:2.10.5.1:jar" level="project" />
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.10.5:jar" level="project" />
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.5:jar" level="project" />
     <orderEntry type="library" name="sbt: com.github.pathikrit:better-files_2.13:3.9.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.github.zh79325:open-gif:1.0.4:jar" level="project" />
     <orderEntry type="library" name="sbt: com.google.code.findbugs:annotations:3.0.0:jar" level="project" />
     <orderEntry type="library" name="sbt: com.google.protobuf:protobuf-java:3.11.4:jar" level="project" />
     <orderEntry type="library" name="sbt: com.jcraft:jsch:0.1.55:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.sksamuel.scrimage:scrimage-core:4.0.18:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.sksamuel.scrimage:scrimage-filters:4.0.18:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.twelvemonkeys.common:common-image:3.6:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.twelvemonkeys.common:common-io:3.6:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.twelvemonkeys.common:common-lang:3.6:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.twelvemonkeys.imageio:imageio-core:3.6:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.twelvemonkeys.imageio:imageio-jpeg:3.6:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.twelvemonkeys.imageio:imageio-metadata:3.6:jar" level="project" />
     <orderEntry type="library" name="sbt: com.typesafe.play:play-functional_2.13:2.9.2:jar" level="project" />
     <orderEntry type="library" name="sbt: com.typesafe.play:play-json_2.13:2.9.2:jar" level="project" />
     <orderEntry type="library" name="sbt: com.typesafe.scala-logging:scala-logging_2.13:3.9.3:jar" level="project" />
@@ -42,6 +54,11 @@
     <orderEntry type="library" name="sbt: org.bouncycastle:bcmail-jdk15on:1.68:jar" level="project" />
     <orderEntry type="library" name="sbt: org.bouncycastle:bcpkix-jdk15on:1.68:jar" level="project" />
     <orderEntry type="library" name="sbt: org.bouncycastle:bcprov-jdk15on:1.68:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.jetbrains.kotlin:kotlin-stdlib-common:1.4.21:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.21:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.21:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.jetbrains.kotlin:kotlin-stdlib:1.4.21:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.jetbrains:annotations:13.0:jar" level="project" />
     <orderEntry type="library" name="sbt: org.reactivestreams:reactive-streams:1.0.2:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scala-lang.modules:scala-collection-compat_2.13:2.0.0:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: org.scala-lang.modules:scala-xml_2.13:1.2.0:jar" level="project" />
