@@ -1,6 +1,6 @@
 /bin/
 /target/
 /data/
-.idea/workspace.xml
+.idea/*
 src/main/resources/application.conf
 src/test/resources/application.conf
