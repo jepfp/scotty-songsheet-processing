@@ -1,27 +1,27 @@
 name := "scotty-songsheet-processing"
 organization := "ch.rebstokk"
 
-scalaVersion := "2.13.5"
+scalaVersion := "2.13.7"
 
 libraryDependencies ++= Seq(
-	"org.apache.pdfbox" % "pdfbox" % "2.0.23",
-	"org.apache.pdfbox" % "pdfbox-tools" % "2.0.23",
-	"org.bouncycastle" % "bcprov-jdk15on" % "1.68",
-  "org.bouncycastle" % "bcmail-jdk15on" % "1.68",
-  "org.bouncycastle" % "bcpkix-jdk15on" % "1.68",
-	"com.sksamuel.scrimage" % "scrimage-core" % "4.0.18",
-	"com.sksamuel.scrimage" % "scrimage-filters" % "4.0.18",
+	"org.apache.pdfbox" % "pdfbox" % "2.0.25",
+	"org.apache.pdfbox" % "pdfbox-tools" % "2.0.25",
+	"org.bouncycastle" % "bcprov-jdk15on" % "1.70",
+  "org.bouncycastle" % "bcmail-jdk15on" % "1.70",
+  "org.bouncycastle" % "bcpkix-jdk15on" % "1.70",
+	"com.sksamuel.scrimage" % "scrimage-core" % "4.0.24",
+	"com.sksamuel.scrimage" % "scrimage-filters" % "4.0.24",
 	"com.typesafe.slick" %% "slick" % "3.3.3",
-	"mysql" % "mysql-connector-java" % "8.0.23",
+	"mysql" % "mysql-connector-java" % "8.0.27",
 	"com.typesafe.slick" %% "slick-hikaricp" % "3.3.3",
 	"com.typesafe.play" %% "play-json" % "2.9.2",
 	"net.java.truecommons" % "truecommons-io" % "2.5.0",
-	"commons-io" % "commons-io" % "2.8.0",
-	"org.scalatest" %% "scalatest" % "3.2.5" % Test,
+	"commons-io" % "commons-io" % "2.11.0",
+	"org.scalatest" %% "scalatest" % "3.2.10" % Test,
 	"org.scalamock" %% "scalamock" % "5.1.0" % Test,
 	"com.github.pathikrit" %% "better-files" % "3.9.1",
-	"com.typesafe.scala-logging" %% "scala-logging" % "3.9.3",
-	"ch.qos.logback" % "logback-classic" % "1.2.3",
+	"com.typesafe.scala-logging" %% "scala-logging" % "3.9.4",
+	"ch.qos.logback" % "logback-classic" % "1.2.9",
 	"com.jcraft" % "jsch" % "0.1.55"
 
 )

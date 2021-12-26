@@ -1,6 +1,7 @@
 /bin/
 /target/
 /data/
-.idea/*
+.idea/
 src/main/resources/application.conf
 src/test/resources/application.conf
+/.bsp/
