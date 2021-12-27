@@ -1,11 +1,10 @@
 package ch.scotty.converter.scotty
 
-import java.time.LocalDateTime
-
 import ch.scotty.converter._
 import ch.scotty.converter.effect.TableOfContentsDTOs
 import ch.scotty.{Db, UnitSpec}
 
+import java.time.LocalDateTime
 import scala.util.Success
 
 class ConverterBySongIdTest extends UnitSpec {
@@ -15,7 +14,7 @@ class ConverterBySongIdTest extends UnitSpec {
   val songId: Long = 4
   val songnumbers: Seq[Songnumber] = Seq(Songnumber(songId, 5, "LU", "Adoray Luzern", "299"))
   private val fileType = FileType.Pdf()
-  val liedWithData: LiedWithData = LiedWithData(SourceSystem.Scotty, songId, "foo", Some("C"), List.empty, aDateTime, aDateTime.plusYears(4), null, fileType)
+  val liedWithData: LiedWithData = LiedWithData(SourceSystem.Scotty, songId, "foo", Some("C"), List.empty, aDateTime, aDateTime.plusYears(4), null, fileType, None)
   val effectSong = TableOfContentsDTOs.Song(SourceSystem.Scotty.getIdentifier, songId, liedWithData.title, liedWithData.tonality, songnumbers.map(s => TableOfContentsDTOs.Songnumber(s.liederbuchId, s.mnemonic, s.liederbuch, s.liednr)), Seq.empty, 2, "someChecksum", "someVersionTimestamp", aDateTime, aDateTime.plusYears(4), fileType.concreteExtension)
 
   private val liedSourcePdfFileFinderStub = stub[LiedSourcePdfFileFinder]
@@ -37,7 +36,7 @@ class ConverterBySongIdTest extends UnitSpec {
     val testee = createTestee()
     testee.convert(songId)
     //assert
-    (converterExporterStub.convertAndExport _).verify(LiedWithData(SourceSystem.Scotty, songId, "foo", Some("C"), List.empty, aDateTime, aDateTime.plusYears(4), null, FileType.Pdf()), songnumbers)
+    (converterExporterStub.convertAndExport _).verify(LiedWithData(SourceSystem.Scotty, songId, "foo", Some("C"), List.empty, aDateTime, aDateTime.plusYears(4), null, FileType.Pdf(), None), songnumbers)
   }
 
   private def trainStubs = {

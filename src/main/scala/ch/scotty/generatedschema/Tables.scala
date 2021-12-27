@@ -402,8 +402,10 @@ trait Tables {
     val ueberschrift: Rep[Option[String]] = column[Option[String]]("Ueberschrift", O.Default(None))
     /** Database column UeberschriftTyp SqlType(TEXT), Default(None) */
     val ueberschrifttyp: Rep[Option[String]] = column[Option[String]]("UeberschriftTyp", O.Default(None))
+
     /** Database column Strophe SqlType(TEXT), Default(None) */
-    val strophe: Rep[Option[String]] = column[Option[String]]("Strophe", O.Default(None))
+    // jep: Added manually SqlType("MEDIUMTEXT") because VARCHAR(254) would be the automatic mapping which is to small
+    val strophe: Rep[Option[String]] = column[Option[String]]("Strophe", O.Default(None), SqlType("MEDIUMTEXT"))
     /** Database column refrain_id SqlType(BIGINT), Default(None) */
     val refrainId: Rep[Option[Long]] = column[Option[Long]]("refrain_id", O.Default(None))
     /** Database column Reihenfolge SqlType(INT), Default(None) */
@@ -546,7 +548,8 @@ trait Tables {
     /** Database column Reihenfolge SqlType(INT), Default(None) */
     val reihenfolge: Rep[Option[Int]] = column[Option[Int]]("Reihenfolge", O.Default(None))
     /** Database column Refrain SqlType(TEXT), Default(None) */
-    val refrain: Rep[Option[String]] = column[Option[String]]("Refrain", O.Default(None))
+    // jep: Added manually SqlType("MEDIUMTEXT") because VARCHAR(254) would be the automatic mapping which is to small
+    val refrain: Rep[Option[String]] = column[Option[String]]("Refrain", O.Default(None), SqlType("MEDIUMTEXT"))
     /** Database column language_id SqlType(BIGINT), Default(None) */
     val languageId: Rep[Option[Long]] = column[Option[Long]]("language_id", O.Default(None))
 

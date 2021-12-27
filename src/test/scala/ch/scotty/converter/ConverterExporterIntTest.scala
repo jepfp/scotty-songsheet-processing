@@ -2,7 +2,7 @@ package ch.scotty.converter
 
 import better.files._
 import ch.scotty.converter.effect.ExportPathResolverAndCreator
-import ch.scotty.{TestFolder, _}
+import ch.scotty._
 import org.scalatest.TryValues
 import org.scalatest.matchers.should.Matchers
 
@@ -64,7 +64,7 @@ class ConverterExporterIntTest extends IntegrationSpec with TestFolder with Matc
   }
 
   private def createLiedWithNumber(pdfResourceName: String) = {
-    LiedWithData(SourceSystem.Scotty, LIED_ID, pdfResourceName, Some("C"), List.empty, LocalDateTime.MIN, updatedAt, readPdfSongResourceAsBlob(pdfResourceName), FileType.Pdf())
+    LiedWithData(SourceSystem.Scotty, LIED_ID, pdfResourceName, Some("C"), List.empty, LocalDateTime.MIN, updatedAt, readPdfSongResourceAsBlob(pdfResourceName), FileType.Pdf(), None)
   }
 
   def readPdfSongResourceAsBlob(prfResourceName: String): Blob = {

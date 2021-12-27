@@ -55,5 +55,6 @@ case class LiedWithData(
                          createdAt: LocalDateTime,
                          updatedAt: LocalDateTime,
                          data: java.sql.Blob,
-                         fileType: FileType) {
+                         fileType: FileType,
+                         lyrics: Option[String]) {
 }
