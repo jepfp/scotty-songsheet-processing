@@ -54,6 +54,7 @@ case class LiedWithData(
                          tags: List[String],
                          createdAt: LocalDateTime,
                          updatedAt: LocalDateTime,
+                       //TODO: Make optional because we also want to have lyrics without pdfs...
                          data: java.sql.Blob,
                          fileType: FileType,
                          lyrics: Option[String]) {

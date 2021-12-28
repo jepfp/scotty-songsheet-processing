@@ -15,7 +15,7 @@ class ConverterBySongIdTest extends UnitSpec {
   val songnumbers: Seq[Songnumber] = Seq(Songnumber(songId, 5, "LU", "Adoray Luzern", "299"))
   private val fileType = FileType.Pdf()
   val liedWithData: LiedWithData = LiedWithData(SourceSystem.Scotty, songId, "foo", Some("C"), List.empty, aDateTime, aDateTime.plusYears(4), null, fileType, None)
-  val effectSong = TableOfContentsDTOs.Song(SourceSystem.Scotty.getIdentifier, songId, liedWithData.title, liedWithData.tonality, songnumbers.map(s => TableOfContentsDTOs.Songnumber(s.liederbuchId, s.mnemonic, s.liederbuch, s.liednr)), Seq.empty, 2, "someChecksum", "someVersionTimestamp", aDateTime, aDateTime.plusYears(4), fileType.concreteExtension)
+  val effectSong = TableOfContentsDTOs.Song(SourceSystem.Scotty.getIdentifier, songId, liedWithData.title, liedWithData.tonality, songnumbers.map(s => TableOfContentsDTOs.Songnumber(s.liederbuchId, s.mnemonic, s.liederbuch, s.liednr)), Seq.empty, 2, "someChecksum", "someVersionTimestamp", aDateTime, aDateTime.plusYears(4), fileType.concreteExtension, None)
 
   private val liedSourcePdfFileFinderStub = stub[LiedSourcePdfFileFinder]
   private val songnumberFinderStub = stub[SongnumberFinder]
@@ -40,8 +40,8 @@ class ConverterBySongIdTest extends UnitSpec {
   }
 
   private def trainStubs = {
-    (liedSourcePdfFileFinderStub.findFile _).when(songId).returns(Success(liedWithData))
-    (songnumberFinderStub.findSongnumbers(_)).when(songId).returns(songnumbers)
+    (liedSourcePdfFileFinderStub.performQuery _).when(songId).returns(Success(liedWithData))
+    (songnumberFinderStub.findSongnumbers _).when(songId).returns(songnumbers)
   }
 
   it should "forward the return value from liedPdfToImageConverter" in {

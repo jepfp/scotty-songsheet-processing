@@ -1,8 +1,8 @@
 package ch.scotty.converter.effect
 
-import java.time.LocalDateTime
-
 import play.api.libs.json.{Json, OFormat}
+
+import java.time.LocalDateTime
 
 object TableOfContentsDTOs {
 
@@ -24,7 +24,8 @@ object TableOfContentsDTOs {
                   versionTimestamp: String,
                   createdAtInScotty: LocalDateTime,
                   updatedAtInScotty: LocalDateTime,
-                  fileType : String)
+                  fileType : String,
+                  lyrics : Option[String])
 
   case class Songnumber(songbookId: Long,
                         mnemonic: String,

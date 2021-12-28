@@ -44,7 +44,8 @@ private[converter] class TableOfContentsFileCreator(exportPathResolverAndCreator
       versionTimestamp,
       liedWithData.createdAt,
       liedWithData.updatedAt,
-      fileTypeAfterExport)
+      fileTypeAfterExport,
+      liedWithData.lyrics)
   }
 
   private def generatePathString(liedWithData: LiedWithData) = {

@@ -6,6 +6,10 @@ import ch.scotty.{DatabaseConnection, IntegrationSpec}
 import org.scalatest.TryValues
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
+import scala.concurrent.Await
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration.Duration
+
 class LyricsConverterIntTest extends IntegrationSpec with DatabaseConnection with TryValues {
 
 
@@ -50,7 +54,7 @@ class LyricsConverterIntTest extends IntegrationSpec with DatabaseConnection wit
          |Freudenöl statt Trauergewand.""".stripMargin
     }
     //act
-    val optContent = testee.loadAndConvertLyrics(createdLiedRow.id)
+    val optContent = Await.result(testee.loadAndConvertLyrics(createdLiedRow.id), Duration.Inf)
     //assert
     optContent.get shouldBe expectedContent
   }
@@ -88,7 +92,7 @@ class LyricsConverterIntTest extends IntegrationSpec with DatabaseConnection wit
         |ref2""".stripMargin
     }
     //act
-    val optContent = testee.loadAndConvertLyrics(createdLiedRow.id)
+    val optContent = Await.result(testee.loadAndConvertLyrics(createdLiedRow.id), Duration.Inf)
     //assert
     optContent.get shouldBe expectedContent
   }

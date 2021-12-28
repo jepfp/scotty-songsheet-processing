@@ -19,7 +19,7 @@ class ConverterBySongId(implicit val db: Db) {
   def convert(songId: Long): Try[TableOfContentsDTOs.Song] = {
     Try {
       val conversionResult: Try[TableOfContentsDTOs.Song] = for (
-        liedData <- liedSourcePdfFileFinder.findFile(songId);
+        liedData <- liedSourcePdfFileFinder.performQuery(songId);
         r <- convertAndWritePicturesAndTableOfContents(songId, liedData)
       ) yield r
 

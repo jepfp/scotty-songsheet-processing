@@ -13,7 +13,7 @@ class LiedSourcePdfFileFinderIntTest extends IntegrationSpec with DatabaseConnec
     val createdLiedRow = SongFixture.DefaultSongFixture.generateRevelationSong
     val testee = new LiedSourcePdfFileFinder()
     //act
-    val liedWithDataTry = testee.findFile(createdLiedRow.id)
+    val liedWithDataTry = testee.performQuery(createdLiedRow.id)
     //assert
     val liedWithData = liedWithDataTry.success.value
     assertResult(createdLiedRow.titel)(liedWithData.title)

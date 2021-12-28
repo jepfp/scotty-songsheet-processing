@@ -5,32 +5,34 @@ import ch.scotty.generatedschema.Tables
 import com.typesafe.scalalogging.Logger
 import slick.jdbc.MySQLProfile.api._
 
-import scala.concurrent.Await
-import scala.concurrent.duration.Duration
+import scala.concurrent.{ExecutionContext, Future}
 
-private object LyricsConverter{
+private object LyricsConverter {
   val newLine = "\r\n"
   val brTag = "<br>"
   val brWithSlashTag = "<br/>"
 }
 
 private class LyricsConverter(implicit db: Db) {
+
   import LyricsConverter._
 
   val logger = Logger(classOf[LyricsConverter])
 
   case class VerseWithRefrain(verse: Option[String], refrain: Option[String])
 
-  def loadAndConvertLyrics(liedId: Long): Option[String] = {
-    val formattedContent: String = performQuery(liedId)
-      .map(formatContent)
+  def loadAndConvertLyrics(liedId: Long)(implicit ex: ExecutionContext): Future[Option[String]] =
+    performQuery(liedId).map(buildContentFromVersesWithRefrain)
+
+  private def buildContentFromVersesWithRefrain(versesWithRefrain: Seq[VerseWithRefrain]): Option[String] = {
+    val formattedContent: String = versesWithRefrain.map(formatSingleVerseWithRefrain)
       .collect { case Some(value) => value }
       .mkString(newLine + newLine)
 
     Option(formattedContent).collect { case x if x.trim.nonEmpty => x }
   }
 
-  private def formatContent(vwr: VerseWithRefrain): Option[String] = {
+  private def formatSingleVerseWithRefrain(vwr: VerseWithRefrain): Option[String] = {
     val verseOpt = vwr.verse.map(_
       .replaceAll(brTag, newLine)
       .replaceAll(brWithSlashTag, newLine)
@@ -62,12 +64,11 @@ private class LyricsConverter(implicit db: Db) {
     content
   }
 
-  protected def performQuery(liedId: Long): Seq[VerseWithRefrain] = {
+  protected def performQuery(liedId: Long)(implicit ex: ExecutionContext): Future[Seq[VerseWithRefrain]] = {
     val joinQuery = for {
-      (l, r) <- Tables.Liedtext joinLeft Tables.Refrain on (_.refrainId === _.id)
+      (l, r) <- Tables.Liedtext joinLeft Tables.Refrain on (_.refrainId === _.id) if l.liedId === liedId
     } yield (l.strophe, r.flatMap(_.refrain))
-    val dbReadFuture = db.db.run(joinQuery.result)
-    val result: Seq[VerseWithRefrain] = Await.result(dbReadFuture, Duration.Inf).map(x => VerseWithRefrain(x._1, x._2))
-    result
+    db.db.run(joinQuery.result)
+      .map(result => result.map(entry => VerseWithRefrain(entry._1, entry._2)))
   }
 }
