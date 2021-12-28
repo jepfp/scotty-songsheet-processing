@@ -1,11 +1,10 @@
 package ch.scotty.fixture
 
-import java.sql.Timestamp
-
 import ch.scotty.Db
 import ch.scotty.generatedschema.Tables
 import slick.jdbc.MySQLProfile.api._
 
+import java.sql.Timestamp
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
@@ -60,13 +59,34 @@ class RefDataFixture(implicit db: Db) {
 
   private val songRows = Seq(
     Tables.LiedRow(803, "Wer ist wie er / Praise Adonai", Some(7), None, None, Some(Timestamp.valueOf("2015-01-16 15:34:49")), Some(Timestamp.valueOf("2016-05-15 18:35:41")), None, 1, Some("A / fis (3♯)")),
-    Tables.LiedRow(324, "Bless the Lord, my soul", Some(2), None, None, Some(Timestamp.valueOf("2015-01-16 15:34:13")), Some(Timestamp.valueOf("2016-04-26 16:26:50")), None, 2, Some("F / d (1♭)"))
+    Tables.LiedRow(324, "Bless the Lord, my soul", Some(2), None, None, Some(Timestamp.valueOf("2015-01-16 15:34:13")), Some(Timestamp.valueOf("2016-04-26 16:26:50")), None, 2, Some("F / d (1♭)")),
+    Tables.LiedRow(10, "Jerusalem (Dunkelheit bedeckt)", Some(2), None, None, Some(Timestamp.valueOf("2015-01-16 15:34:13")), Some(Timestamp.valueOf("2016-04-26 16:26:50")), None, 2, Some("F / d (1♭)")),
+    Tables.LiedRow(11, "Lied with only one refrain", Some(2), None, None, Some(Timestamp.valueOf("2015-01-16 15:34:13")), Some(Timestamp.valueOf("2016-04-26 16:26:50")), None, 2, Some("F / d (1♭)")),
+    Tables.LiedRow(12, "Lied with one refrain assigned and one refrain not assigned", Some(2), None, None, Some(Timestamp.valueOf("2015-01-16 15:34:13")), Some(Timestamp.valueOf("2016-04-26 16:26:50")), None, 2, Some("F / d (1♭)"))
   )
 
   private val fkLiederbuchLiedRows = Seq(
     Tables.FkliederbuchliedRow(763, 18, 803, "129"),
     Tables.FkliederbuchliedRow(1296, 2, 803, "53"),
-    Tables.FkliederbuchliedRow(2324, 8, 803, "4")
+    Tables.FkliederbuchliedRow(2324, 8, 803, "4"),
+    Tables.FkliederbuchliedRow(2325, 8, 10, "10"),
+    Tables.FkliederbuchliedRow(2326, 8, 11, "11"),
+    Tables.FkliederbuchliedRow(2327, 8, 12, "12")
+  )
+
+  private val refrainRows = Seq(
+    Tables.RefrainRow(1, Some(10), None, Some("Jerusalem, Jerusalem, <br/>leg’ Dein Gewand der Trauer ab! <br/>Jerusalem, Jerusalem, <br/>singe und tanze Deinem Gott!"), None),
+    Tables.RefrainRow(2, Some(11), None, Some(" first line <br>    second line<br/>third line "), None),
+    Tables.RefrainRow(3, Some(12), None, Some("refrain 1"), None),
+    Tables.RefrainRow(4, Some(12), None, Some("refrain 2"), None)
+  )
+
+  private val liedtextRows = Seq(
+    Tables.LiedtextRow(2, 10, None, None, Some("|: Dunkelheit bedeckt alle Völker der Welt, <br/>auf Jerusalem werde Licht! :|<br/><br/>Blick empor, schaue aus, <br/>beben soll Dein Herz und sich öffnen weit.<br/>Auf den Armen trägt man die Töchter herbei,<br/>Deine Söhne kommen von fern."), None, Some(1), None),
+    Tables.LiedtextRow(1, 10, None, None, Some("|: Völker wandern hin, bringen Weihrauch und Gold, <br/>Herden von Kamelen sind Dein. :|<br/><br/>Von weit her kommen sie, <br/>prachtvoll ist Dein Glanz Deiner Herrlichkeit. <br/>Weihrauch steigt empor, weithin schallt Gottes Lob.<br/>Ruhmreich sind die Taten des Herrn."), Some(1), Some(2), None),
+    Tables.LiedtextRow(3, 10, None, None, Some("|: Jubelt in der Stadt, alle, die ihr sie liebt, <br/>fröhlich sollt ihr sein und euch freun! :|<br/><br/>Stadt des Herrn nennt man Dich, <br/>ewig leuchtet Dir Gott der Herr als Licht.<br/>Zion singe laut, denn Dein König bringt Dir <br/>Freudenöl statt Trauergewand."), Some(1), Some(3), None),
+    Tables.LiedtextRow(4, 12, None, None, Some("verse 1"), Some(3), None, None),
+    Tables.LiedtextRow(5, 12, None, None, Some("verse 2"), Some(3), None, None)
   )
 
   def insertRefData() = {
@@ -75,7 +95,9 @@ class RefDataFixture(implicit db: Db) {
       Tables.User.forceInsertAll(userRows),
       Tables.Liederbuch.forceInsertAll(songbookRows),
       Tables.Lied.forceInsertAll(songRows),
-      Tables.Fkliederbuchlied.forceInsertAll(fkLiederbuchLiedRows)
+      Tables.Fkliederbuchlied.forceInsertAll(fkLiederbuchLiedRows),
+      Tables.Refrain.forceInsertAll(refrainRows),
+      Tables.Liedtext.forceInsertAll(liedtextRows)
     )
 
     val future = db.db.run(rowsInsertAction)

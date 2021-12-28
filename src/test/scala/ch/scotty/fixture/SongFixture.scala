@@ -133,20 +133,9 @@ object SongFixture {
    * Use this SongFixtureWithVersesAndRefrain if you just need a song with some verses and refrains.
    */
   object SongFixtureWithVersesAndRefrain {
-    val title = "Jerusalem (Dunkelheit bedeckt)"
-    val defaultRefrain = "Jerusalem, Jerusalem, <br/>leg’ Dein Gewand der Trauer ab! <br/>Jerusalem, Jerusalem, <br/>singe und tanze Deinem Gott!"
-    val defaultVerse1 = "|: Dunkelheit bedeckt alle Völker der Welt, <br/>auf Jerusalem werde Licht! :|<br/><br/>Blick empor, schaue aus, <br/>beben soll Dein Herz und sich öffnen weit.<br/>Auf den Armen trägt man die Töchter herbei,<br/>Deine Söhne kommen von fern."
-    val defaultVerse2 = "|: Völker wandern hin, bringen Weihrauch und Gold, <br/>Herden von Kamelen sind Dein. :|<br/><br/>Von weit her kommen sie, <br/>prachtvoll ist Dein Glanz Deiner Herrlichkeit. <br/>Weihrauch steigt empor, weithin schallt Gottes Lob.<br/>Ruhmreich sind die Taten des Herrn."
-    val defaultVerse3 = "|: Jubelt in der Stadt, alle, die ihr sie liebt, <br/>fröhlich sollt ihr sein und euch freun! :|<br/><br/>Stadt des Herrn nennt man Dich, <br/>ewig leuchtet Dir Gott der Herr als Licht.<br/>Zion singe laut, denn Dein König bringt Dir <br/>Freudenöl statt Trauergewand."
+    val title = "Song Foo bar Verses Refrain"
 
-    val defaultVersesWithRefrain: Seq[VerseWithRefrain] =
-      Seq(
-        VerseWithRefrain(Some(defaultVerse1), None),
-        VerseWithRefrain(Some(defaultVerse2), Some(defaultRefrain)),
-        VerseWithRefrain(Some(defaultVerse3), Some(defaultRefrain))
-      )
-
-    def generate(versesWithRefrain: Seq[VerseWithRefrain] = defaultVersesWithRefrain)(implicit db: Db): _root_.ch.scotty.generatedschema.Tables.LiedRow = {
+    def generate(versesWithRefrain: Seq[VerseWithRefrain])(implicit db: Db): _root_.ch.scotty.generatedschema.Tables.LiedRow = {
       val aSong = (songBuilder withTitle title withSectionId 1 withLastEditUserId 1 withTonality Tonality.CA).build()
       val createdRows = (songFixtureBuilder(aSong) withVersesAndRefrain(versesWithRefrain)).buildAndExecute;
       createdRows.findRow(classOf[Tables.LiedRow])

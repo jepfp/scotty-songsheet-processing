@@ -15,7 +15,6 @@ class LyricsConverterIntTest extends IntegrationSpec with DatabaseConnection wit
 
   "loadAndConvertLyrics" should "convert a real song as expected" in {
     //arrange
-    val createdLiedRow = SongFixture.SongFixtureWithVersesAndRefrain.generate()
     val testee = new LyricsConverter()
 
     val expectedContent = {
@@ -40,11 +39,6 @@ class LyricsConverterIntTest extends IntegrationSpec with DatabaseConnection wit
          |Weihrauch steigt empor, weithin schallt Gottes Lob.
          |Ruhmreich sind die Taten des Herrn.
          |
-         |Jerusalem, Jerusalem,
-         |leg’ Dein Gewand der Trauer ab!
-         |Jerusalem, Jerusalem,
-         |singe und tanze Deinem Gott!
-         |
          ||: Jubelt in der Stadt, alle, die ihr sie liebt,
          |fröhlich sollt ihr sein und euch freun! :|
          |
@@ -54,7 +48,7 @@ class LyricsConverterIntTest extends IntegrationSpec with DatabaseConnection wit
          |Freudenöl statt Trauergewand.""".stripMargin
     }
     //act
-    val optContent = Await.result(testee.loadAndConvertLyrics(createdLiedRow.id), Duration.Inf)
+    val optContent = Await.result(testee.loadAndConvertLyrics(10), Duration.Inf)
     //assert
     optContent.get shouldBe expectedContent
   }
@@ -63,6 +57,7 @@ class LyricsConverterIntTest extends IntegrationSpec with DatabaseConnection wit
     //arrange
     val defaultRefrain1 = "    Jerusalem, Jerusalem, <br/>\nleg’ Dein Gewand der Trauer ab!  "
     val defaultRefrain2 = "    ref2<br>  "
+    val defaultRefrain3 = "    <br> <br/>  <br>ref3<br>  "
     val defaultVerse1 = " <br/><br/><br/>d "
     val defaultVerse2 = ""
     val defaultVerse3 = "foo"
@@ -73,7 +68,7 @@ class LyricsConverterIntTest extends IntegrationSpec with DatabaseConnection wit
         VerseWithRefrain(Some(defaultVerse2), Some(defaultRefrain1)),
         VerseWithRefrain(None, None),
         VerseWithRefrain(Some(defaultVerse3), Some(defaultRefrain2)),
-        VerseWithRefrain(None, Some(defaultRefrain2))
+        VerseWithRefrain(None, Some(defaultRefrain3))
       )
 
     val createdLiedRow = SongFixture.SongFixtureWithVersesAndRefrain.generate(versesWithRefrain)
@@ -89,10 +84,44 @@ class LyricsConverterIntTest extends IntegrationSpec with DatabaseConnection wit
         |
         |foo
         |
-        |ref2""".stripMargin
+        |ref3""".stripMargin
     }
     //act
     val optContent = Await.result(testee.loadAndConvertLyrics(createdLiedRow.id), Duration.Inf)
+    //assert
+    optContent.get shouldBe expectedContent
+  }
+
+  it should "Lied with only one refrain" in {
+    //arrange
+    val testee = new LyricsConverter()
+
+    val expectedContent = {
+      """|first line
+        |second line
+        |third line""".stripMargin
+    }
+    //act
+    val optContent = Await.result(testee.loadAndConvertLyrics(11), Duration.Inf)
+    //assert
+    optContent.get shouldBe expectedContent
+  }
+
+  it should "Lied with one refrain assigned and one refrain not assigned" in {
+    //arrange
+    val testee = new LyricsConverter()
+
+    val expectedContent = {
+      """|refrain 1
+        |
+        |verse 1
+        |
+        |verse 2
+        |
+        |refrain 2""".stripMargin
+    }
+    //act
+    val optContent = Await.result(testee.loadAndConvertLyrics(12), Duration.Inf)
     //assert
     optContent.get shouldBe expectedContent
   }
