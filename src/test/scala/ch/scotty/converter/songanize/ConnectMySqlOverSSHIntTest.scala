@@ -1,12 +1,11 @@
 package ch.scotty.converter.songanize
 
-import java.util.Properties
-
 import ch.scotty.IntegrationSpec
 import com.jcraft.jsch.{ChannelSftp, JSch}
 import org.scalatest.EitherValues
 import slick.jdbc.MySQLProfile.api._
 
+import java.util.Properties
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
@@ -24,8 +23,8 @@ class ConnectMySqlOverSSHIntTest extends IntegrationSpec with EitherValues {
 
     try {
       val jsch = new JSch()
-      val host = "83.242.34.19"
-      val user = "songanizesftp"
+      val host = "SET IP"
+      val user = "SET USER"
       val session = jsch.getSession(user, host, 22)
       session.setPassword("SET CORRECT PASSWORD")
       val config = new Properties

@@ -10,14 +10,6 @@ dockerdefault : {
     }
 }
 
-//dockerdefault : {
-//  dataSourceClass : "slick.jdbc.DatabaseUrlDataSource"
-//    properties : {
-//        url : "jdbc:mysql://172.18.0.4:3306/dockerdefault?user=dockerdefault&password=changeme&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Europe/Zurich"
-//        driver : com.mysql.cj.jdbc.Driver
-//    }
-//}
-
 scotty-songsheet-processing : {
   exportBaseDir : "./data/",
   persistUncompressedImage : true,
