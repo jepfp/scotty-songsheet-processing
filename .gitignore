@@ -2,6 +2,7 @@
 /target/
 /data/
 .idea/
+src/main/resources/reference.conf
 src/main/resources/application.conf
 src/test/resources/application.conf
 /.bsp/
