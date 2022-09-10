@@ -3,6 +3,11 @@ organization := "ch.rebstokk"
 
 scalaVersion := "2.13.7"
 
+credentials += Credentials(Path.userHome / ".sbt" / "space-songhsip-internal.credentials")
+
+resolvers += "space-songhsip-internal" at "https://maven.pkg.jetbrains.space/songship/p/songship/songhsip-internal"
+publishTo := Some("space-songhsip-internal" at "https://maven.pkg.jetbrains.space/songship/p/songship/songhsip-internal")
+
 libraryDependencies ++= Seq(
 	"org.apache.pdfbox" % "pdfbox" % "2.0.25",
 	"org.apache.pdfbox" % "pdfbox-tools" % "2.0.25",
